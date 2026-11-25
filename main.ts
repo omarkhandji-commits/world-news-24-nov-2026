@@ -22,6 +22,10 @@ const PAPER: RGB = [239, 230, 211];
 const INK: RGB = [16, 19, 25];
 const RED: RGB = [212, 56, 26];
 const MUTED: RGB = [104, 96, 80];
+// List body copy: darker than the captions, so a sentence still has weight when
+// the sheet is looked at three hundred pixels across, but short of the ink the
+// bold keywords are set in.
+const DARK: RGB = [62, 58, 50];
 const LINE: RGB = [198, 187, 165];
 
 const mix = (a: RGB, b: RGB, t: number): RGB => [
@@ -898,9 +902,35 @@ interface Story {
 
 // Pictograms for the list. Each is 13 by 11 and built from the same flat fills
 // and hairlines as the rest of the sheet, so a reader at thumbnail size can tell
-// a ballot box from a derrick before reading a word of the sentence below.
+// a ballot box from a derrick before reading a word of the sentence below. Every
+// one of the twenty-seven is a different drawing, and the build checks that
+// claim rather than trusting it (see iconSignature).
 const IW = 13;
 const IH = 11;
+
+// A pictogram's fingerprint: draw it alone on paper, then record which of its 13
+// by 11 cells carry ink. Two entries with the same string are the same mark, and
+// the build refuses to write a sheet that repeats one.
+const iconSignature = (draw: (c: Canvas, x: number, y: number) => void): string => {
+  const c = new Canvas(IW * SS, IH * SS);
+  c.fillRect(0, 0, IW, IH, PAPER);
+  draw(c, 0, 0);
+  const res = c.resolve();
+  let bits = '';
+  for (let gy = 0; gy < IH; gy++) {
+    for (let gx = 0; gx < IW; gx++) {
+      let shade = 0;
+      for (let sy = 0; sy < SS; sy++) {
+        for (let sx = 0; sx < SS; sx++) {
+          const i = ((gy * SS + sy) * (IW * SS) + (gx * SS + sx)) * 3;
+          shade += PAPER[0] - res[i] + (PAPER[1] - res[i + 1]) + (PAPER[2] - res[i + 2]);
+        }
+      }
+      bits += shade > 90 ? '1' : '0';
+    }
+  }
+  return bits;
+};
 
 const icoChart = (c: Canvas, x: number, y: number): void => {
   c.fillRect(x + 1, y + 5, 3, 6, INK);
@@ -912,12 +942,6 @@ const icoDome = (c: Canvas, x: number, y: number): void => {
   c.disc(x + 6.5, y + 8.6, 4.8, INK);
   c.fillRect(x + 0.6, y + 8.6, 11.8, 1.5, INK);
   c.fillRect(x + 5.4, y + 6.2, 2.2, 4, PAPER);
-};
-
-const icoBallot = (c: Canvas, x: number, y: number): void => {
-  c.fillRect(x + 1, y + 1.4, 11, 9.2, INK);
-  c.fillRect(x + 4.2, y + 3.4, 4.6, 1.5, PAPER);
-  c.fillRect(x + 2.6, y + 6.4, 7.8, 1.2, PAPER);
 };
 
 const icoNote = (c: Canvas, x: number, y: number): void => {
@@ -945,21 +969,23 @@ const icoBomb = (c: Canvas, x: number, y: number): void => {
 };
 
 const icoDerrick = (c: Canvas, x: number, y: number): void => {
-  c.stroke([[x + 2.4, y + 10.4], [x + 5.6, y + 1.6]], 1.5, INK);
-  c.stroke([[x + 11, y + 10.4], [x + 7.4, y + 1.6]], 1.5, INK);
+  c.stroke([[x + 2.4, y + 10.4], [x + 5.6, y + 1.6]], 1.9, INK);
+  c.stroke([[x + 11, y + 10.4], [x + 7.4, y + 1.6]], 1.9, INK);
   c.fillRect(x + 4.6, y + 0.6, 3.6, 1.2, INK);
   c.fillRect(x + 4.2, y + 4.4, 4.6, 0.9, INK);
   c.fillRect(x + 3.4, y + 7, 6.2, 0.9, INK);
   c.fillRect(x + 1.6, y + 9.8, 9.8, 1.2, INK);
 };
 
-const icoContainer = (c: Canvas, x: number, y: number): void => {
-  c.fillRect(x + 0.6, y + 2.6, 11.8, 6.6, INK);
-  for (let i = 0; i < 4; i++) c.fillRect(x + 2.1 + i * 2.7, y + 3.3, 0.9, 5.2, PAPER);
+// A crate of imports with a cap across it: the quota, not the cargo.
+const icoQuota = (c: Canvas, x: number, y: number): void => {
+  c.fillRect(x + 0.4, y + 2.8, 8.6, 6.6, INK);
+  for (let i = 0; i < 3; i++) c.fillRect(x + 1.7 + i * 2.3, y + 3.5, 0.9, 5.2, PAPER);
+  c.fillRect(x + 9.6, y + 0.8, 2.8, 9.8, RED);
 };
 
 const icoPlacard = (c: Canvas, x: number, y: number): void => {
-  c.stroke([[x + 6.4, y + 10.4], [x + 5.2, y + 1.8]], 1.4, INK);
+  c.stroke([[x + 6.4, y + 10.4], [x + 5.2, y + 1.8]], 2, INK);
   c.fillRect(x + 1.8, y + 1, 7.4, 4.6, INK);
   c.fillRect(x + 3.2, y + 2.6, 4.4, 0.9, PAPER);
   c.fillRect(x + 3.2, y + 4, 3.2, 0.9, PAPER);
@@ -997,13 +1023,13 @@ const icoIngot = (c: Canvas, x: number, y: number): void => {
 };
 
 const icoDrone = (c: Canvas, x: number, y: number): void => {
-  c.stroke([[x + 2.2, y + 2.2], [x + 10.8, y + 9]], 1.1, INK);
-  c.stroke([[x + 10.8, y + 2.2], [x + 2.2, y + 9]], 1.1, INK);
-  c.disc(x + 2.2, y + 2.2, 1.5, INK);
-  c.disc(x + 10.8, y + 2.2, 1.5, INK);
-  c.disc(x + 2.2, y + 9, 1.5, INK);
-  c.disc(x + 10.8, y + 9, 1.5, INK);
-  c.disc(x + 6.5, y + 5.6, 1.8, RED);
+  c.stroke([[x + 2.2, y + 2.2], [x + 10.8, y + 9]], 1.6, INK);
+  c.stroke([[x + 10.8, y + 2.2], [x + 2.2, y + 9]], 1.6, INK);
+  c.disc(x + 2.2, y + 2.2, 1.7, INK);
+  c.disc(x + 10.8, y + 2.2, 1.7, INK);
+  c.disc(x + 2.2, y + 9, 1.7, INK);
+  c.disc(x + 10.8, y + 9, 1.7, INK);
+  c.disc(x + 6.5, y + 5.6, 2, RED);
 };
 
 const icoFlame = (c: Canvas, x: number, y: number): void => {
@@ -1026,10 +1052,51 @@ const icoPlane = (c: Canvas, x: number, y: number): void => {
   );
 };
 
-const icoGavel = (c: Canvas, x: number, y: number): void => {
-  c.fillRect(x + 1, y + 9.4, 8.4, 1.6, INK);
-  c.poly([[x + 5.2, y + 3], [x + 10.4, y + 0.8], [x + 11.8, y + 3.6], [x + 6.6, y + 5.8]], INK);
-  c.stroke([[x + 6.6, y + 4.6], [x + 2.6, y + 8.6]], 1.7, INK);
+// A purchase order on a clipboard, ticked.
+const icoClipboard = (c: Canvas, x: number, y: number): void => {
+  c.fillRect(x + 2.4, y + 0.9, 8.4, 10, INK);
+  c.fillRect(x + 4.8, y + 0.1, 3.6, 1.8, INK);
+  c.fillRect(x + 3.6, y + 2.6, 6, 7.2, PAPER);
+  c.fillRect(x + 4.5, y + 3.8, 4.2, 0.9, INK);
+  c.fillRect(x + 4.5, y + 5.4, 4.2, 0.9, INK);
+  c.stroke([[x + 4.7, y + 7.8], [x + 6.1, y + 9.1], [x + 8.8, y + 6.6]], 1.5, RED);
+};
+
+// A refinery: a column, a tank beside it, burning at the top.
+const icoRefinery = (c: Canvas, x: number, y: number): void => {
+  c.fillRect(x + 1.2, y + 3.6, 4.2, 6.8, INK);
+  c.fillRect(x + 6.8, y + 5.4, 4.2, 5, INK);
+  c.fillRect(x + 5.4, y + 6.8, 1.4, 1.4, INK);
+  c.poly(
+    [
+      [x + 3.3, y + 0.2], [x + 5, y + 2.2], [x + 4.7, y + 3.4], [x + 3.3, y + 3.7],
+      [x + 1.9, y + 3.4], [x + 1.6, y + 2.2],
+    ],
+    RED,
+  );
+};
+
+// A megaphone with sound coming out of it.
+const icoMegaphone = (c: Canvas, x: number, y: number): void => {
+  c.poly([[x + 0.8, y + 4], [x + 8, y + 1.4], [x + 8, y + 8.8], [x + 0.8, y + 6.2]], INK);
+  c.fillRect(x + 3, y + 7.6, 1.8, 2.8, INK);
+  c.stroke([[x + 10, y + 3.4], [x + 11.6, y + 5]], 1.6, INK);
+  c.stroke([[x + 10, y + 6.6], [x + 11.6, y + 5]], 1.6, INK);
+};
+
+// A radar screen, one sweep lit.
+const icoRadar = (c: Canvas, x: number, y: number): void => {
+  c.fillRect(x + 0.6, y + 0.6, 10.8, 10.2, INK);
+  c.fillRect(x + 2, y + 2, 8, 7.4, PAPER);
+  c.annulus(x + 6, y + 5.7, 2.9, 0.9, INK);
+  c.annulus(x + 6, y + 5.7, 1.4, 0.9, INK);
+  c.poly([[x + 6, y + 5.7], [x + 9.4, y + 2.2], [x + 9.4, y + 5.7]], RED);
+};
+
+// An arrow doubling back on itself: a return.
+const icoReturn = (c: Canvas, x: number, y: number): void => {
+  c.stroke([[x + 1.4, y + 3], [x + 8.4, y + 3], [x + 10.8, y + 5.2], [x + 8.4, y + 7.4], [x + 4, y + 7.4]], 2, INK);
+  c.poly([[x + 4, y + 5.2], [x + 0.6, y + 7.4], [x + 4, y + 9.6]], INK);
 };
 
 const icoArrow = (c: Canvas, x: number, y: number): void => {
@@ -1045,7 +1112,7 @@ const icoWarship = (c: Canvas, x: number, y: number): void => {
 };
 
 const icoScale = (c: Canvas, x: number, y: number): void => {
-  c.stroke([[x + 6.5, y + 0.8], [x + 6.5, y + 10]], 1.3, INK);
+  c.stroke([[x + 6.5, y + 0.8], [x + 6.5, y + 10]], 1.7, INK);
   c.fillRect(x + 1.4, y + 0.8, 10.2, 1.2, INK);
   c.poly([[x + 1.4, y + 2], [x + 3.8, y + 2], [x + 2.6, y + 5]], INK);
   c.poly([[x + 9.2, y + 2], [x + 11.6, y + 2], [x + 10.4, y + 5]], INK);
@@ -1172,8 +1239,8 @@ const STORIES: Story[] = [
   },
   {
     n: 6,
-    key: 'VOTE',
-    icon: icoBallot,
+    key: 'PROCUREMENT',
+    icon: icoClipboard,
     place: 'MEXICO CITY',
     beat: 'NORTH AMERICA / ELECTIONS',
     lat: 19.4,
@@ -1203,7 +1270,7 @@ const STORIES: Story[] = [
   {
     n: 9,
     key: 'REFINERY',
-    icon: icoDerrick,
+    icon: icoRefinery,
     place: 'MOSCOW',
     beat: 'EUROPE / ENERGY WAR',
     lat: 55.75,
@@ -1222,8 +1289,8 @@ const STORIES: Story[] = [
   },
   {
     n: 11,
-    key: 'TARIFFS',
-    icon: icoContainer,
+    key: 'QUOTAS',
+    icon: icoQuota,
     place: 'BRUSSELS',
     beat: 'EUROPE / TRADE',
     lat: 50.85,
@@ -1263,12 +1330,12 @@ const STORIES: Story[] = [
   {
     n: 16,
     key: 'RALLY',
-    icon: icoCrowd,
+    icon: icoMegaphone,
     place: 'DELTA STATE',
     beat: 'AFRICA / ELECTIONS',
     lat: 6.2,
     lon: 6.7,
-    text: 'Delta state declared a curfew after four died at an opposition rally, AFP reported.',
+    text: 'Delta state declared a curfew after four died at a political rally, AFP reported.',
   },
   {
     n: 17,
@@ -1313,7 +1380,7 @@ const STORIES: Story[] = [
   {
     n: 21,
     key: 'JETS',
-    icon: icoPlane,
+    icon: icoRadar,
     place: 'SEOUL',
     beat: 'ASIA / DEFENCE',
     lat: 37.6,
@@ -1323,7 +1390,7 @@ const STORIES: Story[] = [
   {
     n: 22,
     key: 'RETURN',
-    icon: icoGavel,
+    icon: icoReturn,
     place: 'DHAKA',
     beat: 'ASIA / POLITICS',
     lat: 23.8,
@@ -1664,8 +1731,12 @@ const render = (): Uint8Array => {
   // The keyword is the one thing that has to survive a 300-pixel view, so it is
   // set heavier and half again as tall as the place name beside it.
   const KEY = 11.5;
-  const PLACE_X = 36;
+  // Number, then its pictogram, then the place: each gap is checked, so a
+  // two-digit number can never run into the mark beside it.
+  const ICON_X = 24;
+  const PLACE_X = 41;
   const FIRST_BODY = 21;
+  const sigs = new Map<string, number>();
   const rest = STORIES.filter((s) => !s.head);
   rest.forEach((s, i) => {
     const col = Math.floor(i / 9);
@@ -1684,6 +1755,19 @@ const render = (): Uint8Array => {
     if (measure(s.place, PLACE, 0.1) > colW - 20) fail(`dispatch ${s.n}: place name wider than its column`);
     if (!s.key) fail(`dispatch ${s.n} ${s.place}: no keyword`);
     if (!s.icon) fail(`dispatch ${s.n} ${s.place}: no pictogram`);
+    const numW = measure(String(s.n), 10, 0.02);
+    if (ICON_X - numW < 4) {
+      fail(`dispatch ${s.n}: number is ${numW.toFixed(1)}px wide, leaving ${(ICON_X - numW).toFixed(1)}px before its pictogram`);
+    }
+    if (PLACE_X - (ICON_X + IW) < 4) {
+      fail(`dispatch ${s.n} ${s.place}: pictogram ends ${(PLACE_X - ICON_X - IW).toFixed(1)}px before the place name`);
+    }
+    if (s.icon) {
+      const sig = iconSignature(s.icon);
+      const seen = sigs.get(sig);
+      if (seen !== undefined) fail(`dispatch ${s.n} ${s.place}: pictogram is the same drawing as dispatch ${seen}`);
+      else sigs.set(sig, s.n);
+    }
     const kwW = measure(s.key ?? '', KEY, 0.05);
     const kwLeft = x + colW - kwW;
     const placeEnd = x + PLACE_X + measure(s.place, PLACE, 0.1);
@@ -1696,11 +1780,11 @@ const render = (): Uint8Array => {
       if (measure(ln, BODY) > colW - 18) fail(`dispatch ${s.n} ${s.place}: line wider than its column ("${ln}")`);
     }
     drawText(c, String(s.n), x, y + 9.8, 10, RED, { weight: 1.1, tracking: 0.02 });
-    s.icon?.(c, x + 19, y + 1.4);
-    BOXES.push({ label: `pictogram ${s.n}`, x0: x + 19, x1: x + 19 + IW, y0: y + 1.4, y1: y + 1.4 + IH });
+    s.icon?.(c, x + ICON_X, y + 1.2);
+    BOXES.push({ label: `pictogram ${s.n}`, x0: x + ICON_X, x1: x + ICON_X + IW, y0: y + 1.2, y1: y + 1.2 + IH });
     drawText(c, s.place, x + PLACE_X, y + 9.2, PLACE, INK, { weight: 1.05, tracking: 0.1 });
     drawText(c, s.key ?? '', x + colW, y + 9.8, KEY, INK, { align: 'right', weight: 1.35, tracking: 0.05 });
-    drawFitted(c, body, x + 18, y + FIRST_BODY, MUTED, 0.8);
+    drawFitted(c, body, x + 18, y + FIRST_BODY, DARK, 0.92);
   });
 
   // Footer

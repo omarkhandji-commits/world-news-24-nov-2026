@@ -21,8 +21,11 @@ randomness.
   tower, a car bomb in Villavicencio — each with a small drawn picture.
 - **Also today**: twenty-seven more, from Washington to Kuala Lumpur, nine to a
   column. Each one opens with a drawn pictogram and a bold one-word keyword —
-  MARKETS, CONGRESS, VOTE, EBOLA, DRONE, TREATY and so on — because at 300
-  pixels across the sentences turn to texture and only the keyword survives.
+  MARKETS, CONGRESS, PROCUREMENT, EBOLA, DRONE, TREATY and so on — because at
+  300 pixels across the sentences turn to texture and only the keyword survives.
+  No two of the twenty-seven pictograms are the same drawing, and the sentences
+  are set in a darker grey than the captions so they still carry some weight at
+  that size without competing with the bold keywords.
 - **The footer**: the sources for the edition and a pointer to `stories.json`,
   which carries the page, publisher and stated date behind every dispatch.
 
@@ -32,9 +35,12 @@ The build measures before it draws. Each list block is set at one size, and the
 program fails if a block turns out taller than its row or wider than its column;
 separately, every word drawn registers its own bounding box and the build fails
 if any two of them overlap or run past the page margin. The 13 × 11 pictogram
-registers a box of its own, and each keyword must clear its place name by ten
-pixels — a row with no keyword or no pictogram fails the build rather than
-printing an empty slot. Missing glyphs fail the
+registers a box of its own, each keyword must clear its place name by ten
+pixels, and the number must clear its pictogram by four — a row with no keyword
+or no pictogram fails the build rather than printing an empty slot. The build
+also renders every pictogram into a 13 × 11 ink grid and stops if two of them
+produce the same grid, so a repeated drawing cannot reach the page. Missing
+glyphs fail the
 build too, rather than printing a blank. A block that wants a third line is
 therefore a build error, not a smudge — the copy gets cut to fit.
 
