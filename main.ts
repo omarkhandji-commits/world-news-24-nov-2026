@@ -231,9 +231,9 @@ const GLYPHS: Record<string, readonly Poly[]> = {
     [[0, 3], [4, 3]],
   ],
   I: [
-    [[1, 0], [3, 0]],
-    [[2, 0], [2, 6]],
-    [[1, 6], [3, 6]],
+    [[0.6, 0], [1.9, 0]],
+    [[1.25, 0], [1.25, 6]],
+    [[0.6, 6], [1.9, 6]],
   ],
   J: [[[4, 0], [4, 5], [3, 6], [1, 6], [0, 5]]],
   K: [
@@ -271,13 +271,16 @@ const GLYPHS: Record<string, readonly Poly[]> = {
     [[2, 3.2], [2, 6]],
   ],
   Z: [[[0, 0], [4, 0], [0, 6], [4, 6]]],
+  '&': [
+    [[3.7, 1.1], [3.1, 0], [1.5, 0], [0.8, 0.6], [0.8, 1.5], [1.6, 2.4], [3.8, 4.9], [3.1, 6], [1.4, 6], [0.7, 5.2], [0.8, 4.5], [3.6, 1.9]],
+  ],
   '0': [
     [[1, 0], [3, 0], [4, 1], [4, 5], [3, 6], [1, 6], [0, 5], [0, 1], [1, 0]],
     [[0.8, 4.9], [3.2, 1.1]],
   ],
   '1': [
-    [[0.8, 1.2], [2.2, 0], [2.2, 6]],
-    [[0.8, 6], [3.6, 6]],
+    [[0.6, 1.2], [2, 0], [2, 6]],
+    [[0.6, 6], [3.4, 6]],
   ],
   '2': [[[0, 1], [1, 0], [3, 0], [4, 1], [4, 2.2], [0, 6], [4, 6]]],
   '3': [[[0, 0], [4, 0], [2.1, 2.7], [3, 2.7], [4, 3.7], [4, 5], [3, 6], [1, 6], [0, 5]]],
@@ -323,7 +326,22 @@ const GLYPHS: Record<string, readonly Poly[]> = {
   '—': [[[0, 3.3], [4, 3.3]]],
 };
 
-const NARROW = new Set(['I', '1', '.', ',', ':', ';', "'", '!', '|', '·', '°', '(', ')']);
+// Advance width in glyph units, per character: narrow marks keep their own
+// sidebearings so they never crowd the letter that follows.
+const WIDTHS: Record<string, number> = {
+  I: 3.4,
+  '.': 2.8,
+  ',': 2.8,
+  ':': 2.8,
+  ';': 2.8,
+  "'": 2.6,
+  '!': 2.8,
+  '°': 3.8,
+  '·': 3.4,
+  '(': 3.4,
+  ')': 3.4,
+  ' ': 2.3,
+};
 
 interface TypeOpts {
   weight?: number;
@@ -332,7 +350,7 @@ interface TypeOpts {
 }
 
 const advance = (ch: string, size: number, tracking: number): number => {
-  const w = ch === ' ' ? 2.3 : NARROW.has(ch) ? 2.6 : 5.5;
+  const w = WIDTHS[ch] ?? 5.5;
   return (w / 6) * size + tracking * size;
 };
 
@@ -364,11 +382,64 @@ const drawText = (
       cursor += advance(ch, size, tracking);
       continue;
     }
-    const g = GLYPHS[ch];
-    if (g) {
-      for (const poly of g) {
-        const pts = poly.map(([gx, gy]) => [cursor + gx * unit, baseline + (gy - 6) * unit] as const);
-        c.stroke(pts, sw, color);
+    // Punctuation is set solid: hairline marks vanish at body sizes.
+    const dot = 1.25 * unit;
+    if (ch === '.') {
+      c.fillRect(cursor + 0.75 * unit, baseline - dot, dot, dot, color);
+    } else if (ch === ',') {
+      c.poly(
+        [
+          [cursor + 0.8 * unit, baseline - dot * 0.6],
+          [cursor + 1.9 * unit, baseline - dot * 0.6],
+          [cursor + 1.2 * unit, baseline + dot * 0.9],
+        ],
+        color,
+      );
+    } else if (ch === ':') {
+      c.fillRect(cursor + 0.75 * unit, baseline - dot * 2.4, dot, dot, color);
+      c.fillRect(cursor + 0.75 * unit, baseline - dot, dot, dot, color);
+    } else if (ch === ';') {
+      c.fillRect(cursor + 0.75 * unit, baseline - dot * 2.4, dot, dot, color);
+      c.poly(
+        [
+          [cursor + 0.8 * unit, baseline - dot * 0.6],
+          [cursor + 1.9 * unit, baseline - dot * 0.6],
+          [cursor + 1.2 * unit, baseline + dot * 0.9],
+        ],
+        color,
+      );
+    } else if (ch === "'") {
+      c.poly(
+        [
+          [cursor + 0.9 * unit, baseline - 6 * unit],
+          [cursor + 1.55 * unit, baseline - 6.1 * unit],
+          [cursor + 1.45 * unit, baseline - 4.6 * unit],
+          [cursor + 0.95 * unit, baseline - 4.8 * unit],
+        ],
+        color,
+      );
+    } else if (ch === '%') {
+      c.stroke(
+        [
+          [cursor + 0.4 * unit, baseline],
+          [cursor + 3.6 * unit, baseline - 6 * unit],
+        ],
+        sw,
+        color,
+      );
+      c.fillRect(cursor + 0.2 * unit, baseline - 6 * unit, 1.3 * unit, 1.3 * unit, color);
+      c.fillRect(cursor + 2.5 * unit, baseline - 1.4 * unit, 1.3 * unit, 1.3 * unit, color);
+    } else if (ch === '·') {
+      c.fillRect(cursor + 1.1 * unit, baseline - dot * 2.2, dot, dot, color);
+    } else if (ch === '°') {
+      c.annulus(cursor + 1.9 * unit, baseline - 5.3 * unit, 1.1 * unit, 0.55 * unit, color);
+    } else {
+      const g = GLYPHS[ch];
+      if (g) {
+        for (const poly of g) {
+          const pts = poly.map(([gx, gy]) => [cursor + gx * unit, baseline + (gy - 6) * unit] as const);
+          c.stroke(pts, sw, color);
+        }
       }
     }
     cursor += advance(ch, size, tracking);
@@ -499,7 +570,7 @@ const DISPATCHES: Dispatch[] = [
     place: 'STRAIT OF HORMUZ',
     beat: 'MIDDLE EAST / ENERGY',
     head: 'MINES SET THREE TANKERS ABLAZE',
-    fact: "Iran's Guard navy said three tankers hit mines in the strait it closed in July; Washington widened sanctions on more than two dozen Iranian firms.",
+    fact: "Iran's Guard navy said three tankers hit mines in the strait it closed in July. Washington widened sanctions on more than two dozen Iranian firms and officials.",
   },
   {
     n: '02',
@@ -519,8 +590,8 @@ const DISPATCHES: Dispatch[] = [
     n: '04',
     place: 'NEW YORK',
     beat: 'MARKETS / TECH',
-    head: 'AI STOCKS SLIDE AGAIN',
-    fact: 'The S&P 500 fell 0.5% to 7,201.09 and the Nasdaq 1.5% to 23,733.54; the Dow added 423 points to 50,018.70.',
+    head: 'AI STOCKS SLIDE, DOW RISES',
+    fact: 'The Nasdaq fell 1.5% to 23,733.54 as AI shares slid again; the Dow added 423 points to 50,018.70.',
   },
   {
     n: '05',
@@ -939,67 +1010,28 @@ const drawPort = (c: Canvas, x: number, y: number, w: number, h: number): void =
   );
 };
 
-const drawTent = (c: Canvas, x: number, y: number, w: number, h: number): void => {
-  const baseY = y + h * 0.8;
-  const tw = w * 0.44;
-  const tx = x + w * 0.02;
-  c.stroke(
-    [
-      [tx, baseY],
-      [tx + tw / 2, y + h * 0.18],
-      [tx + tw, baseY],
-    ],
-    2.6,
-    INK,
-  );
-  c.poly(
-    [
-      [tx + tw * 0.43, baseY],
-      [tx + tw * 0.5, y + h * 0.4],
-      [tx + tw * 0.57, baseY],
-    ],
-    INK,
-  );
-  c.stroke(
-    [
-      [tx, baseY],
-      [tx + tw, baseY],
-    ],
-    2,
-    INK,
-  );
-  for (let i = 0; i < 8; i++) {
-    const rx = x + w * (0.1 + (i % 4) * 0.095);
-    const ry = y + h * (0.1 + Math.floor(i / 4) * 0.1);
-    c.stroke(
-      [
-        [rx, ry],
-        [rx - w * 0.012, ry + h * 0.07],
-      ],
-      1.5,
-      mix(INK, PAPER, 0.55),
-    );
+// 99 of 100 cells marked: the share of Gaza's territory Oxfam reports contaminated.
+const drawContamination = (c: Canvas, x: number, y: number, w: number, h: number): void => {
+  const side = Math.min(w * 0.62, h * 0.82);
+  const cell = side / 10;
+  const gap = Math.max(0.8, cell * 0.09);
+  const ox = x + (w - side) / 2;
+  const oy = y + (h - side) / 2;
+  for (let r = 0; r < 10; r++) {
+    for (let col = 0; col < 10; col++) {
+      const clean = r === 0 && col === 9;
+      const px = ox + col * cell;
+      const py = oy + r * cell;
+      c.fillRect(px, py, cell - gap, cell - gap, clean ? PAPER : INK);
+      if (clean) {
+        const t = Math.max(1.2, cell * 0.16);
+        c.fillRect(px, py, cell - gap, t, RED);
+        c.fillRect(px, py + cell - gap - t, cell - gap, t, RED);
+        c.fillRect(px, py, t, cell - gap, RED);
+        c.fillRect(px + cell - gap - t, py, t, cell - gap, RED);
+      }
+    }
   }
-  c.poly(
-    [
-      [x + w * 0.02, baseY + h * 0.11],
-      [x + w * 0.18, baseY + h * 0.08],
-      [x + w * 0.42, baseY + h * 0.13],
-      [x + w * 0.18, baseY + h * 0.16],
-    ],
-    mix(INK, PAPER, 0.35),
-  );
-  const hx = x + w * 0.79;
-  const hy = y + h * 0.46;
-  c.poly(
-    [
-      [hx, hy - h * 0.22],
-      [hx + w * 0.13, hy + h * 0.12],
-      [hx - w * 0.13, hy + h * 0.12],
-    ],
-    RED,
-  );
-  drawText(c, '!', hx, hy + h * 0.07, h * 0.18, PAPER, { align: 'center', weight: 1.0 });
 };
 
 // ---------------------------------------------------------------------------
@@ -1055,18 +1087,18 @@ const render = (): Uint8Array => {
     ['6.1%', "SINGAPORE'S THIRD-QUARTER GROWTH"],
   ];
   const cellW = NW / 2;
-  const cellH = 72;
+  const cellH = 74;
   figures.forEach(([fig, label], i) => {
     const col = i % 2;
     const row = Math.floor(i / 2);
     const cx = NX + col * cellW;
-    const cy = 112 + row * cellH;
+    const cy = 110 + row * cellH;
     drawText(c, fig, cx, cy + 34, 30, col === 0 && row === 0 ? RED : INK, { weight: 0.95, tracking: 0.02 });
     const lab = fit(label, cellW - 18, 2, 8, 7, 1.22);
-    drawFitted(c, lab, cx, cy + 50, MUTED, 0.8);
+    drawFitted(c, lab, cx, cy + 48, MUTED, 0.8);
   });
-  rule(c, NX + cellW - 8, 112, 1, LINE, 138);
-  rule(c, NX, 178, NW, LINE, 1);
+  rule(c, NX + cellW - 8, 110, 1, LINE, 136);
+  rule(c, NX, 182, NW, LINE, 1);
 
   // ---- Left column: the lead, then Gaza ----
   const LX = M;
@@ -1087,7 +1119,7 @@ const render = (): Uint8Array => {
   drawFitted(c, heroHead, HX, heroY + 284, PAPER, 1.08);
   const heroFactY = heroY + 284 + (heroHead.lines.length - 1) * heroHead.lead + 34;
   const heroFact = fit(DISPATCHES[0].fact, HW, 4, 13, 10, 1.55);
-  drawFitted(c, heroFact, HX, heroFactY, mix(INK, PAPER, 0.78), 0.8);
+  drawFitted(c, heroFact, HX, heroFactY, mix(INK, PAPER, 0.9), 1.05);
 
   // Gaza panel
   const gY = heroY + heroH + 16;
@@ -1099,7 +1131,7 @@ const render = (): Uint8Array => {
   const gFactY = gY + 54 + (gHead.lines.length - 1) * gHead.lead + 22;
   const gFact = fit(DISPATCHES[5].fact, 316, 4, 11, 9, 1.34);
   drawFitted(c, gFact, LX, gFactY, MUTED, 0.76);
-  drawTent(c, LX + 330, gY + 26, 126, gH - 44);
+  drawContamination(c, LX + 326, gY + 30, 130, gH - 52);
 
   // ---- Right column: four dispatches ----
   const RX = M + LW + 18;
@@ -1119,7 +1151,7 @@ const render = (): Uint8Array => {
     icons[i](c, RX + RW - 100, py + 24, 100, 62);
     const head = { lines: wrap(d.head, headSize, RW - 112), size: headSize, lead: headSize * 1.4 };
     drawFitted(c, head, RX, py + 48, INK, 1.02);
-    const fact = fit(d.fact, RW, 3, 10.5, 9, 1.32);
+    const fact = fit(d.fact, RW, 3, 10.5, 9, 1.45);
     drawFitted(c, fact, RX, py + 100, MUTED, 0.74);
   }
 
