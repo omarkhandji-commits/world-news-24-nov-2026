@@ -1246,7 +1246,7 @@ const STORIES: Story[] = [
     beat: 'NORTH AMERICA / MINING',
     lat: 43.7,
     lon: -79.4,
-    text: 'Ontario said it will legislate to fast-track new and expanded mines.',
+    text: 'Ontario said it plans to legislate to fast-track new and expanded mines.',
   },
   {
     n: 7,
@@ -1466,7 +1466,7 @@ const STORIES: Story[] = [
     beat: 'OCEANIA / DIPLOMACY',
     lat: -35.3,
     lon: 149.1,
-    text: 'Australia and Singapore signed a CO2 sequestration pact and a supply MoU.',
+    text: "Singapore's foreign ministry said the two countries signed a CO2 pact and a supply MoU.",
   },
   {
     n: 32,
@@ -1801,7 +1801,7 @@ const render = (): Uint8Array => {
   );
   drawText(
     c,
-    'ANADOLU · UKRINFORM · UN NEWS · ASIAONE · THE STAR · OUTLOOK · YENI SAFAK · DABANGA · AFP VIA EWN · FIJI SUN · USNI · AEROSPACE',
+    'ANADOLU · UKRINFORM · UN NEWS · ASIAONE · THE STAR · OUTLOOK · YENI SAFAK · DABANGA · AFP VIA EWN · FIJI SUN · USNI · AEROSPACE · ONTARIO GOVERNMENT · SINGAPORE MFA',
     M,
     963,
     7.2,
