@@ -1,8 +1,10 @@
-// world-news-20261124 — draws one image summing up Tuesday 24 November 2026.
+// world-news-20261124 — one front page for Tuesday 24 November 2026: thirty-three
+// dispatches from six inhabited continents, a world map with a numbered pin for
+// each, three lead stories with drawn pictures, and the rest in a dense list.
 //
-// Everything is drawn here with arithmetic: a small stroke alphabet, flat shapes
-// and a hand-written PNG encoder. No fonts, no images, no network, and no
-// randomness, so two runs write the same bytes.
+// Everything is drawn here with arithmetic: a small stroke alphabet, flat shapes,
+// a coarse land table for the map and a hand-written PNG encoder. No fonts, no
+// images, no network, and no randomness, so two runs write the same bytes.
 //
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 
@@ -552,64 +554,6 @@ const png = (rgb: Uint8Array, w: number, h: number): Uint8Array => {
 };
 
 // ---------------------------------------------------------------------------
-// The day's six dispatches. Every fact was read from reporting dated
-// 24 November 2026: AP, Reuters, Anadolu, Democracy Now!, CNBC.
-// ---------------------------------------------------------------------------
-
-interface Dispatch {
-  n: string;
-  place: string;
-  beat: string;
-  head: string;
-  fact: string;
-}
-
-const DISPATCHES: Dispatch[] = [
-  {
-    n: '01',
-    place: 'STRAIT OF HORMUZ',
-    beat: 'MIDDLE EAST / ENERGY',
-    head: 'MINES SET THREE TANKERS ABLAZE',
-    fact: "Iran's Guard navy said three tankers hit mines in the strait it closed in July. Washington widened sanctions on more than two dozen Iranian firms and officials.",
-  },
-  {
-    n: '02',
-    place: 'ZAPORIZHZHIA',
-    beat: 'EUROPE / WAR',
-    head: 'BOMB KILLS TWO IN ZAPORIZHZHIA',
-    fact: 'A guided bomb hit an apartment block overnight, wounding more than 40. UNICEF counts 1,144 Ukrainian children killed or injured in 2026.',
-  },
-  {
-    n: '03',
-    place: 'KHARTOUM',
-    beat: 'AFRICA / CONFLICT',
-    head: 'DRONES STRIKE KHARTOUM',
-    fact: 'Strikes hit the airport and a UN facility, killing at least four, as the army said it downed more drones. The power grid is near collapse.',
-  },
-  {
-    n: '04',
-    place: 'NEW YORK',
-    beat: 'MARKETS / TECH',
-    head: 'AI STOCKS SLIDE, DOW RISES',
-    fact: 'The Nasdaq fell 1.5% to 23,733.54 as AI shares slid again; the Dow added 423 points to 50,018.70.',
-  },
-  {
-    n: '05',
-    place: 'SINGAPORE',
-    beat: 'ASIA / ECONOMY',
-    head: 'SINGAPORE RAISES GROWTH FORECAST',
-    fact: 'Third-quarter growth of 6.1% beat forecasts on AI-driven trade and manufacturing; the 2026 forecast rose to about 6%.',
-  },
-  {
-    n: '06',
-    place: 'AL-MAWASI, GAZA',
-    beat: 'HUMANITARIAN',
-    head: 'OXFAM: 99% OF GAZA CONTAMINATED',
-    fact: 'Oxfam says heavy metals, explosive residue and asbestos pollute almost all of the territory. A strike on a police post killed three, medics said.',
-  },
-];
-
-// ---------------------------------------------------------------------------
 // Drawn pictures: flat shapes in ink and vermilion, one visual language.
 // ---------------------------------------------------------------------------
 
@@ -680,11 +624,11 @@ const flame = (c: Canvas, x: number, baseY: number, w: number, h: number, outer:
 
 // A plume of smoke: overlapping discs that read as one column.
 const smoke = (c: Canvas, x: number, y: number, w: number, h: number, color: RGB): void => {
-  for (let i = 0; i < 5; i++) {
-    const t = i / 4;
-    const px = x + w * t + Math.sin(i * 1.6) * w * 0.12;
+  for (let i = 0; i < 7; i++) {
+    const t = i / 6;
+    const px = x + w * t * 0.85 + Math.sin(i * 1.6) * w * 0.09;
     const py = y - h * t;
-    c.disc(px, py, w * (0.15 - 0.08 * t), color);
+    c.disc(px, py, w * (0.21 - 0.1 * t), color);
   }
 };
 
@@ -709,15 +653,15 @@ const drawStrait = (c: Canvas, x: number, y: number, w: number, h: number): void
   );
 
   // a second tanker, further off
-  hull(c, x + w * 0.73, water - h * 0.2, w * 0.23, h * 0.21, far, INK);
-  smoke(c, x + w * 0.785, water - h * 0.3, w * 0.13, h * 0.2, mix(INK, PAPER, 0.2));
-  flame(c, x + w * 0.805, water - h * 0.13, w * 0.065, h * 0.16, RED, paper);
+  hull(c, x + w * 0.73, water - h * 0.17, w * 0.23, h * 0.18, far, INK);
+  smoke(c, x + w * 0.78, water - h * 0.26, w * 0.13, h * 0.2, mix(INK, PAPER, 0.2));
+  flame(c, x + w * 0.79, water - h * 0.09, w * 0.065, h * 0.14, RED, paper);
 
   // the lead tanker, large in the frame
-  hull(c, x + w * 0.02, water - h * 0.39, w * 0.54, h * 0.4, paper, INK);
-  smoke(c, x + w * 0.2, water - h * 0.45, w * 0.26, h * 0.26, mix(INK, PAPER, 0.32));
-  flame(c, x + w * 0.07, water - h * 0.15, w * 0.18, h * 0.32, RED, paper);
-  flame(c, x + w * 0.2, water - h * 0.15, w * 0.12, h * 0.24, RED, paper);
+  hull(c, x + w * 0.02, water - h * 0.37, w * 0.54, h * 0.38, paper, INK);
+  smoke(c, x + w * 0.2, water - h * 0.36, w * 0.26, h * 0.26, mix(INK, PAPER, 0.32));
+  flame(c, x + w * 0.07, water - h * 0.05, w * 0.18, h * 0.24, RED, paper);
+  flame(c, x + w * 0.2, water - h * 0.05, w * 0.12, h * 0.18, RED, paper);
 
   c.stroke(
     [
@@ -727,311 +671,602 @@ const drawStrait = (c: Canvas, x: number, y: number, w: number, h: number): void
     1.2,
     mix(INK, PAPER, 0.32),
   );
-  for (let i = 0; i < 9; i++) {
-    const wx = x + w * (0.02 + i * 0.11);
-    const wy = water + h * 0.1 + (i % 3) * h * 0.07;
+  for (let i = 0; i < 5; i++) {
+    const wx = x + w * (0.04 + i * 0.2);
+    const wy = water + h * 0.12 + (i % 2) * h * 0.09;
     c.stroke(
       [
         [wx, wy],
-        [wx + w * 0.05, wy],
+        [wx + w * 0.07, wy],
       ],
       1.4,
-      mix(INK, PAPER, 0.3),
+      mix(INK, PAPER, 0.45),
     );
   }
 
 };
 
 
-const drawBomb = (c: Canvas, x: number, y: number, w: number, h: number): void => {
-  const bw = w * 0.46;
-  const bh = h * 0.84;
-  const bx = x + w * 0.02;
-  const by = y + h - bh;
-  c.fillRect(bx, by, bw, bh, INK);
-  for (let r = 0; r < 5; r++) {
-    for (let col = 0; col < 3; col++) {
-      if (r === 1 && col === 2) continue;
-      c.fillRect(bx + bw * (0.14 + col * 0.26), by + bh * (0.08 + r * 0.16), bw * 0.15, bh * 0.09, PAPER);
+// ---------------------------------------------------------------------------
+// Two more pictures, drawn the same way: flat shapes, two inks, no gradients.
+// ---------------------------------------------------------------------------
+
+// Khartoum: a skyline with one block torn open, a drone overhead, dust.
+const drawSkyline = (c: Canvas, x: number, y: number, w: number, h: number): void => {
+  const base = y + h * 0.9;
+  const far = mix(INK, PAPER, 0.5);
+
+  for (let i = 0; i < 4; i++) {
+    c.disc(x + w * (0.6 + i * 0.07), y + h * (0.44 - i * 0.06), w * (0.045 + i * 0.004), mix(INK, PAPER, 0.3));
+  }
+
+  c.fillRect(x + w * 0.03, y + h * 0.5, w * 0.15, base - (y + h * 0.5), far);
+  c.fillRect(x + w * 0.21, y + h * 0.38, w * 0.12, base - (y + h * 0.38), far);
+  c.fillRect(x + w * 0.36, y + h * 0.58, w * 0.19, base - (y + h * 0.58), INK);
+
+  c.poly(
+    [
+      [x + w * 0.57, base],
+      [x + w * 0.57, y + h * 0.46],
+      [x + w * 0.65, y + h * 0.46],
+      [x + w * 0.67, y + h * 0.31],
+      [x + w * 0.72, y + h * 0.39],
+      [x + w * 0.78, y + h * 0.23],
+      [x + w * 0.83, y + h * 0.41],
+      [x + w * 0.88, base],
+    ],
+    INK,
+  );
+
+  for (let r = 0; r < 3; r++) {
+    for (let i = 0; i < 2; i++) {
+      c.fillRect(x + w * (0.4 + i * 0.075), y + h * (0.64 + r * 0.09), w * 0.03, h * 0.035, PAPER);
     }
   }
-  c.poly(
-    [
-      [bx + bw * 0.56, by + bh * 0.32],
-      [bx + bw, by + bh * 0.28],
-      [bx + bw, by + bh * 0.5],
-      [bx + bw * 0.74, by + bh * 0.44],
-      [bx + bw * 0.64, by + bh * 0.52],
-      [bx + bw * 0.56, by + bh * 0.4],
-    ],
-    RED,
-  );
-  c.fillRect(bx + bw * 0.14, by + bh, w * 0.055, h * 0.02, INK);
-  c.fillRect(bx + bw * 0.42, by + bh - h * 0.01, w * 0.04, h * 0.02, INK);
 
-  const dx = x + w * 0.76;
-  const dy = y + h * 0.22;
-  c.stroke(
-    [
-      [dx - w * 0.1, dy],
-      [dx + w * 0.1, dy],
-    ],
-    2,
-    INK,
-  );
-  c.stroke(
-    [
-      [dx, dy - h * 0.04],
-      [dx, dy + h * 0.05],
-    ],
-    2,
-    INK,
-  );
-  for (const s of [-1, 1]) c.annulus(dx + s * w * 0.1, dy - h * 0.01, w * 0.042, 1.6, INK);
-  for (let i = 0; i < 3; i++) {
-    c.stroke(
-      [
-        [dx - w * 0.02, dy + h * 0.12 + i * h * 0.06],
-        [dx + w * 0.02, dy + h * 0.14 + i * h * 0.06],
-      ],
-      1.5,
-      RED,
-    );
+  // the burst itself, spiked, at the foot of the wound
+  const bx = x + w * 0.72;
+  const by = y + h * 0.76;
+  const star: [number, number][] = [];
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * Math.PI * 2;
+    const r = i % 2 === 0 ? w * 0.15 : w * 0.06;
+    star.push([bx + Math.cos(a) * r, by + Math.sin(a) * r * 0.8]);
   }
+  c.poly(star, RED);
+
+  // drone: two rotors, a body, a red eye
+  const dx = x + w * 0.13;
+  const dy = y + h * 0.16;
+  c.stroke([[dx - w * 0.11, dy - h * 0.05], [dx + w * 0.02, dy - h * 0.05]], 1.2, INK);
+  c.stroke([[dx - w * 0.02, dy - h * 0.05], [dx + w * 0.1, dy - h * 0.05]], 1.2, INK);
+  for (const s of [-0.11, 0.1]) c.disc(dx + w * s, dy - h * 0.05, w * 0.012, INK);
+  c.fillRect(dx - w * 0.02, dy - h * 0.06, w * 0.04, h * 0.05, INK);
+  c.fillRect(dx, dy, w * 0.012, h * 0.012, RED);
+
+  c.fillRect(x, base, w, Math.max(1.1, h * 0.014), INK);
 };
 
-const drawGrid = (c: Canvas, x: number, y: number, w: number, h: number): void => {
-  const px = x + w * 0.46;
-  const top = y + h * 0.1;
-  const base = y + h * 0.88;
-  const legW = w * 0.19;
-  // lattice
-  c.stroke(
-    [
-      [px - legW * 0.35, top],
-      [px - legW, base],
-    ],
-    2.2,
-    INK,
-  );
-  c.stroke(
-    [
-      [px + legW * 0.35, top],
-      [px + legW, base],
-    ],
-    2.2,
-    INK,
-  );
-  for (let i = 0; i < 5; i++) {
-    const t0 = i / 5;
-    const t1 = (i + 1) / 5;
-    const y0 = top + (base - top) * t0;
-    const y1 = top + (base - top) * t1;
-    const x0 = legW * (0.35 + 0.65 * t0);
-    const x1 = legW * (0.35 + 0.65 * t1);
-    c.stroke(
-      [
-        [px - x0, y0],
-        [px + x1, y1],
-      ],
-      1.4,
-      INK,
-    );
-    c.stroke(
-      [
-        [px + x0, y0],
-        [px - x1, y1],
-      ],
-      1.4,
-      INK,
-    );
-  }
-  c.stroke(
-    [
-      [px - legW * 1.15, top + h * 0.05],
-      [px + legW * 1.15, top + h * 0.05],
-    ],
-    2.2,
-    INK,
-  );
-  c.stroke(
-    [
-      [px - legW * 0.85, top + h * 0.16],
-      [px + legW * 0.85, top + h * 0.16],
-    ],
-    1.8,
-    INK,
-  );
-  c.stroke(
-    [
-      [px - legW * 1.1, top + h * 0.05],
-      [x + w * 0.02, top + h * 0.2],
-    ],
-    1.4,
-    INK,
-  );
-  c.stroke(
-    [
-      [px + legW * 1.1, top + h * 0.05],
-      [x + w * 0.95, top + h * 0.12],
-      [x + w * 0.9, top + h * 0.34],
-    ],
-    1.4,
-    INK,
-  );
-  c.poly(
-    [
-      [x + w * 0.76, y + h * 0.36],
-      [x + w * 0.64, y + h * 0.54],
-      [x + w * 0.74, y + h * 0.54],
-      [x + w * 0.62, y + h * 0.72],
-      [x + w * 0.8, y + h * 0.5],
-      [x + w * 0.7, y + h * 0.5],
-    ],
-    RED,
-  );
-  const sy = y + h * 0.88;
-  c.fillRect(x + w * 0.6, sy - h * 0.16, w * 0.1, h * 0.16, INK);
-  c.fillRect(x + w * 0.74, sy - h * 0.1, w * 0.09, h * 0.1, INK);
-  c.fillRect(x + w * 0.86, sy - h * 0.22, w * 0.1, h * 0.22, INK);
-  c.fillRect(x, sy, w * 0.5, h * 0.022, INK);
-};
+// Villavicencio: a block with a bite out of it, a leaning neighbour, debris.
+const drawRubble = (c: Canvas, x: number, y: number, w: number, h: number): void => {
+  const base = y + h * 0.9;
 
-const drawChip = (c: Canvas, x: number, y: number, w: number, h: number): void => {
-  const s = Math.min(w * 0.42, h * 0.56);
-  const cx = x + w * 0.02;
-  const cy = y + (h - s) / 2;
-  c.fillRect(cx, cy, s, s, INK);
-  const inner = s * 0.52;
-  c.fillRect(cx + (s - inner) / 2, cy + (s - inner) / 2, inner, inner, PAPER);
-  c.fillRect(cx + (s - inner) / 2, cy + (s - inner) / 2 + inner * 0.62, inner, inner * 0.38, RED);
   for (let i = 0; i < 4; i++) {
-    const off = s * (0.14 + i * 0.22);
-    c.fillRect(cx + off, cy - s * 0.11, s * 0.07, s * 0.11, INK);
-    c.fillRect(cx + off, cy + s, s * 0.07, s * 0.11, INK);
-    c.fillRect(cx - s * 0.11, cy + off, s * 0.11, s * 0.07, INK);
-    c.fillRect(cx + s, cy + off, s * 0.11, s * 0.07, INK);
+    c.disc(x + w * (0.44 + i * 0.08), y + h * (0.4 - i * 0.07), w * (0.05 + i * 0.006), mix(INK, PAPER, 0.32));
   }
-  c.stroke(
+
+  c.fillRect(x + w * 0.03, y + h * 0.22, w * 0.42, base - (y + h * 0.22), INK);
+  // the wound: a red tear through the upper storeys
+  c.poly(
     [
-      [x + w * 0.56, y + h * 0.26],
-      [x + w * 0.66, y + h * 0.46],
-      [x + w * 0.74, y + h * 0.38],
-      [x + w * 0.88, y + h * 0.7],
+      [x + w * 0.22, y + h * 0.24],
+      [x + w * 0.43, y + h * 0.24],
+      [x + w * 0.43, y + h * 0.6],
+      [x + w * 0.38, y + h * 0.52],
+      [x + w * 0.34, y + h * 0.66],
+      [x + w * 0.3, y + h * 0.55],
+      [x + w * 0.25, y + h * 0.62],
+      [x + w * 0.22, y + h * 0.5],
     ],
-    2.4,
     RED,
+  );
+
+  // windows on what is left
+  for (let r = 0; r < 3; r++) {
+    for (let i = 0; i < 2; i++) {
+      c.fillRect(x + w * (0.06 + i * 0.08), y + h * (0.3 + r * 0.12), w * 0.045, h * 0.05, PAPER);
+    }
+  }
+
+  // the neighbour, leaning
+  c.poly(
+    [
+      [x + w * 0.52, base],
+      [x + w * 0.56, y + h * 0.4],
+      [x + w * 0.74, y + h * 0.36],
+      [x + w * 0.78, base],
+    ],
+    mix(INK, PAPER, 0.3),
   );
   c.poly(
     [
-      [x + w * 0.92, y + h * 0.72],
-      [x + w * 0.83, y + h * 0.73],
-      [x + w * 0.9, y + h * 0.58],
+      [x + w * 0.8, base],
+      [x + w * 0.82, y + h * 0.56],
+      [x + w * 0.95, y + h * 0.6],
+      [x + w * 0.96, base],
     ],
-    RED,
+    INK,
   );
-  c.stroke(
-    [
-      [x + w * 0.56, y + h * 0.66],
-      [x + w * 0.68, y + h * 0.6],
-      [x + w * 0.8, y + h * 0.66],
-    ],
-    1.6,
-    mix(INK, PAPER, 0.5),
-  );
+
+  // debris
+  const bits: [number, number, number, number][] = [
+    [0.02, 0.02, 0.05, 0.03],
+    [0.12, 0.015, 0.04, 0.025],
+    [0.33, 0.03, 0.06, 0.02],
+    [0.5, 0.02, 0.03, 0.03],
+    [0.66, 0.03, 0.05, 0.02],
+    [0.86, 0.02, 0.04, 0.03],
+  ];
+  for (const [bx, by, bw, bh] of bits) {
+    c.fillRect(x + w * bx, base - h * by, w * bw, h * bh, mix(INK, PAPER, 0.15));
+  }
+
+  c.fillRect(x, base, w, Math.max(1.1, h * 0.014), INK);
 };
 
-const drawPort = (c: Canvas, x: number, y: number, w: number, h: number): void => {
-  const baseY = y + h * 0.82;
-  const cx = x + w * 0.16;
-  c.stroke(
-    [
-      [cx, baseY],
-      [cx, y + h * 0.2],
-    ],
-    2.6,
-    INK,
-  );
-  c.stroke(
-    [
-      [cx - w * 0.04, baseY],
-      [cx + w * 0.04, baseY],
-    ],
-    2.6,
-    INK,
-  );
-  c.stroke(
-    [
-      [cx - w * 0.1, y + h * 0.2],
-      [cx + w * 0.32, y + h * 0.2],
-    ],
-    2.6,
-    INK,
-  );
-  c.stroke(
-    [
-      [cx, y + h * 0.08],
-      [cx + w * 0.15, y + h * 0.2],
-    ],
-    1.8,
-    INK,
-  );
-  c.stroke(
-    [
-      [cx + w * 0.26, y + h * 0.2],
-      [cx + w * 0.26, y + h * 0.4],
-    ],
-    1.4,
-    INK,
-  );
-  c.fillRect(cx + w * 0.225, y + h * 0.4, w * 0.07, h * 0.06, RED);
-  const cols = [0.34, 0.45, 0.56];
-  cols.forEach((f, i) => {
-    const ch = h * 0.09;
-    c.fillRect(x + w * f, baseY - ch, w * 0.095, ch, INK);
-    c.fillRect(x + w * f, baseY - ch * 2 - 1.5, w * 0.095, ch, i === 1 ? RED : mix(INK, PAPER, 0.45));
-  });
-  c.fillRect(x + w * 0.34, baseY - h * 0.02, w * 0.31, h * 0.02, INK);
-  c.stroke(
-    [
-      [x + w * 0.84, y + h * 0.66],
-      [x + w * 0.84, y + h * 0.22],
-    ],
-    2.4,
-    RED,
-  );
-  c.poly(
-    [
-      [x + w * 0.84, y + h * 0.1],
-      [x + w * 0.92, y + h * 0.27],
-      [x + w * 0.76, y + h * 0.27],
-    ],
-    RED,
-  );
+// ---------------------------------------------------------------------------
+// The edition. Every line was read in reporting dated 24 November 2026; claims
+// that are contested say who made them.
+// ---------------------------------------------------------------------------
+
+interface Story {
+  n: number;
+  place: string;
+  beat: string;
+  lat: number;
+  lon: number;
+  text: string;
+  head?: string;
+  lead?: string;
+  art?: (c: Canvas, x: number, y: number, w: number, h: number) => void;
+}
+
+// Where each badge sits, relative to its dot: hand-placed once so that crowded
+// regions (Europe, the Gulf, the Sahel) fan out instead of stacking.
+const ANCHOR: Readonly<Record<number, readonly [number, number]>> = {
+  1: [26, 17],
+  2: [1, 19],
+  3: [-19, 15],
+  4: [22, -8],
+  5: [-16, -17],
+  6: [-9, -20],
+  7: [18, 10],
+  8: [18, 4],
+  9: [-18, 12],
+  10: [-22, -8],
+  11: [26, -14],
+  12: [-19, -16],
+  13: [13, 2],
+  14: [18, -32],
+  15: [-8, -26],
+  16: [-26, 7],
+  17: [-42, -14],
+  18: [-27, 11],
+  19: [-25, 12],
+  20: [18, 24],
+  21: [-36, 6],
+  22: [-28, 17],
+  23: [34, 6],
+  24: [30, 10],
+  25: [22, 19],
+  26: [15, 14],
+  27: [14, -16],
+  28: [-13, -15],
+  29: [-18, 16],
+  30: [-23, -13],
+  31: [13, -15],
+  32: [14, 5],
+  33: [17, 4],
 };
 
-// 99 of 100 cells marked: the share of Gaza's territory Oxfam reports contaminated.
-const drawContamination = (c: Canvas, x: number, y: number, w: number, h: number): void => {
-  const side = Math.min(w * 0.62, h * 0.82);
-  const cell = side / 10;
-  const gap = Math.max(0.8, cell * 0.09);
-  const ox = x + (w - side) / 2;
-  const oy = y + (h - side) / 2;
-  for (let r = 0; r < 10; r++) {
-    for (let col = 0; col < 10; col++) {
-      const clean = r === 0 && col === 9;
-      const px = ox + col * cell;
-      const py = oy + r * cell;
-      c.fillRect(px, py, cell - gap, cell - gap, clean ? PAPER : INK);
-      if (clean) {
-        const t = Math.max(1.2, cell * 0.16);
-        c.fillRect(px, py, cell - gap, t, RED);
-        c.fillRect(px, py + cell - gap - t, cell - gap, t, RED);
-        c.fillRect(px, py, t, cell - gap, RED);
-        c.fillRect(px + cell - gap - t, py, t, cell - gap, RED);
+const STORIES: Story[] = [
+  {
+    n: 1,
+    place: 'STRAIT OF HORMUZ',
+    beat: 'MIDDLE EAST / ENERGY',
+    lat: 26.6,
+    lon: 56.4,
+    text: 'Three tankers struck mines, the Guard navy said; Washington widened sanctions.',
+    head: 'MINES SET THREE TANKERS ABLAZE',
+    lead: "Iran's Guard navy said three tankers hit mines in the strait it closed in July. Washington widened sanctions on more than two dozen Iranian firms.",
+    art: drawStrait,
+  },
+  {
+    n: 2,
+    place: 'KHARTOUM',
+    beat: 'AFRICA / CONFLICT',
+    lat: 15.6,
+    lon: 32.5,
+    text: 'Drones hit the airport and a UN building, killing at least four; the grid is failing.',
+    head: 'DRONES STRIKE KHARTOUM',
+    lead: 'Drones hit the airport and a UN building, killing at least four. The army said it downed more; the power grid is near collapse.',
+    art: drawSkyline,
+  },
+  {
+    n: 3,
+    place: 'VILLAVICENCIO',
+    beat: 'SOUTH AMERICA / SECURITY',
+    lat: 4.1,
+    lon: -73.6,
+    text: 'A car bomb wounded 25 and wrecked 80 buildings, the president said.',
+    head: 'CAR BOMB ROCKS COLOMBIA',
+    lead: 'A car bomb wounded 25 and wrecked more than 80 buildings; the president blamed FARC dissidents.',
+    art: drawRubble,
+  },
+  {
+    n: 4,
+    place: 'WASHINGTON',
+    beat: 'NORTH AMERICA / MARKETS',
+    lat: 38.9,
+    lon: -77.0,
+    text: 'Nasdaq fell 1.5% to 23,733.54; the Dow gained 423.39 to 50,018.70.',
+  },
+  {
+    n: 5,
+    place: 'SANTA CLARA',
+    beat: 'NORTH AMERICA / TECH',
+    lat: 37.35,
+    lon: -121.95,
+    text: "Nvidia reinstated Jensen Huang as chief executive after Trump's pressure.",
+  },
+  {
+    n: 6,
+    place: 'IOWA',
+    beat: 'NORTH AMERICA / DEFENCE',
+    lat: 41.9,
+    lon: -93.6,
+    text: 'The Army will detonate lead-contaminated munitions at a depot on Wednesday.',
+  },
+  {
+    n: 7,
+    place: 'MEXICO CITY',
+    beat: 'NORTH AMERICA / JUSTICE',
+    lat: 19.4,
+    lon: -99.1,
+    text: "Mexico refused to extradite 'El Chapo Isidro' to the US after his arrest.",
+  },
+  {
+    n: 8,
+    place: 'BRASILIA',
+    beat: 'SOUTH AMERICA / ECONOMY',
+    lat: -15.8,
+    lon: -47.9,
+    text: "The lower house passed Lula's spending curbs; the real rose 1.3% on the relief.",
+  },
+  {
+    n: 9,
+    place: 'LIMA',
+    beat: 'SOUTH AMERICA / CLIMATE',
+    lat: -12.0,
+    lon: -77.0,
+    text: '10,877 sea lions have died this year as El Nino warms the sea, wildlife data show.',
+  },
+  {
+    n: 10,
+    place: 'HAVANA',
+    beat: 'CARIBBEAN / TOURISM',
+    lat: 23.1,
+    lon: -82.4,
+    text: 'Cuba drew 507,083 visitors in ten months, down 65.7%, as US pressure bites.',
+  },
+  {
+    n: 11,
+    place: 'ZAPORIZHZHIA',
+    beat: 'EUROPE / WAR',
+    lat: 47.8,
+    lon: 35.2,
+    text: 'A guided bomb hit an apartment block, killing two and wounding more than 40.',
+  },
+  {
+    n: 12,
+    place: 'TALLINN',
+    beat: 'EUROPE / SECURITY',
+    lat: 59.4,
+    lon: 24.8,
+    text: "Estonia said Russia was waging 'open war'.",
+  },
+  {
+    n: 13,
+    place: 'BLACK SEA',
+    beat: 'EUROPE / SHIPPING',
+    lat: 43.5,
+    lon: 34.0,
+    text: 'At the UN, Moscow accused Kyiv of hitting more than 200 commercial vessels.',
+  },
+  {
+    n: 14,
+    place: 'KYIV',
+    beat: 'EUROPE / CHILDREN',
+    lat: 50.45,
+    lon: 30.5,
+    text: 'UNICEF says 1,144 Ukrainian children have been killed or injured in 2026.',
+  },
+  {
+    n: 15,
+    place: 'WOLFSBURG',
+    beat: 'EUROPE / LABOUR',
+    lat: 52.4,
+    lon: 10.8,
+    text: "Volkswagen's talks with its unions ended without a deal; strikes loom in January.",
+  },
+  {
+    n: 16,
+    place: 'PARIS',
+    beat: 'EUROPE / POLITICS',
+    lat: 48.9,
+    lon: 2.3,
+    text: 'Prosecutors opened a probe into public funds at a body chaired by a candidate.',
+  },
+  {
+    n: 17,
+    place: 'LONDON',
+    beat: 'EUROPE / COURTS',
+    lat: 51.5,
+    lon: -0.12,
+    text: 'The GTA VI hacker was released on licence part-way through a seven-year term.',
+  },
+  {
+    n: 18,
+    place: 'SUDAN',
+    beat: 'AFRICA / HUNGER',
+    lat: 13.0,
+    lon: 29.5,
+    text: '19.5 million Sudanese face crisis hunger, 135,000 of them catastrophic, WFP says.',
+  },
+  {
+    n: 19,
+    place: 'ITURI',
+    beat: 'AFRICA / HEALTH',
+    lat: 1.6,
+    lon: 30.2,
+    text: 'Ebola responders sheltered in a hospital for 24 hours; 5,775 have died.',
+  },
+  {
+    n: 20,
+    place: 'ALAMATA',
+    beat: 'AFRICA / RIGHTS',
+    lat: 12.4,
+    lon: 39.6,
+    text: 'Amnesty sought a war crimes inquiry into shelling that killed 14 civilians.',
+  },
+  {
+    n: 21,
+    place: 'BENGHAZI',
+    beat: 'AFRICA / LIBYA',
+    lat: 32.1,
+    lon: 20.1,
+    text: 'Blasts blamed on drones hit a Russian warship and a cargo ship at the port.',
+  },
+  {
+    n: 22,
+    place: 'KHAN YOUNIS',
+    beat: 'MIDDLE EAST / GAZA',
+    lat: 31.3,
+    lon: 34.3,
+    text: 'A strike on a police post killed three; Oxfam says 99% of Gaza is contaminated.',
+  },
+  {
+    n: 23,
+    place: 'SANAA',
+    beat: 'MIDDLE EAST / YEMEN',
+    lat: 15.4,
+    lon: 44.2,
+    text: 'At least 41 civilians were killed across Yemen in a day, the Houthi ministry said.',
+  },
+  {
+    n: 24,
+    place: 'TEHRAN',
+    beat: 'MIDDLE EAST / IRAN',
+    lat: 35.7,
+    lon: 51.4,
+    text: "Iran vowed to use 'all available tools' against the US naval blockade.",
+  },
+  {
+    n: 25,
+    place: 'SINGAPORE',
+    beat: 'ASIA / ECONOMY',
+    lat: 1.35,
+    lon: 103.8,
+    text: 'Third-quarter growth of 6.1% beat forecasts; the 2026 outlook rose to about 6%.',
+  },
+  {
+    n: 26,
+    place: 'TAIPEI',
+    beat: 'ASIA / MARKETS',
+    lat: 25.0,
+    lon: 121.5,
+    text: 'The TAIEX jumped 8.99% as Jensen Huang returned; October output set a record.',
+  },
+  {
+    n: 27,
+    place: 'SEOUL',
+    beat: 'ASIA / DEFENCE',
+    lat: 37.6,
+    lon: 127.0,
+    text: 'Fighter jets scrambled after Russian warplanes entered the air-defence zone.',
+  },
+  {
+    n: 28,
+    place: 'DHAKA',
+    beat: 'ASIA / POLITICS',
+    lat: 23.8,
+    lon: 90.4,
+    text: 'Sheikh Hasina is to return home on 16 December to face a tribunal verdict.',
+  },
+  {
+    n: 29,
+    place: 'JAKARTA',
+    beat: 'ASIA / POLICE',
+    lat: -6.2,
+    lon: 106.8,
+    text: 'A former police chief was named a treason suspect over alleged wiretapping.',
+  },
+  {
+    n: 30,
+    place: 'KUALA LUMPUR',
+    beat: 'ASIA / REFUGEES',
+    lat: 3.1,
+    lon: 101.7,
+    text: 'Malaysia will repatriate another 6,803 Burmese refugees, the government said.',
+  },
+  {
+    n: 31,
+    place: 'HONIARA',
+    beat: 'OCEANIA / SECURITY',
+    lat: -9.4,
+    lon: 160.0,
+    text: 'The Solomons will not renew its China security pact; an Australia treaty is due.',
+  },
+  {
+    n: 32,
+    place: "NUKU'ALOFA",
+    beat: 'OCEANIA / DROUGHT',
+    lat: -21.1,
+    lon: -175.2,
+    text: "Tonga declared a 27-day state of emergency as drought grips Ha'apai.",
+  },
+  {
+    n: 33,
+    place: 'CANBERRA',
+    beat: 'OCEANIA / JOBS',
+    lat: -35.3,
+    lon: 149.1,
+    text: 'The treasurer warned unemployment will climb above 5% as rate rises bite.',
+  },
+];
+
+// ---------------------------------------------------------------------------
+// The world, coarse on purpose: land is a stipple of dots, 2.5 degrees of
+// longitude by four of latitude, drawn from the bands below.
+// ---------------------------------------------------------------------------
+
+const LAND: readonly (readonly (readonly [number, number])[])[] = [
+  [[-45, -20], [10, 25], [90, 105]],
+  [[-60, -20], [8, 25], [45, 60], [88, 105], [100, 115]],
+  [[-58, -20], [-125, -70], [10, 25], [52, 62], [80, 115], [135, 155]],
+  [[-165, -140], [-135, -62], [-55, -22], [15, 180]],
+  [[-166, -141], [-140, -60], [-50, -22], [-22, -14], [5, 180]],
+  [[-166, -140], [-140, -55], [-45, -20], [-23, -14], [5, 180]],
+  [[-166, -135], [-135, -55], [-7, -2], [5, 180]],
+  [[-175, -160], [-130, -55], [-10, 0], [8, 15], [20, 180]],
+  [[-125, -55], [-6, 2], [0, 25], [25, 180]],
+  [[-125, -65], [0, 25], [28, 48], [48, 90], [90, 135], [138, 145]],
+  [[-125, -70], [0, 3], [8, 18], [26, 45], [45, 60], [60, 80], [80, 125], [126, 130], [130, 142]],
+  [[-122, -75], [-9, -1], [10, 16], [20, 44], [44, 62], [62, 75], [75, 122], [126, 129], [130, 141]],
+  [[-118, -78], [-8, 10], [35, 48], [48, 62], [65, 78], [78, 121], [131, 140]],
+  [[-110, -80], [-10, 32], [34, 48], [45, 56], [68, 88], [88, 122], [130, 140]],
+  [[-110, -80], [-14, 35], [36, 56], [68, 122]],
+  [[-105, -88], [-17, 37], [38, 58], [69, 110], [120, 125]],
+  [[-100, -88], [-17, 38], [42, 53], [72, 85], [94, 108], [120, 125]],
+  [[-92, -83], [-17, 44], [43, 52], [74, 80], [95, 108], [120, 125]],
+  [[-85, -77], [-14, 51], [76, 82], [98, 107], [120, 126]],
+  [[-78, -72], [-11, 47], [80, 82], [96, 118], [122, 126]],
+  [[-76, -60], [8, 42], [98, 120], [135, 150]],
+  [[-75, -50], [10, 42], [100, 120], [135, 150]],
+  [[-75, -35], [12, 40], [100, 120], [138, 150]],
+  [[-75, -35], [13, 40], [105, 120], [140, 150]],
+  [[-70, -38], [12, 40], [48, 50], [126, 142]],
+  [[-70, -39], [12, 40], [45, 50], [121, 147]],
+  [[-72, -41], [15, 35], [44, 50], [113, 152]],
+  [[-72, -48], [16, 32], [44, 48], [113, 153]],
+  [[-72, -50], [18, 30], [115, 153]],
+  [[-72, -53], [18, 26], [115, 151], [173, 178]],
+  [[-72, -57], [140, 150], [173, 178]],
+  [[-73, -63], [145, 148], [170, 176]],
+  [[-74, -66], [166, 172]],
+  [[-75, -68]],
+  [[-74, -68]],
+  [],
+];
+
+const MAP = { x: 40, y: 208, w: 944, h: 262, top: 64, bottom: -56 };
+const SEA_LAND: RGB = mix(LINE, PAPER, 0.18);
+const lonX = (lon: number): number => MAP.x + ((lon + 180) / 360) * MAP.w;
+const latY = (lat: number): number => MAP.y + ((MAP.top - lat) / (MAP.top - MAP.bottom)) * MAP.h;
+
+// Land is a stack of latitude bands, each one a bar: a low-resolution world
+// that reads as a silhouette, with hairline gaps to keep the print texture.
+const drawWorld = (c: Canvas): void => {
+  const bandH = (4 * MAP.h) / (MAP.top - MAP.bottom);
+  LAND.forEach((bands, r) => {
+    const yc = latY(82 - 4 * r);
+    const top = Math.max(MAP.y, yc - bandH / 2);
+    const bot = Math.min(MAP.y + MAP.h, yc + bandH / 2);
+    if (bot - top < 1) return;
+    // one-degree cells, so the coast steps sideways by about 2.6 pixels
+    for (let lon = -180; lon < 180; lon += 1) {
+      const mid = lon + 0.5;
+      if (bands.some(([a, b]) => mid >= a && mid <= b)) {
+        c.fillRect(lonX(lon), top, 2.7, bot - top + 0.1, SEA_LAND);
       }
     }
+  });
+};
+
+// Badges start where each story's dot is and push each other apart, so a
+// crowded region fans out along leader lines instead of stacking up.
+interface Pin {
+  x: number;
+  y: number;
+  ax: number;
+  ay: number;
+  s: Story;
+}
+
+const placePins = (): Pin[] => {
+  const pins: Pin[] = STORIES.map((s) => {
+    const [ox, oy] = ANCHOR[s.n] ?? [0, -13];
+    const ax = lonX(s.lon) + ox;
+    const ay = latY(s.lat) + oy;
+    return { x: ax, y: ay, ax, ay, s };
+  });
+  for (let it = 0; it < 260; it++) {
+    for (let i = 0; i < pins.length; i++) {
+      for (let j = i + 1; j < pins.length; j++) {
+        const a = pins[i];
+        const b = pins[j];
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        if (Math.abs(dx) < 15 && Math.abs(dy) < 15) {
+          if (Math.abs(dx) >= Math.abs(dy)) {
+            const push = (dx >= 0 ? 1 : -1) * (15 - Math.abs(dx)) * 0.5;
+            a.x -= push;
+            b.x += push;
+          } else {
+            const push = (dy >= 0 ? 1 : -1) * (15 - Math.abs(dy)) * 0.5;
+            a.y -= push;
+            b.y += push;
+          }
+        }
+      }
+    }
+    for (const p of pins) {
+      p.x += (p.ax - p.x) * 0.035;
+      p.y += (p.ay - p.y) * 0.035;
+      p.x = Math.max(MAP.x + 11, Math.min(MAP.x + MAP.w - 11, p.x));
+      p.y = Math.max(MAP.y + 9, Math.min(MAP.y + MAP.h - 9, p.y));
+    }
   }
+  return pins;
+};
+
+const drawPin = (c: Canvas, p: Pin): void => {
+  const x = lonX(p.s.lon);
+  const y = latY(p.s.lat);
+  c.stroke([[x, y], [p.x, p.y]], 0.7, RED);
+  c.disc(x, y, 1.6, RED);
+  c.fillRect(p.x - 7, p.y - 7, 14, 14, RED);
+  drawText(c, String(p.s.n), p.x, p.y + 3.2, 6.6, PAPER, { align: 'center', weight: 0.72 });
 };
 
 // ---------------------------------------------------------------------------
@@ -1040,134 +1275,143 @@ const drawContamination = (c: Canvas, x: number, y: number, w: number, h: number
 
 const M = 40;
 const RIGHT = W - M;
-const BODY_TOP = 288;
-const BODY_BOTTOM = 930;
-
-const kicker = (c: Canvas, d: Dispatch, x: number, y: number, width: number, onInk: boolean): void => {
-  const inkCol = onInk ? PAPER : INK;
-  const mutedCol = onInk ? mix(INK, PAPER, 0.55) : MUTED;
-  c.fillRect(x, y - 13, 17, 17, RED);
-  drawText(c, d.n, x + 8.5, y, 8.5, PAPER, { align: 'center', weight: 1.0, tracking: 0 });
-  drawText(c, d.place, x + 25, y, 11, inkCol, { weight: 1.0, tracking: 0.1 });
-  let beatSize = 9.5;
-  while (beatSize > 7 && measure(d.beat, beatSize, 0.14) > width * 0.44) beatSize -= 0.5;
-  drawText(c, d.beat, x + width, y, beatSize, mutedCol, { align: 'right', tracking: 0.14 });
-};
+const CONTENT = RIGHT - M;
 
 const rule = (c: Canvas, x: number, y: number, w: number, color: RGB, t = 1): void => {
   c.fillRect(x, y, w, t, color);
 };
 
+const stamp = (c: Canvas, n: number, x: number, y: number): void => {
+  c.fillRect(x, y, 13, 13, RED);
+  drawText(c, String(n), x + 6.5, y + 9.4, 7.4, PAPER, { align: 'center', weight: 0.78 });
+};
+
 const render = (): Uint8Array => {
   const c = new Canvas(W * SS, H * SS);
-  const contentW = RIGHT - M;
-
   c.fillRect(0, 0, W, H, PAPER);
 
   // Masthead
-  drawText(c, 'WORLD NEWS', M, 62, 19, INK, { weight: 1.3, tracking: 0.16 });
-  drawText(c, 'ONE DAY · SIX DISPATCHES', RIGHT, 60, 10.5, MUTED, { align: 'right', tracking: 0.2 });
-  rule(c, M, 74, contentW, INK, 3);
+  drawText(c, 'WORLD NEWS', M, 58, 20, INK, { weight: 1.3, tracking: 0.16 });
+  drawText(c, 'SIX CONTINENTS · THIRTY-THREE DISPATCHES', RIGHT, 56, 9.5, MUTED, { align: 'right', tracking: 0.16 });
+  rule(c, M, 66, CONTENT, INK, 3);
 
   // The day
-  drawText(c, 'TUESDAY', M, 96, 12, RED, { weight: 1.1, tracking: 0.24 });
-  drawText(c, '24', M - 6, 270, 148, INK, { weight: 0.72, tracking: 0 });
-  c.fillRect(300, 138, 3, 120, RED);
-  drawText(c, 'NOVEMBER', 320, 198, 30, INK, { weight: 1.05, tracking: 0.04 });
-  drawText(c, '2026', 320, 240, 30, RED, { weight: 1.05, tracking: 0.04 });
+  drawText(c, 'TUESDAY', M + 2, 92, 10.5, RED, { weight: 1.1, tracking: 0.26 });
+  drawText(c, '24', M - 6, 186, 92, INK, { weight: 0.72 });
+  c.fillRect(214, 100, 3, 86, RED);
+  drawText(c, 'NOVEMBER', 228, 136, 24, INK, { weight: 1.05, tracking: 0.04 });
+  drawText(c, '2026', 228, 168, 24, RED, { weight: 1.05, tracking: 0.04 });
+
+  // Standfirst
+  const stand = fit(
+    'Every item was reported on the day. Contested figures are credited to whoever gave them.',
+    176,
+    4,
+    7.6,
+    6.8,
+    1.38,
+  );
+  rule(c, 420, 98, 1, LINE, 88);
+  drawFitted(c, stand, 432, 108, MUTED, 0.7);
 
   // The day in numbers
-  const NX = 596;
-  const NW = RIGHT - NX;
-  drawText(c, 'THE DAY IN NUMBERS', NX, 98, 9, MUTED, { tracking: 0.18 });
+  const NX = 620;
+  drawText(c, 'THE DAY IN NUMBERS', NX, 92, 8, MUTED, { tracking: 0.18 });
   const figures: [string, string][] = [
-    ['3', 'TANKERS SET ABLAZE, IRGC NAVY SAYS'],
-    ['1,144', 'CHILDREN KILLED OR HURT IN UKRAINE, UNICEF'],
-    ['41', 'CIVILIANS KILLED IN YEMEN IN A DAY, HOUTHIS SAY'],
-    ['6.1%', "SINGAPORE'S THIRD-QUARTER GROWTH"],
+    ['3', 'TANKERS ABLAZE, IRGC NAVY'],
+    ['1,144', 'KILLED OR HURT, UNICEF'],
+    ['19.5M', 'HUNGRY IN SUDAN, WFP'],
+    ['8.99%', 'TAIEX JUMPS, TAIPEI TIMES'],
   ];
-  const cellW = NW / 2;
-  const cellH = 74;
   figures.forEach(([fig, label], i) => {
     const col = i % 2;
     const row = Math.floor(i / 2);
-    const cx = NX + col * cellW;
-    const cy = 110 + row * cellH;
-    drawText(c, fig, cx, cy + 34, 30, col === 0 && row === 0 ? RED : INK, { weight: 0.95, tracking: 0.02 });
-    const lab = fit(label, cellW - 18, 2, 8, 7, 1.22);
-    drawFitted(c, lab, cx, cy + 48, MUTED, 0.8);
+    const cx = NX + col * 182;
+    const cy = 96 + row * 52;
+    drawText(c, fig, cx, cy + 22, 18.5, i === 0 ? RED : INK, { weight: 0.92, tracking: 0.02 });
+    drawText(c, label, cx, cy + 33, 6.6, MUTED, { tracking: 0.04, weight: 0.68 });
   });
-  rule(c, NX + cellW - 8, 110, 1, LINE, 136);
-  rule(c, NX, 182, NW, LINE, 1);
+  rule(c, NX + 176, 96, 1, LINE, 88);
 
-  // ---- Left column: the lead, then Gaza ----
-  const LX = M;
-  const LW = 456;
-  const heroY = BODY_TOP;
-  const heroH = 448;
-  const HX = LX + 22;
-  const HW = LW - 44;
+  // Where it happened
+  rule(c, M, 204, CONTENT, LINE, 1);
+  rule(c, M, 204, 1, LINE, 264);
+  rule(c, RIGHT, 204, 1, LINE, 264);
+  drawWorld(c);
+  drawText(c, 'WHERE IT HAPPENED', M + 4, 452, 8, MUTED, { tracking: 0.18 });
+  drawText(c, 'SCHEMATIC MAP, 64°N TO 56°S. ONE MARK FOR EACH DISPATCH', M + 4, 463, 6.4, MUTED, { tracking: 0.08 });
+  for (const p of placePins()) drawPin(c, p);
 
-  c.fillRect(LX, heroY, LW, heroH, INK);
-  c.fillRect(LX, heroY, 5, heroH, RED);
-  drawText(c, 'LEAD DISPATCH · 24 NOVEMBER 2026', HX, heroY + 24, 8.5, mix(INK, PAPER, 0.62), { tracking: 0.18 });
-  kicker(c, DISPATCHES[0], HX, heroY + 52, HW, true);
+  // Three leads
+  const LEAD_TOP = 478;
+  const LW = 306;
+  const gap = (CONTENT - LW * 3) / 2;
+  STORIES.filter((s) => s.head).forEach((s, i) => {
+    const x = M + i * (LW + gap);
+    rule(c, x, LEAD_TOP - 8, LW, INK, 2);
+    stamp(c, s.n, x, LEAD_TOP);
+    drawText(c, s.place, x + 18, LEAD_TOP + 9.6, 8, INK, { weight: 1.05, tracking: 0.1 });
+    drawText(c, s.beat, x + LW, LEAD_TOP + 9.6, 6.6, MUTED, { align: 'right', tracking: 0.1 });
 
-  drawStrait(c, HX, heroY + 66, HW, 176);
+    s.art?.(c, x + 230, LEAD_TOP + 16, 76, 76);
 
-  const heroHead = fit(DISPATCHES[0].head, HW, 2, 30, 22, 1.4);
-  drawFitted(c, heroHead, HX, heroY + 284, PAPER, 1.08);
-  const heroFactY = heroY + 284 + (heroHead.lines.length - 1) * heroHead.lead + 34;
-  const heroFact = fit(DISPATCHES[0].fact, HW, 4, 13, 10, 1.55);
-  drawFitted(c, heroFact, HX, heroFactY, mix(INK, PAPER, 0.9), 1.05);
+    const head = fit(s.head ?? '', 222, 2, 12.5, 9.5, 1.3);
+    drawFitted(c, head, x, LEAD_TOP + 36, INK, 1.0);
+    const lead = fit(s.lead ?? '', 222, 4, 7.5, 6.6, 1.3);
+    const leadY = LEAD_TOP + 36 + (head.lines.length - 1) * head.lead + 14;
+    drawFitted(c, lead, x, leadY, MUTED, 0.7);
+  });
 
-  // Gaza panel
-  const gY = heroY + heroH + 16;
-  const gH = BODY_BOTTOM - gY;
-  rule(c, LX, gY, LW, INK, 2);
-  kicker(c, DISPATCHES[5], LX, gY + 24, 316, false);
-  const gHead = fit(DISPATCHES[5].head, 316, 2, 22, 16, 1.36);
-  drawFitted(c, gHead, LX, gY + 54, INK, 1.02);
-  const gFactY = gY + 54 + (gHead.lines.length - 1) * gHead.lead + 22;
-  const gFact = fit(DISPATCHES[5].fact, 316, 4, 11, 9, 1.34);
-  drawFitted(c, gFact, LX, gFactY, MUTED, 0.76);
-  drawContamination(c, LX + 326, gY + 30, 130, gH - 52);
-
-  // ---- Right column: four dispatches ----
-  const RX = M + LW + 18;
-  const RW = RIGHT - RX;
-  const gap = 12;
-  const ph = (BODY_BOTTOM - BODY_TOP - gap * 3) / 4;
-  const icons = [drawBomb, drawGrid, drawChip, drawPort];
-  let headSize = 20;
-  while (headSize > 15 && DISPATCHES.slice(1, 5).some((d) => wrap(d.head, headSize, RW - 112).length > 2)) {
-    headSize -= 0.5;
-  }
-  for (let i = 0; i < 4; i++) {
-    const d = DISPATCHES[i + 1];
-    const py = BODY_TOP + i * (ph + gap);
-    rule(c, RX, py, RW, LINE, 1);
-    kicker(c, d, RX, py + 20, RW, false);
-    icons[i](c, RX + RW - 100, py + 24, 100, 62);
-    const head = { lines: wrap(d.head, headSize, RW - 112), size: headSize, lead: headSize * 1.4 };
-    drawFitted(c, head, RX, py + 48, INK, 1.02);
-    const fact = fit(d.fact, RW, 3, 10.5, 9, 1.45);
-    drawFitted(c, fact, RX, py + 100, MUTED, 0.74);
-  }
+  // Also today: three columns of ten
+  rule(c, M, 584, CONTENT, INK, 1);
+  drawText(c, 'ALSO TODAY', M, 594, 8.4, INK, { weight: 1.15, tracking: 0.18 });
+  drawText(c, 'THIRTY MORE DISPATCHES', RIGHT, 594, 7, MUTED, { align: 'right', tracking: 0.14 });
+  const LIST_TOP = 602;
+  const ROW = 32.8;
+  const colW = 300;
+  const colGap = (CONTENT - colW * 3) / 2;
+  const rest = STORIES.filter((s) => !s.head);
+  rest.forEach((s, i) => {
+    const col = Math.floor(i / 10);
+    const row = i % 10;
+    const x = M + col * (colW + colGap);
+    const y = LIST_TOP + row * ROW;
+    drawText(c, String(s.n), x, y + 8.2, 8.2, RED, { weight: 1.05, tracking: 0.02 });
+    drawText(c, s.place, x + 17, y + 8.2, 7.9, INK, { weight: 1.05, tracking: 0.1 });
+    const body = fit(s.text, colW - 17, 2, 7.5, 6.8, 1.24);
+    drawFitted(c, body, x + 17, y + 19.6, MUTED, 0.68);
+  });
 
   // Footer
-  rule(c, M, H - 84, contentW, INK, 2);
+  rule(c, M, 934, CONTENT, INK, 2);
   drawText(
     c,
-    'REPORTS OF 24 NOVEMBER 2026: AP · REUTERS · ANADOLU · DEMOCRACY NOW! · CNBC',
+    'SOURCES READ FOR THIS EDITION, ALL DATED 24 NOVEMBER 2026: AP · REUTERS · ANADOLU · DEMOCRACY NOW! · CNBC · BLOOMBERG · NIKKEI ASIA · THE JAPAN TIMES',
     M,
-    H - 58,
-    9.5,
+    950,
+    6.8,
     MUTED,
-    { tracking: 0.1 },
+    { tracking: 0.04 },
   );
-  drawText(c, 'COMPILED AS THE DAY CLOSED, IN ANY TIME ZONE', M, H - 38, 8.5, MUTED, { tracking: 0.1 });
-  drawText(c, '24 · 11 · 2026', RIGHT, H - 38, 10.5, RED, { align: 'right', weight: 1.1, tracking: 0.12 });
+  drawText(
+    c,
+    'G1 · EURONEWS · THE RIO TIMES · XINHUA · ALLAFRICA · AL JAZEERA · TAIPEI TIMES · LIBERTY TIMES · DAWN · ABC NEWS · RNZ · AMNESTY INTERNATIONAL',
+    M,
+    962,
+    6.8,
+    MUTED,
+    { tracking: 0.04 },
+  );
+  drawText(
+    c,
+    'DISPUTED FIGURES ARE CREDITED TO WHOEVER GAVE THEM. COMPILED AS THE DAY CLOSED, IN ANY TIME ZONE.',
+    M,
+    976,
+    6.8,
+    MUTED,
+    { tracking: 0.04 },
+  );
+  drawText(c, '24 · 11 · 2026', RIGHT, 976, 7.6, RED, { align: 'right', weight: 1.1, tracking: 0.1 });
 
   return c.resolve();
 };

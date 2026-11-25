@@ -1,43 +1,45 @@
-# World News, 24 November 2026
+# 24 November 2026 — one page
 
-An entry for make.fun's `news-image-20261124` bounty: one 1024×1024 image that sums up
-Tuesday 24 November 2026.
+A single 1024 × 1024 PNG that sets out what happened on Tuesday 24 November
+2026: **thirty-three dispatches from six inhabited continents**, each pinned on a
+world map by number, three of them led with their own drawn picture, the other
+thirty in a compact three-column list.
 
-`main.ts` draws the image from nothing — a small monoline stroke alphabet, flat geometry
-and a hand-written PNG encoder — using only the Node 22 standard library. It reads no
-files, opens no sockets and uses no randomness, so two runs write identical bytes.
+Everything in the image is drawn by `main.ts` with arithmetic — a stroke alphabet
+for the lettering, flat polygons for the pictures, a coarse land table for the
+map, and a hand-written PNG encoder. No font files, no images, no network, no
+randomness.
 
-## Run
+## What is on the page
 
-    mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
+- **The day**: the date as a masthead, the standfirst, and four figures — three
+  tankers ablaze, 1,144 children killed or hurt, 19.5 million Sudanese in crisis
+  hunger, an 8.99% jump in Taipei's TAIEX.
+- **The map**: land drawn from latitude bands, 64°N to 56°S, with a numbered
+  vermilion pin and a leader line for each dispatch.
+- **Three leads**: mines in the Strait of Hormuz, drone strikes on Khartoum, a car
+  bomb in Villavicencio — each with a small drawn picture.
+- **Also today**: thirty more, from Washington to Honiara, in three columns.
+- **The footer**: the sources read for the edition and a note that disputed
+  figures are credited to whoever gave them.
 
-Writes `out/entry.png`: 1024×1024, 8-bit RGB PNG, about 64 KB.
+## Sources
 
-## What the image says
+All reporting read for this edition is dated 24 November 2026: AP, Reuters,
+Anadolu, Democracy Now!, CNBC, Bloomberg, Nikkei Asia, The Japan Times, G1,
+Euronews, The Rio Times, Xinhua, allAfrica, Al Jazeera, Taipei Times, Liberty
+Times, Dawn, ABC News, RNZ, Amnesty International.
 
-Six dispatches, each with a drawn picture, a headline and the reported numbers:
+## Run it
 
-- **Strait of Hormuz** — Iran's Guard navy said three tankers struck mines in the strait
-  it closed in July. Washington widened sanctions on more than two dozen Iranian firms
-  and officials.
-- **Zaporizhzhia** — a guided bomb hit an apartment block overnight, wounding more than
-  40; UNICEF counts 1,144 Ukrainian children killed or injured in 2026.
-- **Khartoum** — strikes hit the airport and a UN facility, killing at least four, as the
-  army said it downed more drones; the power grid is near collapse.
-- **New York** — AI stocks slid again: the Nasdaq fell 1.5% to 23,733.54, while the Dow
-  added 423 points to 50,018.70.
-- **Singapore** — third-quarter growth of 6.1% beat forecasts; the 2026 forecast rose to
-  about 6%.
-- **Gaza** — Oxfam reported contamination across 99% of the territory; a strike on a
-  police post in al-Mawasi killed three, medics said.
+```sh
+node main.ts            # writes /output/entry.png
+MAKEFUN_OUTPUT_DIR=out node main.ts   # or somewhere writable
+```
 
-The numbers strip adds three more: 3 tankers ablaze (IRGC navy), 1,144 Ukrainian child
-casualties (UNICEF), 41 civilians killed in Yemen in a day (Houthi officials), and 6.1%
-growth in Singapore.
-
-Every figure comes from reporting dated 24 November 2026: AP, Reuters, Anadolu,
-Democracy Now! and CNBC.
+Node 22, standard library only. Two runs write byte-identical files. The image is
+1024 × 1024, 8-bit RGB, and well under the 1 MiB cap.
 
 ## Licence
 
-MIT — see [LICENSE](LICENSE).
+MIT, see `LICENSE`.
