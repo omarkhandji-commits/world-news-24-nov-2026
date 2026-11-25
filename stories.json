@@ -1,7 +1,7 @@
 {
   "edition": "World News, Tuesday 24 November 2026",
   "dispatches": 30,
-  "note": "One entry per dispatch printed on the page, in page order. Every URL below was opened and read while building this entry, and every page declares a 24 November 2026 publication date; the raw date string the page itself carries is quoted in date_on_page. Three dispatches from an earlier draft were dropped for want of such a page: Paris (Le Havre port authority inquiry), Jakarta (treason charge against a former police chief) and Kanton (Kiribati evacuation, published 23 November). Two more were replaced when their pages were reopened: the London Tube item, because The Standard's page is dated 25 November 2026, now cites Anadolu's report of the same day; the Suva COP31 item, because the Post Courier page could not be retrieved, now cites The Fiji Sun. Both replacements were opened and are dated 24 November 2026.",
+  "note": "One entry per dispatch printed on the page, in page order. every URL was opened during the build, and each carries a 24 November 2026 date stamp, quoted in date_on_page. The rule applied: a dispatch stands if the event happened or was first reported on 24 November 2026 in any time zone. Three dispatches from an early draft were dropped for want of such a page (Paris, Jakarta, Kanton); two were re-sourced when their pages failed a date check (London: The Standard's page is dated 25 November, now Anadolu; Suva: Post Courier returned HTTP 403, now The Fiji Sun). In this round Taipei was replaced (auto-generated source), Alamata was replaced (Amnesty's findings were published late on Monday 23 November, per the page itself), Moscow was re-sourced to a page that shows a date, and Dakar became WEST AFRICA because the page never names Dakar. Kuala Lumpur still says 'genocide ruling' because the page says the ICJ 'found Myanmar guilty of genocide' last week.",
   "stories": [
     {
       "n": 1,
@@ -18,8 +18,8 @@
       "headline": "Houthis hit Riyadh's tallest tower, 11 wounded, Saudi Civil defense says",
       "publisher": "Reuters, via Yahoo News Canada",
       "url": "https://ca.news.yahoo.com/eleven-hurt-second-houthi-strike-164808701.html",
-      "date_on_page": "2026-11-24T20:41:55Z",
-      "attribution": "The 11 wounded, the description of the tower as the capital's tallest and the 'second Houthi strike' framing are Saudi civil defence's, as reported."
+      "date_on_page": "Tue, November 24, 2026 at 8:41 p.m. UTC",
+      "attribution": "Quote: 'Yemen's Houthi fighters struck the tallest tower in the Saudi capital, Riyadh, on Tuesday for the second time in less than a week, wounding at least 11 people.' Quote: 'Saudi Arabia's Civil Defense reported the injuries.' Quote: 'The Saudi-led coalition ... said later on Tuesday that the attack was carried out with a drone.' The toll is civil defence's; the drone claim is the coalition's."
     },
     {
       "n": 3,
@@ -55,7 +55,7 @@
       "publisher": "Reporte Indigo",
       "url": "https://www.reporteindigo.com/nacional/claudia-sheinbaum-exhorta-al-ine-a-revisar-lineamientos-de-adquisiciones-en-oples-20261124-0036.html",
       "date_on_page": "24 de noviembre 2026, 10:55 hs",
-      "attribution": "'Mafia electoral' is President Sheinbaum's own phrase; she asked the INE's general council to review the hiring and procurement rules of the state electoral bodies."
+      "attribution": "Quote: 'Claudia Sheinbaum Pardo, presidenta de México, exhortó al Consejo General del Instituto Nacional Electoral (INE) a revisar los lineamientos de contratación y adquisiciones de los Organismos Públicos Locales Electorales (OPLES).' Quote, her own words at that day's briefing: 'sí es una mafia electoral que se conformó con estas empresas'. The report is about the 24 November mañanera, not the 6 November remark."
     },
     {
       "n": 7,
@@ -63,8 +63,8 @@
       "headline": "Lower House passes fiscal bill in decisive vote",
       "publisher": "Valor International",
       "url": "https://valorinternational.globo.com/politics/news/2026/11/24/lower-house-passes-fiscal-bill-in-decisive-vote.ghtml",
-      "date_on_page": "24/11/2026 06h16 (the vote itself was cast on 23 November)",
-      "attribution": "The 353-128 count is the chamber's recorded vote as reported; the exchange rate is the outlet's market note for Monday, when the real weakened to around R$6 per dollar."
+      "date_on_page": "24/11/2026 06h16, updated 24/11/2026 06h16",
+      "attribution": "Quote: 'Brazil's Lower House approved the government's fiscal adjustment bill on Monday (Nov. 23) by a decisive 353-128 vote'. Quote: 'the Brazilian real, which weakened to around R$6 per dollar on Monday'. The ballot was cast on 23 November; this report of it is dated 24 November."
     },
     {
       "n": 8,
@@ -78,11 +78,11 @@
     {
       "n": 9,
       "place": "MOSCOW",
-      "headline": "Russian retaliation over Ukrainian refinery strikes is inevitable, Putin says",
-      "publisher": "TRT World",
-      "url": "https://www.trtworld.com/article/940463ac5ac5",
-      "date_on_page": "2026-11-24T23:09:30.288Z",
-      "attribution": "The word 'inevitable' is President Putin's, quoted by the outlet."
+      "headline": "Putin says Russia's response to Ukrainian attacks on oil refineries inevitable",
+      "publisher": "Anadolu Agency",
+      "url": "http://aa.com.tr/en/eurasia/putin-says-russias-response-to-ukrainian-attacks-on-oil-refineries-inevitable/4136296",
+      "date_on_page": "24 November 2026, updated 24 November 2026",
+      "attribution": "Quote: 'Russian President Vladimir Putin said Tuesday that Moscow's response to Ukrainian attacks on Russian oil refineries was inevitable.' Quote: 'retaliatory actions on our part are inevitable.' This page replaces a TRT World article that displayed no date; the words are the same report."
     },
     {
       "n": 10,
@@ -99,8 +99,8 @@
       "headline": "EU imposes hard import quotas on Chinese hybrid cars, sweeping in UK and Japan",
       "publisher": "The News",
       "url": "https://www.thenews.com.pk/latest/1424932-eu-imposes-hard-import-quotas-on-chinese-hybrid-cars-sweeping-in-uk-and-japan",
-      "date_on_page": "2026-11-24T17:49:00+05:00",
-      "attribution": "The quotas cover hybrid cars from China, Britain, Japan and others, as reported from EU officials; the page cites no regulation text."
+      "date_on_page": "Published November 24, 2026",
+      "attribution": "Quote: 'Announced by the European Commission, the 200-day provisional safeguard is designed to shield European automakers from a 49% surge in hybrid imports'. Quote: 'capping shipments from China while sweeping in major auto exporters including the United Kingdom, Japan, Turkey, and South Korea.'"
     },
     {
       "n": 12,
@@ -118,7 +118,7 @@
       "publisher": "Anadolu Agency",
       "url": "http://aa.com.tr/en/europe/london-tube-drivers-to-go-on-strike-as-talks-over-working-conditions-fail/4136295",
       "date_on_page": "24 November 2026, updated 24 November 2026",
-      "attribution": "The strike call, the Thursday start at noon and the dates of the further walkouts are the RMT's, as reported. This page replaces a Standard article that turned out to be dated 25 November."
+      "attribution": "Quote: 'the union will launch a series of rolling 24-hour strikes beginning on Thursday'. This page replaces a Standard article that turned out to be dated 25 November."
     },
     {
       "n": 14,
@@ -127,16 +127,16 @@
       "publisher": "UN News",
       "url": "https://news.un.org/en/story/2026/11/1168865",
       "date_on_page": "24 November 2026",
-      "attribution": "The account of the trapped staff and the maternity ward is the World Health Organization's, reported by UN News."
+      "attribution": "Quote: 'Staff from the World Health Organization (WHO) and Ebola responders remain trapped in a hospital in Ituri province ... the UN agency said'. Quote: 'The health workers have been sheltering in a maternity ward since fighting began on Saturday'."
     },
     {
       "n": 15,
-      "place": "ALAMATA",
-      "headline": "Alamata shelling killed 14 civilians, Amnesty says",
-      "publisher": "Daily News Egypt",
-      "url": "https://africa.dailynewsegypt.com/alamata-shelling-amnesty/",
-      "date_on_page": "2026-11-24T08:26:03+00:00",
-      "attribution": "The 14 dead and the call for a war crimes inquiry are Amnesty International's."
+      "place": "LAGOS",
+      "headline": "Nigerian state imposes curfew after four killed at political rally",
+      "publisher": "AFP, via EWN",
+      "url": "https://www.ewn.co.za/2026/11/24/nigerian-state-imposes-curfew-after-four-killed-at-political-rally",
+      "date_on_page": "24 November 2026, 3:37",
+      "attribution": "Quote: 'Authorities have imposed a curfew in Nigeria's southern Delta state after four opposition supporters were killed at a political rally on Monday.' The curfew is the Delta state government's, announced by its secretary; the four deaths were confirmed by aviation minister Festus Keyamo. This replaces an Alamata dispatch: the page there said Amnesty's findings were 'published late on Monday', i.e. 23 November."
     },
     {
       "n": 16,
@@ -145,16 +145,16 @@
       "publisher": "Dabanga Sudan",
       "url": "https://www.dabangasudan.org/en/all-news/article/outrage-as-28-women-girls-abducted-15-cases-of-sexual-violence-against-minors-reported-in-sudans-blue-nile-state",
       "date_on_page": "24/11/2026 15:35",
-      "attribution": "The 28 abductions and the 15 cases of sexual violence against girls under 18 are the SIHA Network's, which blames the RSF and allied militias; the page is a report on the network's statement, not a monitor's tally."
+      "attribution": "Quote: 'The Strategic Initiative for Women in the Horn of Africa (SIHA Network) has reported the abduction of 28 women and girls fleeing fighting in Damazin'. Quote: 'fighters from the Rapid Support Forces (RSF) and allied militias had abducted the women and girls'. No monitor's tally is cited."
     },
     {
       "n": 17,
-      "place": "DAKAR",
+      "place": "WEST AFRICA",
       "headline": "West Africa: Gold Refining Projects Already Exceed Mining Production",
       "publisher": "Benin Web TV",
       "url": "https://beninwebtv.bj/en/west-africa-gold-refining-projects-already-exceed-mining-production/",
-      "date_on_page": "2026-11-24T06:24:54+00:00",
-      "attribution": "The 585 tons of gold output and the finding that refining projects launched or announced since 2024 would exceed it come from a Reuters survey, as carried by the outlet."
+      "date_on_page": "24/11/26 07:24",
+      "attribution": "Quote: 'According to a Reuters survey published on Tuesday, November 24, the capacities of projects launched or announced since 2024 exceed 1,000 tons per year, while regional production is estimated at 585 tons.' The page names no city, so the place is the region it covers."
     },
     {
       "n": 18,
@@ -198,17 +198,17 @@
       "headline": "Singapore upgrades GDP forecast to around 6% for 2026, expects growth to moderate in 2027",
       "publisher": "AsiaOne",
       "url": "https://www.asiaone.com/singapore/gdp-economy-growth-q3-meti-forecast-2027-outlook",
-      "date_on_page": "2026-11-24T09:58:00+08:00",
-      "attribution": "The 6.1% year-on-year growth, the 2026 forecast and the 2027 outlook are the Ministry of Trade and Industry's; 5.4% is MTI's own advance estimate."
+      "date_on_page": "PUBLISHED ON November 24, 2026 9:58 AM",
+      "attribution": "Quote: \"Singapore's economy grew 6.1 per cent year-on-year in the third quarter, beating its advance estimate of 5.4 per cent\". Quote: 'the Ministry of Energy, Trade and Industry (METI) said on Nov 24 (Tuesday)'. Note: the page, and the ministry's own release at meti.gov.sg dated 24 November 2026, both name the ministry METI ('Ministry of Energy, Trade and Industry'); the printed line follows the cited page."
     },
     {
       "n": 23,
-      "place": "TAIPEI",
-      "headline": "Taiwan Weighted Closes 8.99% Higher on AI Rebound",
-      "publisher": "ad-hoc-news",
-      "url": "https://www.ad-hoc-news.de/boerse/news/marktberichte/taiwan-weighted-closes-8-99-prozent-higher-on-ai-rebound/70549612",
-      "date_on_page": "2026-11-24T13:16:20+01:00",
-      "attribution": "The close, the point gain and the percentage are the exchange's figures; the AI-rebound reading is the outlet's."
+      "place": "MANILA",
+      "headline": "Philippine Forces Train to Secure Luzon Strait with Warships, BrahMos Missiles",
+      "publisher": "USNI News",
+      "url": "https://news.usni.org/2026/11/24/philippine-forces-train-to-secure-luzon-strait-with-warships-brahmos-missiles",
+      "date_on_page": "November 24, 2026 1:47 PM",
+      "attribution": "Quote: 'Philippine forces are practicing how to secure the Luzon Strait through the deployment of warships and a BrahMos missile battery for maritime strike operations this month.' This replaces a Taipei market report from an auto-generated site."
     },
     {
       "n": 24,
@@ -231,11 +231,11 @@
     {
       "n": 26,
       "place": "BEIJING",
-      "headline": "China's Shenzhou 24 mission lifts off, carrying first foreign astronaut to its space station",
-      "publisher": "CBS News",
-      "url": "https://www.cbsnews.com/news/china-launches-shenzhou-24-spacecraft/",
-      "date_on_page": "2026-11-24T20:38:00-0500",
-      "attribution": "The crew manifest is China's space programme's; the 'first foreign astronaut' framing is the outlet's."
+      "headline": "China's Shenzhou-24 mission launches 1st international astronaut to Tiangong space station",
+      "publisher": "Space.com",
+      "url": "https://www.space.com/space-exploration/human-spaceflight/china-shenzhou-24-first-international-astronaut-launch-tiangong-space-station",
+      "date_on_page": "published 24 November 2026 (last updated 25 November 2026)",
+      "attribution": "Quote: 'The Shenzhou-24 mission lifted off today (Nov. 24) at 7:18 p.m. ET.' Quote: 'That trailblazer is Muhammad Zeeshan Ali, a former pilot in Pakistan's armed forces who is the first person from his country ever to reach orbit.' The page says international astronaut/foreign national, not that he is Pakistan's first astronaut. This replaces a CBS page stamped 25 November."
     },
     {
       "n": 27,
@@ -253,7 +253,7 @@
       "publisher": "The Associated Press, via The Spec",
       "url": "https://www.thespec.com/news/world/australia/solomon-islands-names-australia-as-its-primary-security-partner-in-a-new-treaty-that-excludes-china/article_929c4c3b-8dfd-51be-a6d3-d233d664a189.html",
       "date_on_page": "Nov. 24, 2026, updated Nov. 25, 2026",
-      "attribution": "The page, dated 24 November, reports the treaty with Australia and the rejection of the 2022 China defence deal; the signing itself took place in Canberra on 25 November local time."
+      "attribution": "Quote: 'The Solomon Islands rejected a secretive 4-year-old defense deal with China ... and declared Wednesday while signing a treaty with Australia that it would never allow a foreign military base on its soil.' Caption: 'shakes hands with Australia's Prime Minister Anthony Albanese after signing the Australia Solomon Islands Treaty at Parliament House in Canberra, Wednesday, Nov. 25, 2026.' The page headline names Australia as primary security partner; the signing was Wednesday 25 November in Canberra, first reported 24 November in New York."
     },
     {
       "n": 29,
@@ -262,7 +262,7 @@
       "publisher": "The Fiji Sun",
       "url": "https://fijisun.com.fj/news/environment/when-it-mattered-australia-failed-pacific-at-cop31-elders-say",
       "date_on_page": "Tuesday 24 November 2026, 16:30, updated 25 November 2026",
-      "attribution": "The charge that Australia sided with fossil fuel producers and lobbyists rather than island nations is the Pacific Elders' Voice's. This page replaces a Post Courier article that could not be retrieved."
+      "attribution": "Quote: '\"When it mattered, Australia has sided with the fossil fuel producers and lobbyists,\" the group said in a statement.' This page replaces a Post Courier article that could not be retrieved."
     },
     {
       "n": 30,
@@ -271,7 +271,7 @@
       "publisher": "The Star",
       "url": "https://www.thestar.com/news/world/asia/malaysia-to-repatriate-another-6-803-myanmar-nationals-despite-icj-genocide-ruling/article_b6c02159-49d5-504d-8edb-94005a73e9b1.html",
       "date_on_page": "Nov. 24, 2026",
-      "attribution": "The 6,803 figure and the reference to the ICJ genocide ruling are as the page's headline and opening report give them."
+      "attribution": "Quote: 'The International Court of Justice ... last week found Myanmar guilty of genocide against its Rohingya minority'. The 6,803 figure is in the page's headline. A final ruling, not a pending case, so the printed wording stays 'genocide ruling'."
     }
   ]
 }

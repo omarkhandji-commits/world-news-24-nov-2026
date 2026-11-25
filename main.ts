@@ -952,9 +952,9 @@ const STORIES: Story[] = [
     beat: 'MIDDLE EAST / YEMEN WAR',
     lat: 24.7,
     lon: 46.7,
-    text: "A Houthi attack on the capital's tallest tower wounded 11, Saudi civil defence said.",
+    text: "Saudi-led coalition: drone hit the capital's tallest tower; civil defence: 11 hurt.",
     head: 'HOUTHIS HIT RIYADH TOWER',
-    lead: "A Houthi drone hit the tallest tower in the capital, wounding 11, Saudi civil defence said.",
+    lead: 'The Saudi-led coalition said a drone hit the tallest tower in the capital; Saudi civil defence reported 11 wounded.',
     art: drawSkyline,
   },
   {
@@ -1030,7 +1030,7 @@ const STORIES: Story[] = [
     beat: 'EUROPE / TRADE',
     lat: 50.85,
     lon: 4.35,
-    text: 'The EU set temporary limits on hybrid cars from China, Britain, Japan and others.',
+    text: 'EU Commission set 200-day provisional quotas on hybrid cars from China, UK, Japan.',
   },
   {
     n: 13,
@@ -1058,11 +1058,11 @@ const STORIES: Story[] = [
   },
   {
     n: 16,
-    place: 'ALAMATA',
-    beat: 'AFRICA / RIGHTS',
-    lat: 12.4,
-    lon: 39.6,
-    text: 'Amnesty: Alamata shelling killed 14 civilians; a war crimes inquiry urged.',
+    place: 'LAGOS',
+    beat: 'AFRICA / ELECTIONS',
+    lat: 6.45,
+    lon: 3.39,
+    text: 'Delta state declared a curfew after four died at an opposition rally, AFP reported.',
   },
   {
     n: 17,
@@ -1074,11 +1074,11 @@ const STORIES: Story[] = [
   },
   {
     n: 18,
-    place: 'DAKAR',
+    place: 'WEST AFRICA',
     beat: 'AFRICA / GOLD',
-    lat: 14.7,
-    lon: -17.45,
-    text: "Refining plans since 2024 would exceed 585 tons of gold, a Reuters survey found.",
+    lat: 7.5,
+    lon: -5.0,
+    text: "Refining projects since 2024 would out-process 585 tons of gold, Reuters found.",
   },
   {
     n: 19,
@@ -1094,7 +1094,7 @@ const STORIES: Story[] = [
     beat: 'MIDDLE EAST / OIL',
     lat: 33.3,
     lon: 44.4,
-    text: "Iraq's PM told the Oil Ministry: take over oilfields; border forces: close crossings.",
+    text: 'Iraq PM: Oil Ministry to take over oilfields; border forces to shut unofficial crossings.'
   },
   {
     n: 21,
@@ -1118,15 +1118,15 @@ const STORIES: Story[] = [
     beat: 'ASIA / ECONOMY',
     lat: 1.35,
     lon: 103.8,
-    text: 'Q3 growth was 6.1% year on year, beating the 5.4% estimate; 2026 is seen at about 6%.',
+    text: 'METI said Q3 growth was 6.1% year on year, beating its 5.4% estimate; 2026: about 6%.',
   },
   {
     n: 24,
-    place: 'TAIPEI',
-    beat: 'ASIA / MARKETS',
-    lat: 25.0,
-    lon: 121.5,
-    text: 'TAIEX jumped 8.99% to 40,122.35, a record points gain of 3,310.',
+    place: 'MANILA',
+    beat: 'ASIA / MARITIME',
+    lat: 14.6,
+    lon: 121.0,
+    text: 'Philippines practised holding the Luzon Strait with warships and BrahMos missiles.',
   },
   {
     n: 26,
@@ -1150,7 +1150,7 @@ const STORIES: Story[] = [
     beat: 'ASIA / SPACE',
     lat: 39.9,
     lon: 116.4,
-    text: "Shenzhou-24 lifted off carrying Pakistan's first astronaut to the station.",
+    text: "Shenzhou-24 lifted off with Pakistan's Zeeshan Ali, first foreigner on the station.",
   },
   {
     n: 29,
@@ -1452,7 +1452,7 @@ const render = (): Uint8Array => {
   rule(c, M, 934, CONTENT, INK, 2);
   drawText(
     c,
-    'SOURCES, EACH A PAGE DATED 24 NOVEMBER 2026: CNBC · REUTERS VIA YAHOO · AP VIA GLOBE AND MAIL · THE GUARDIAN VIA AOL · CBS',
+    'SOURCES, EACH A PAGE DATED 24 NOVEMBER 2026: CNBC · REUTERS VIA YAHOO · AP VIA GLOBE AND MAIL · THE GUARDIAN VIA AOL · SPACE.COM',
     M,
     950,
     7.2,
@@ -1461,7 +1461,7 @@ const render = (): Uint8Array => {
   );
   drawText(
     c,
-    'ANADOLU · TRT · UKRINFORM · UN NEWS · ASIAONE · THE STAR · OUTLOOK · YENI SAFAK · DABANGA · FIJI SUN · AEROSPACE GLOBAL',
+    'ANADOLU · UKRINFORM · UN NEWS · ASIAONE · THE STAR · OUTLOOK · YENI SAFAK · DABANGA · AFP VIA EWN · FIJI SUN · USNI · AEROSPACE',
     M,
     963,
     7.2,

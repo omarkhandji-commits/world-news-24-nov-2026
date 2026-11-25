@@ -43,12 +43,20 @@ than to a body that merely repeated it. `stories.json` lists, for each printed
 dispatch, the headline, the exact page read, its publisher and the date that page
 states.
 
-Every page was reopened and checked sentence by sentence against the copy. Two
-sources failed that check and were replaced, not deleted: the London Tube item
-first cited a Standard article whose page is dated 25 November, and now cites
-Anadolu's report of 24 November; the Suva item first cited a Post Courier page
-that would not load, and now cites The Fiji Sun's report of 24 November. The
-wording of both dispatches was brought back to what those pages say.
+Every page was reopened and checked sentence by sentence against the copy, and
+five sources have been replaced or swapped since the first draft, each with its
+reason: London (The Standard's page is dated 25 November, now Anadolu), Suva
+(Post Courier returned HTTP 403, now The Fiji Sun), Moscow (the TRT page shows no
+date, now Anadolu), Beijing (the CBS page is stamped 25 November, now Space.com,
+which published on 24 November), Lagos (replacing Alamata, whose page said
+Amnesty's findings were "published late on Monday", 23 November) and Manila
+(replacing a Taipei market report from an auto-generated site).
+
+A dispatch stands only if the event happened, or was first reported, on 24
+November 2026 in some time zone. That is why the Beijing and Honiara entries
+survive pages that carry a 25 November "updated" line: the launch and the treaty
+signing both happened on 25 November in Beijing and Canberra, which is still 24
+November in New York, and both pages were first published then.
 
 Three dispatches from an earlier draft were dropped because no page dated 24
 November 2026 could be cited for them — Paris (Le Havre port authority inquiry),
@@ -58,10 +66,10 @@ evacuation, published 23 November) — so the edition carries thirty.
 ## Sources
 
 CNBC, Reuters and AP (via Yahoo News Canada, The Globe and Mail and The Spec),
-The Guardian (via AOL), Anadolu, TRT World, Ukrinform, UN News, CBS News,
-AsiaOne, The Star, Outlook India, Daily Times, Yeni Safak, Dabanga Sudan, Daily
-News Egypt, Benin Web TV, The Fiji Sun, Jordan News, The News, Reporte Indigo,
-Valor International, Connected To India, ad-hoc-news and Aerospace Global News.
+The Guardian (via AOL), Anadolu, Ukrinform, UN News, Space.com, USNI News,
+AFP (via EWN), AsiaOne, The Star, Outlook India, Daily Times, Yeni Safak,
+Dabanga Sudan, Benin Web TV, The Fiji Sun, Jordan News, The News, Reporte
+Indigo, Valor International, Connected To India and Aerospace Global News.
 Full URLs are in `stories.json`.
 
 ## Run it
