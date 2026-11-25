@@ -21,7 +21,7 @@ randomness.
   tower, a car bomb in Villavicencio — each with a small drawn picture.
 - **Also today**: twenty-seven more, from Washington to Kuala Lumpur, nine to a
   column. Each one opens with a drawn pictogram and a bold one-word keyword —
-  MARKETS, CONGRESS, PROCUREMENT, EBOLA, DRONE, TREATY and so on — because at
+  MARKETS, CONGRESS, MINING, EBOLA, DRONE, CARBON and so on — because at
   300 pixels across the sentences turn to texture and only the keyword survives.
   No two of the twenty-seven pictograms are the same drawing, and the sentences
   are set in a darker grey than the captions so they still carry some weight at
@@ -55,19 +55,24 @@ dispatch, the headline, the exact page read, its publisher and the date that pag
 states.
 
 Every page was reopened and checked sentence by sentence against the copy, and
-five sources have been replaced or swapped since the first draft, each with its
+eight sources have been replaced or swapped since the first draft, each with its
 reason: London (The Standard's page is dated 25 November, now Anadolu), Suva
 (Post Courier returned HTTP 403, now The Fiji Sun), Moscow (the TRT page shows no
 date, now Anadolu), Beijing (the CBS page is stamped 25 November, now Space.com,
 which published on 24 November), Lagos (replacing Alamata, whose page said
-Amnesty's findings were "published late on Monday", 23 November) and Manila
-(replacing a Taipei market report from an auto-generated site).
+Amnesty's findings were "published late on Monday", 23 November), Manila
+(replacing a Taipei market report from an auto-generated site), Mexico City (the
+Reporte Indigo page answers a plain request with 403, now Ontario's newsroom) and
+Canberra (the Solomon Islands treaty was signed on Wednesday 25 November, so the
+slot now carries the Singapore–Australia leaders' meeting held in Canberra on the
+24th, from Singapore's foreign ministry).
 
-A dispatch stands only if the event happened, or was first reported, on 24
-November 2026 in some time zone. That is why the Beijing and Honiara entries
-survive pages that carry a 25 November "updated" line: the launch and the treaty
-signing both happened on 25 November in Beijing and Canberra, which is still 24
-November in New York, and both pages were first published then.
+A dispatch stands only if the event happened on 24 November 2026 in some time
+zone. That is why the Beijing entry survives a page that carries a 25 November
+"updated" line: the launch went up at 7:18 p.m. on 24 November in New York, which
+is already the 25th in Beijing, and the page was published on the 24th. It is
+also why the Canberra entry is now a leaders' meeting held there on the 24th
+rather than a treaty signed there on the 25th.
 
 Three dispatches from an earlier draft were dropped because no page dated 24
 November 2026 could be cited for them — Paris (Le Havre port authority inquiry),
@@ -76,12 +81,12 @@ evacuation, published 23 November) — so the edition carries thirty.
 
 ## Sources
 
-CNBC, Reuters and AP (via Yahoo News Canada, The Globe and Mail and The Spec),
-The Guardian (via AOL), Anadolu, Ukrinform, UN News, Space.com, USNI News,
-AFP (via EWN), AsiaOne, The Star, Outlook India, Daily Times, Yeni Safak,
-Dabanga Sudan, Benin Web TV, The Fiji Sun, Jordan News, The News, Reporte
-Indigo, Valor International, Connected To India and Aerospace Global News.
-Full URLs are in `stories.json`.
+CNBC, Reuters and AP (via Yahoo News Canada and The Globe and Mail), The Guardian
+(via AOL), Anadolu, Ukrinform, UN News, Space.com, USNI News, AFP (via EWN),
+AsiaOne, The Star, Outlook India, Daily Times, Yeni Safak, Dabanga Sudan, Benin
+Web TV, The Fiji Sun, Jordan News, The News, Valor International, Connected To
+India, Aerospace Global News, the Government of Ontario's newsroom and
+Singapore's Ministry of Foreign Affairs. Full URLs are in `stories.json`.
 
 ## Run it
 

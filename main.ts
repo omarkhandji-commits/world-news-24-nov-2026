@@ -1052,14 +1052,16 @@ const icoPlane = (c: Canvas, x: number, y: number): void => {
   );
 };
 
-// A purchase order on a clipboard, ticked.
-const icoClipboard = (c: Canvas, x: number, y: number): void => {
-  c.fillRect(x + 2.4, y + 0.9, 8.4, 10, INK);
-  c.fillRect(x + 4.8, y + 0.1, 3.6, 1.8, INK);
-  c.fillRect(x + 3.6, y + 2.6, 6, 7.2, PAPER);
-  c.fillRect(x + 4.5, y + 3.8, 4.2, 0.9, INK);
-  c.fillRect(x + 4.5, y + 5.4, 4.2, 0.9, INK);
-  c.stroke([[x + 4.7, y + 7.8], [x + 6.1, y + 9.1], [x + 8.8, y + 6.6]], 1.5, RED);
+// A pickaxe, handle planted: the mark for land opened up for a mine.
+const icoPick = (c: Canvas, x: number, y: number): void => {
+  c.stroke([[x + 1.6, y + 10.4], [x + 7, y + 3.1]], 1.7, INK);
+  c.poly(
+    [
+      [x + 4.2, y + 3.2], [x + 7, y + 0.2], [x + 12.6, y + 1.2], [x + 12.8, y + 2.8],
+      [x + 8.2, y + 2.3], [x + 5.9, y + 4.6],
+    ],
+    INK,
+  );
 };
 
 // A refinery: a column, a tank beside it, burning at the top.
@@ -1126,13 +1128,12 @@ const icoRocket = (c: Canvas, x: number, y: number): void => {
   c.poly([[x + 5.2, y + 8.6], [x + 6.5, y + 11], [x + 7.8, y + 8.6]], RED);
 };
 
-const icoShield = (c: Canvas, x: number, y: number): void => {
-  c.poly(
-    [[x + 6.5, y + 0.4], [x + 11.6, y + 2.4], [x + 11, y + 6.2], [x + 6.5, y + 10.6], [x + 2, y + 6.2], [x + 1.4, y + 2.4]],
-    INK,
-  );
-  c.fillRect(x + 5.9, y + 2.4, 1.2, 5, PAPER);
-  c.fillRect(x + 3.6, y + 4.4, 5.8, 1.1, PAPER);
+// A pipe driven down into rock layers: carbon put underground, offshore.
+const icoCarbon = (c: Canvas, x: number, y: number): void => {
+  c.fillRect(x + 5.7, y + 0.4, 1.6, 3.4, INK);
+  c.poly([[x + 6.5, y + 6.7], [x + 3.3, y + 3.4], [x + 9.7, y + 3.4]], INK);
+  c.fillRect(x + 0.4, y + 7.5, 12.2, 1.3, INK);
+  c.fillRect(x + 2.4, y + 10, 8.2, 0.9, INK);
 };
 
 const icoGlobe = (c: Canvas, x: number, y: number): void => {
@@ -1239,13 +1240,13 @@ const STORIES: Story[] = [
   },
   {
     n: 6,
-    key: 'PROCUREMENT',
-    icon: icoClipboard,
-    place: 'MEXICO CITY',
-    beat: 'NORTH AMERICA / ELECTIONS',
-    lat: 19.4,
-    lon: -99.1,
-    text: "Sheinbaum urged INE to review procurement, citing a 'mafia electoral'.",
+    key: 'MINING',
+    icon: icoPick,
+    place: 'TORONTO',
+    beat: 'NORTH AMERICA / MINING',
+    lat: 43.7,
+    lon: -79.4,
+    text: 'Ontario said it will legislate to fast-track new and expanded mines.',
   },
   {
     n: 7,
@@ -1459,13 +1460,13 @@ const STORIES: Story[] = [
   },
   {
     n: 30,
-    key: 'TREATY',
-    icon: icoShield,
+    key: 'CARBON',
+    icon: icoCarbon,
     place: 'CANBERRA',
-    beat: 'OCEANIA / SECURITY',
+    beat: 'OCEANIA / DIPLOMACY',
     lat: -35.3,
     lon: 149.1,
-    text: 'Solomon Islands named Australia its security partner, rejecting the China pact.'
+    text: 'Australia and Singapore signed a CO2 sequestration pact and a supply MoU.',
   },
   {
     n: 32,

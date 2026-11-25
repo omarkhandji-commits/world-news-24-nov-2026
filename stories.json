@@ -1,7 +1,7 @@
 {
   "edition": "World News, Tuesday 24 November 2026",
   "dispatches": 30,
-  "note": "One entry per dispatch printed on the page, in page order. every URL was opened during the build, and each carries a 24 November 2026 date stamp, quoted in date_on_page. The rule applied: a dispatch stands if the event happened or was first reported on 24 November 2026 in any time zone. Three dispatches from an early draft were dropped for want of such a page (Paris, Jakarta, Kanton); two were re-sourced when their pages failed a date check (London: The Standard's page is dated 25 November, now Anadolu; Suva: Post Courier returned HTTP 403, now The Fiji Sun). In this round Taipei was replaced (auto-generated source), Alamata was replaced (Amnesty's findings were published late on Monday 23 November, per the page itself), Moscow was re-sourced to a page that shows a date, and Dakar became WEST AFRICA because the page never names Dakar. In the final polish the printed keywords follow what each page actually describes: Brussels reads QUOTAS (the page reports '200-day provisional quotas'), Mexico City reads PROCUREMENT (the page is about 'lineamientos de adquisiciones'), and Delta State prints 'a political rally', the page's phrase for the event. Kuala Lumpur still says 'genocide ruling' because the page says the ICJ 'found Myanmar guilty of genocide' last week.",
+  "note": "One entry per dispatch printed on the page, in page order. every URL was opened during the build, and each carries a 24 November 2026 date stamp, quoted in date_on_page. The rule applied: a dispatch stands if the event happened on 24 November 2026 in some time zone. Three dispatches from an early draft were dropped for want of such a page (Paris, Jakarta, Kanton); two were re-sourced when their pages failed a date check (London: The Standard's page is dated 25 November, now Anadolu; Suva: Post Courier returned HTTP 403, now The Fiji Sun). In this round Taipei was replaced (auto-generated source), Alamata was replaced (Amnesty's findings were published late on Monday 23 November, per the page itself), Moscow was re-sourced to a page that shows a date, and Dakar became WEST AFRICA because the page never names Dakar. In the final polish the printed keywords follow what each page actually describes: Brussels reads QUOTAS (the page reports '200-day provisional quotas') and Delta State prints 'a political rally', the page's phrase for the event. In the last round the two dispatches that could not be verified independently were replaced: the Mexico City page answered a plain request with HTTP 403, so that slot now carries Ontario's mining announcement, and the Canberra treaty dispatch is gone because the signing took place on Wednesday 25 November with only its report falling on the 24th, so the slot now carries the Singapore-Australia leaders' meeting held in Canberra on 24 November. Toronto reads MINING and Canberra reads CARBON. Kuala Lumpur still says 'genocide ruling' because the page says the ICJ 'found Myanmar guilty of genocide' last week.",
   "stories": [
     {
       "n": 1,
@@ -50,12 +50,12 @@
     },
     {
       "n": 6,
-      "place": "MEXICO CITY",
-      "headline": "Claudia Sheinbaum exhorta al INE a revisar lineamientos de adquisiciones en OPLES",
-      "publisher": "Reporte Indigo",
-      "url": "https://www.reporteindigo.com/nacional/claudia-sheinbaum-exhorta-al-ine-a-revisar-lineamientos-de-adquisiciones-en-oples-20261124-0036.html",
-      "date_on_page": "24 de noviembre 2026, 10:55 hs",
-      "attribution": "Quote: 'Claudia Sheinbaum Pardo, presidenta de México, exhortó al Consejo General del Instituto Nacional Electoral (INE) a revisar los lineamientos de contratación y adquisiciones de los Organismos Públicos Locales Electorales (OPLES).' Quote, her own words at that day's briefing: 'sí es una mafia electoral que se conformó con estas empresas'. The report is about the 24 November mañanera, not the 6 November remark."
+      "place": "TORONTO",
+      "headline": "Ontario Announces Bold Plan to Build Mines Faster",
+      "publisher": "Government of Ontario newsroom (Ministry of Energy and Mines)",
+      "url": "https://news.ontario.ca/en/release/1008319/ontario-announces-bold-plan-to-build-mines-faster",
+      "date_on_page": "November 24, 2026",
+      "attribution": "Quote: 'TORONTO – Today, Minister Stephen Lecce announced the Ontario government intends to introduce new legislative measures and related policy changes that, if passed, would fast-track the development of new and expanded mines and accelerate early and advanced exploration, all while creating an enhanced compliance regime.' The bill is an intention, announced at the Ontario Critical Minerals Forum in Toronto that day, not law — the page adds that the government acted 'in the face of U.S. tariffs', a motive the printed line leaves out for want of room: the page says the government intends to introduce it 'in the coming days', and its claim that the changes would speed approvals is the government's own. This replaces a Mexico City dispatch whose cited page answered a plain request with HTTP 403."
     },
     {
       "n": 7,
@@ -249,11 +249,11 @@
     {
       "n": 28,
       "place": "CANBERRA",
-      "headline": "Solomon Islands signs treaty with Australia that checks China's influence in the South Pacific",
-      "publisher": "The Associated Press, via The Spec",
-      "url": "https://www.thespec.com/news/world/australia/solomon-islands-names-australia-as-its-primary-security-partner-in-a-new-treaty-that-excludes-china/article_929c4c3b-8dfd-51be-a6d3-d233d664a189.html",
-      "date_on_page": "Nov. 24, 2026, updated Nov. 25, 2026",
-      "attribution": "Quote: 'The Solomon Islands rejected a secretive 4-year-old defense deal with China ... and declared Wednesday while signing a treaty with Australia that it would never allow a foreign military base on its soil.' Caption: 'shakes hands with Australia's Prime Minister Anthony Albanese after signing the Australia Solomon Islands Treaty at Parliament House in Canberra, Wednesday, Nov. 25, 2026.' The page headline names Australia as primary security partner. The signing took place at Parliament House in Canberra, so the pin sits there; it happened Wednesday 25 November Canberra time, first reported on 24 November in New York, which is the date the page carries."
+      "headline": "11th Singapore-Australia Annual Leaders' Meeting, 24 November 2026",
+      "publisher": "Singapore Ministry of Foreign Affairs",
+      "url": "https://www.mfa.gov.sg/newsroom/press-statements-transcripts-and-photos/11th-singapore-australia-annual-leaders--meeting--24-november-2026/",
+      "date_on_page": "24 November 2026",
+      "attribution": "Quote: 'Prime Minister and Minister for Finance Lawrence Wong and Australian Prime Minister Anthony Albanese held the 11th Singapore-Australia Annual Leaders' Meeting (ALM) in Canberra today.' Quote: 'Key outcomes of the ALM included the signing of the landmark Agreement on Transboundary Movement of Carbon Dioxide Streams for the Purposes of Offshore Geological Sequestration; the signing of a Memorandum of Understanding (MOU) on Essential Supplies'. Quote: 'Leaders welcomed the signing of the Protocol to SAFTA on Economic Resilience and Essential Supplies on 27 July 2026 and the MoU on Essential Supplies on 24 November 2026.' The page is the two governments' joint statement of a meeting held that day, so the printed line asserts only what they signed; 'landmark' and 'first-of-its-kind' are the statement's own words and are not printed. This replaces a Canberra dispatch on the Solomon Islands treaty, whose signing took place on Wednesday 25 November, leaving only its report on the 24th."
     },
     {
       "n": 29,
