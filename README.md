@@ -1,9 +1,9 @@
 # 24 November 2026 — one page
 
 A single 1024 × 1024 PNG that sets out what happened on Tuesday 24 November
-2026: **thirty-three dispatches from six inhabited continents**, each pinned on a
+2026: **thirty dispatches from six inhabited continents**, each pinned on a
 world map by number, three of them led with their own drawn picture, the other
-thirty in a compact three-column list.
+twenty-seven in a three-column list.
 
 Everything in the image is drawn by `main.ts` with arithmetic — a stroke alphabet
 for the lettering, flat polygons for the pictures, a coarse land table for the
@@ -19,23 +19,42 @@ randomness.
   vermilion pin and a leader line for each dispatch.
 - **Three leads**: mines in the Strait of Hormuz, a Houthi strike on a Riyadh
   tower, a car bomb in Villavicencio — each with a small drawn picture.
-- **Also today**: thirty more, from Washington to Honiara, in three columns.
-- **The footer**: the sources read for the edition and a note that contested
-  figures are credited to whoever gave them.
+- **Also today**: twenty-seven more, from Washington to Kuala Lumpur, nine to a
+  column.
+- **The footer**: the sources for the edition and a pointer to `stories.json`,
+  which carries the page, publisher and stated date behind every dispatch.
+
+## Layout checks
+
+The build measures before it draws. Each list block is set at one size, and the
+program fails if a block turns out taller than its row or wider than its column;
+separately, every word drawn registers its own bounding box and the build fails
+if any two of them overlap or run past the page margin. Missing glyphs fail the
+build too, rather than printing a blank. A block that wants a third line is
+therefore a build error, not a smudge — the copy gets cut to fit.
 
 ## Sourcing rule
 
 Every dispatch was read on a page dated 24 November 2026, and the copy keeps the
 wording and figures of that page. Claims that are disputed or one-sided are
-attributed in the text ("the Guard navy said", "police said", "Amnesty said")
-rather than asserted. Items that could not be dated to 24 November — and figures
-that turned out to belong to other dates — were cut rather than carried over.
+attributed in the text ("the Guard navy said", "Amnesty said", "monitors
+reported") rather than asserted. `stories.json` lists, for each printed
+dispatch, the headline, the exact page read, its publisher and the date that page
+states.
+
+Three dispatches from an earlier draft were dropped because no page dated 24
+November 2026 could be cited for them — Paris (Le Havre port authority inquiry),
+Jakarta (treason charge against a former police chief) and Kanton (the Kiribati
+evacuation, published 23 November) — so the edition carries thirty.
 
 ## Sources
 
-AP, Reuters, Anadolu, CNBC, Bloomberg, Just Security, UN News, METI Singapore,
-Focus Taiwan, Saudi Press Agency, The Sydney Morning Herald, PACNEWS, Sudan
-Tribune, La Jornada, The Guardian.
+CNBC, Reuters and AP (via Yahoo News Canada, The Globe and Mail and The Spec),
+The Guardian (via AOL), Anadolu, TRT World, Ukrinform, UN News, CBS News,
+AsiaOne, The Star, Outlook India, Daily Times, Yeni Safak, Dabanga Sudan, Daily
+News Egypt, Benin Web TV, Post Courier, Jordan News, The Standard, The News,
+Reporte Indigo, Valor International, Connected To India, ad-hoc-news and
+Aerospace Global News. Full URLs are in `stories.json`.
 
 ## Run it
 

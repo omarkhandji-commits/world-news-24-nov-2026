@@ -1,0 +1,277 @@
+{
+  "edition": "World News, Tuesday 24 November 2026",
+  "dispatches": 30,
+  "note": "One entry per dispatch printed on the page, in page order. Every URL below was opened and read while building this entry, and every page declares a 24 November 2026 publication date; the raw date string the page itself carries is quoted in date_on_page. Three dispatches from an earlier draft were dropped for want of such a page: Paris (Le Havre port authority inquiry), Jakarta (treason charge against a former police chief) and Kanton (Kiribati evacuation, published 23 November).",
+  "stories": [
+    {
+      "n": 1,
+      "place": "STRAIT OF HORMUZ",
+      "headline": "Iran says three tankers hit mines in Hormuz despite U.S. escort",
+      "publisher": "CNBC",
+      "url": "https://www.cnbc.com/2026/11/24/iran-trump-hormuz-crude-.html",
+      "date_on_page": "2026-11-24T05:05:08+0000",
+      "attribution": "The mine strikes are the IRGC navy's account, carried by Iranian state media; the sanctions count is the U.S. Treasury's."
+    },
+    {
+      "n": 2,
+      "place": "RIYADH",
+      "headline": "Houthis hit Riyadh's tallest tower, 11 wounded, Saudi Civil defense says",
+      "publisher": "Reuters, via Yahoo News Canada",
+      "url": "https://ca.news.yahoo.com/eleven-hurt-second-houthi-strike-164808701.html",
+      "date_on_page": "2026-11-24T20:41:55Z",
+      "attribution": "The wounding toll and the attribution to a Houthi drone are Saudi civil defence's, as reported."
+    },
+    {
+      "n": 3,
+      "place": "VILLAVICENCIO",
+      "headline": "23 injured after car bomb explodes outside government offices in Colombia",
+      "publisher": "Yahoo News Canada",
+      "url": "https://ca.news.yahoo.com/23-injured-car-bomb-explodes-154738600.html",
+      "date_on_page": "2026-11-24T15:47:38Z",
+      "attribution": "The toll is the figure the report carries; the page names no claim of responsibility."
+    },
+    {
+      "n": 4,
+      "place": "WASHINGTON",
+      "headline": "How major US stock indexes fared Tuesday 11/24/2026",
+      "publisher": "The Globe and Mail, carrying The Associated Press markets table",
+      "url": "https://www.theglobeandmail.com/investing/markets/commodities/ZBZ20/pressreleases/8992524/how-major-us-stock-indexes-fared-tuesday-11-24-2026/",
+      "date_on_page": "Tue Nov 24, 4:28PM CST",
+      "attribution": "Index levels and percentage moves are the AP table's closing figures."
+    },
+    {
+      "n": 5,
+      "place": "TENNESSEE",
+      "headline": "Democrat Victoria Broderick unseats eight-term Republican incumbent in Tennessee",
+      "publisher": "The Guardian, via AOL",
+      "url": "https://www.aol.com/articles/democrat-victoria-broderick-unseats-eight-202024000.html",
+      "date_on_page": "2026-11-24T20:20:24+00:00",
+      "attribution": "The 259-seat total rests on the Associated Press race call cited in the report."
+    },
+    {
+      "n": 6,
+      "place": "MEXICO CITY",
+      "headline": "Claudia Sheinbaum exhorta al INE a revisar lineamientos de adquisiciones en OPLES",
+      "publisher": "Reporte Indigo",
+      "url": "https://www.reporteindigo.com/nacional/claudia-sheinbaum-exhorta-al-ine-a-revisar-lineamientos-de-adquisiciones-en-oples-20261124-0036.html",
+      "date_on_page": "2026-11-24T11:55:20-0500",
+      "attribution": "The accusation of a 'mafia electoral' is President Sheinbaum's own phrase."
+    },
+    {
+      "n": 7,
+      "place": "BRASILIA",
+      "headline": "Lower House passes fiscal bill in decisive vote",
+      "publisher": "Valor International",
+      "url": "https://valorinternational.globo.com/politics/news/2026/11/24/lower-house-passes-fiscal-bill-in-decisive-vote.ghtml",
+      "date_on_page": "2026-11-24 (date in the page address and in the report's dateline; the ballot itself was cast on 23 November)",
+      "attribution": "The 353-128 count is the chamber's recorded vote as reported; the exchange rate is the outlet's market note."
+    },
+    {
+      "n": 8,
+      "place": "ZAPORIZHZHIA",
+      "headline": "Russian overnight attack injures 22 in Zaporizhzhia",
+      "publisher": "Daily Times",
+      "url": "https://dailytimes.com.pk/1586275/russian-overnight-attack-injures-22-in-zaporizhzhia/",
+      "date_on_page": "2026-11-24T15:20:28+00:00",
+      "attribution": "The casualty figures are the regional governor's, as reported."
+    },
+    {
+      "n": 9,
+      "place": "MOSCOW",
+      "headline": "Russian retaliation over Ukrainian refinery strikes is inevitable, Putin says",
+      "publisher": "TRT World",
+      "url": "https://www.trtworld.com/article/940463ac5ac5",
+      "date_on_page": "2026-11-24T23:09:30.288Z",
+      "attribution": "The word 'inevitable' is President Putin's, quoted by the outlet."
+    },
+    {
+      "n": 10,
+      "place": "RIGA",
+      "headline": "Latvian President sees potential turning point in Ukraine war next year",
+      "publisher": "Ukrinform",
+      "url": "https://www.ukrinform.net/rubric-polytics/4188107-latvian-president-sees-potential-turning-point-in-ukraine-war-next-year.html",
+      "date_on_page": "2026-11-24T16:18:00+02:00",
+      "attribution": "The forecast is President Edgars Rinkevics's, not the outlet's."
+    },
+    {
+      "n": 11,
+      "place": "BRUSSELS",
+      "headline": "EU imposes hard import quotas on Chinese hybrid cars, sweeping in UK and Japan",
+      "publisher": "The News",
+      "url": "https://www.thenews.com.pk/latest/1424932-eu-imposes-hard-import-quotas-on-chinese-hybrid-cars-sweeping-in-uk-and-japan",
+      "date_on_page": "2026-11-24T17:49:00+05:00",
+      "attribution": "The quota terms are reported from EU officials; the page cites no regulation text."
+    },
+    {
+      "n": 12,
+      "place": "WOLFSBURG",
+      "headline": "Volkswagen labor talks end without deal as union warns of January strikes",
+      "publisher": "Anadolu Agency",
+      "url": "https://www.aa.com.tr/en/economy/volkswagen-labor-talks-end-without-deal-as-union-warns-of-january-strikes/4136379",
+      "date_on_page": "2026-11-24T22:13:30.147",
+      "attribution": "The strike warning is IG Metall's; the no-deal account is the union's and the company's."
+    },
+    {
+      "n": 13,
+      "place": "LONDON",
+      "headline": "Revealed: Four clash points at centre of the RMT Tube strike row",
+      "publisher": "The Standard",
+      "url": "https://www.standard.co.uk/news/transport/tube-strikes-rmt-tfl-b1306252.html",
+      "date_on_page": "2026-11-24T20:20:40.000Z",
+      "attribution": "The walkout dates are the RMT's, as reported after talks failed."
+    },
+    {
+      "n": 14,
+      "place": "ITURI",
+      "headline": "DR Congo: Concern for trapped Ebola workers as violence against women and girls deepens",
+      "publisher": "UN News",
+      "url": "https://news.un.org/en/story/2026/11/1168865",
+      "date_on_page": "2026-11-24T08:32:15-05:00",
+      "attribution": "The account of the maternity ward is the UN humanitarian office's."
+    },
+    {
+      "n": 15,
+      "place": "ALAMATA",
+      "headline": "Alamata shelling killed 14 civilians, Amnesty says",
+      "publisher": "Daily News Egypt",
+      "url": "https://africa.dailynewsegypt.com/alamata-shelling-amnesty/",
+      "date_on_page": "2026-11-24T08:26:03+00:00",
+      "attribution": "The 14 dead and the call for a war crimes inquiry are Amnesty International's."
+    },
+    {
+      "n": 16,
+      "place": "ED DAMAZIN",
+      "headline": "Outrage as 28 women, girls abducted, 15 cases of sexual violence against minors reported in Sudan's Blue Nile state",
+      "publisher": "Dabanga Sudan",
+      "url": "https://www.dabangasudan.org/en/all-news/article/outrage-as-28-women-girls-abducted-15-cases-of-sexual-violence-against-minors-reported-in-sudans-blue-nile-state",
+      "date_on_page": "2026-11-24T14:35:00+00:00",
+      "attribution": "The abduction figures come from local monitors and medical sources cited by Dabanga, not from the army or the RSF."
+    },
+    {
+      "n": 17,
+      "place": "DAKAR",
+      "headline": "West Africa: Gold Refining Projects Already Exceed Mining Production",
+      "publisher": "Benin Web TV",
+      "url": "https://beninwebtv.bj/en/west-africa-gold-refining-projects-already-exceed-mining-production/",
+      "date_on_page": "2026-11-24T06:24:54+00:00",
+      "attribution": "The comparison of refining capacity with mined output is the analysis's own calculation."
+    },
+    {
+      "n": 18,
+      "place": "KHAN YOUNIS",
+      "headline": "Three Palestinians Martyred, Five Injured in Khan Younis Strike",
+      "publisher": "Jordan News",
+      "url": "https://www.jordannews.jo/Section-20/Middle-East/Three-Palestinians-Martyred-Five-Injured-in-Khan-Younis-Strike-59293",
+      "date_on_page": "2026-11-24T10:49:21",
+      "attribution": "The toll is the figure given in the report; Israel's account of the target is not carried on the page."
+    },
+    {
+      "n": 19,
+      "place": "BAGHDAD",
+      "headline": "Iraq Moves To Take Control Of Oilfields, Border Crossings In Kurdish Region",
+      "publisher": "Outlook India",
+      "url": "https://www.outlookindia.com/international/iraq-kurdish-region-oilfields-border-crossings-takeover",
+      "date_on_page": "2026-11-24T19:19:55+05:30",
+      "attribution": "The move is the federal government's; the Kurdish regional government rejects it, as reported."
+    },
+    {
+      "n": 20,
+      "place": "SEOUL",
+      "headline": "South Korea scrambles jets as Russian warplanes enter air defense zone",
+      "publisher": "Yeni Safak",
+      "url": "https://en.yenisafak.com/world/south-korea-scrambles-jets-as-russian-warplanes-enter-air-defense-zone-3725920",
+      "date_on_page": "2026-11-24T09:23:40+03:00",
+      "attribution": "The incursion is the South Korean military's account; Moscow has not confirmed it here."
+    },
+    {
+      "n": 21,
+      "place": "DHAKA",
+      "headline": "Hasina's December 16 homecoming plan: Bangladesh says ex-PM can be brought back only through extradition",
+      "publisher": "Connected To India",
+      "url": "https://www.connectedtoindia.com/hasinas-december-16-homecoming-plan-bangladesh-says-ex-pm-can-be-brought-back-only-through-extradition/",
+      "date_on_page": "2026-11-24T08:49:34+00:00",
+      "attribution": "The 16 December date is Sheikh Hasina's announcement; the extradition position is the Bangladesh government's."
+    },
+    {
+      "n": 22,
+      "place": "SINGAPORE",
+      "headline": "Singapore upgrades GDP forecast to around 6% for 2026, expects growth to moderate in 2027",
+      "publisher": "AsiaOne",
+      "url": "https://www.asiaone.com/singapore/gdp-economy-growth-q3-meti-forecast-2027-outlook",
+      "date_on_page": "2026-11-24T09:58:00+08:00",
+      "attribution": "Growth and forecast are the Ministry of Trade and Industry's; the 5.4% comparison is MTI's own advance estimate."
+    },
+    {
+      "n": 23,
+      "place": "TAIPEI",
+      "headline": "Taiwan Weighted Closes 8.99% Higher on AI Rebound",
+      "publisher": "ad-hoc-news",
+      "url": "https://www.ad-hoc-news.de/boerse/news/marktberichte/taiwan-weighted-closes-8-99-prozent-higher-on-ai-rebound/70549612",
+      "date_on_page": "2026-11-24T13:16:20+01:00",
+      "attribution": "The close, the point gain and the percentage are the exchange's figures; the AI-rebound reading is the outlet's."
+    },
+    {
+      "n": 24,
+      "place": "HANOI",
+      "headline": "Gas explosion in Hanoi kills six, injures 10",
+      "publisher": "Yahoo News",
+      "url": "https://www.yahoo.com/news/world/articles/gas-explosion-hanoi-kills-six-091837522.html",
+      "date_on_page": "2026-11-24T09:18:37Z",
+      "attribution": "The toll is the figure in the report; the suspected gas leak is presented as the likely cause, not a finding."
+    },
+    {
+      "n": 25,
+      "place": "TOKYO",
+      "headline": "Japan boosts ICC funding amid US sanctions threat",
+      "publisher": "The News",
+      "url": "https://www.thenews.com.pk/latest/1424903-japan-boosts-icc-funding-amid-us-sanctions-threat",
+      "date_on_page": "2026-11-24T14:32:00+05:00",
+      "attribution": "The payment pledge is Japan's; the April 2027 sanctions date is the U.S. measure's, as reported."
+    },
+    {
+      "n": 26,
+      "place": "BEIJING",
+      "headline": "China's Shenzhou 24 mission lifts off, carrying first foreign astronaut to its space station",
+      "publisher": "CBS News",
+      "url": "https://www.cbsnews.com/news/china-launches-shenzhou-24-spacecraft/",
+      "date_on_page": "2026-11-24T20:38:00-0500",
+      "attribution": "The crew manifest is China's space programme's; the 'first foreign astronaut' framing is the outlet's."
+    },
+    {
+      "n": 27,
+      "place": "XIAMEN",
+      "headline": "Xiamen Airlines signs deal for 50 Boeing 737-8s",
+      "publisher": "Aerospace Global News",
+      "url": "https://aerospaceglobalnews.com/news/xiamen-airlines-boeing-737-8-order/",
+      "date_on_page": "2026-11-24T12:55:46+00:00",
+      "attribution": "The $7.4bn is the list price of the order, not a disclosed payment."
+    },
+    {
+      "n": 28,
+      "place": "HONIARA",
+      "headline": "Solomon Islands names Australia as its primary security partner in a new treaty that excludes China",
+      "publisher": "The Associated Press, via The Spec",
+      "url": "https://www.thespec.com/news/world/australia/solomon-islands-names-australia-as-its-primary-security-partner-in-a-new-treaty-that-excludes-china/article_929c4c3b-8dfd-51be-a6d3-d233d664a189.html",
+      "date_on_page": "2026-11-24T23:15:32-05:00",
+      "attribution": "The treaty terms are the two governments'; the signing itself took place in Canberra on 25 November local time."
+    },
+    {
+      "n": 29,
+      "place": "SUVA",
+      "headline": "Pacific Elders' Voice accuse Australia of climate betrayal at COP31",
+      "publisher": "Post Courier",
+      "url": "https://www.postcourier.com.pg/pacific-elders-voice-accuse-australia-of-climate-betrayal-at-cop31/",
+      "date_on_page": "2026-11-24T19:44:51+00:00",
+      "attribution": "The charge of betrayal is the Pacific Elders' Voice's."
+    },
+    {
+      "n": 30,
+      "place": "KUALA LUMPUR",
+      "headline": "Malaysia to repatriate another 6,803 Myanmar nationals despite ICJ genocide ruling",
+      "publisher": "The Star",
+      "url": "https://www.thestar.com/news/world/asia/malaysia-to-repatriate-another-6-803-myanmar-nationals-despite-icj-genocide-ruling/article_b6c02159-49d5-504d-8edb-94005a73e9b1.html",
+      "date_on_page": "2026-11-24T06:25:52-05:00",
+      "attribution": "The 6,803 figure is the Malaysian immigration department's, as reported."
+    }
+  ]
+}

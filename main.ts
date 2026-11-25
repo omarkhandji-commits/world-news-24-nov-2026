@@ -323,6 +323,10 @@ const GLYPHS: Record<string, readonly Poly[]> = {
     [[0.4, 0.2], [1.5, 0.2], [1.5, 1.4], [0.4, 1.4], [0.4, 0.2]],
     [[2.5, 4.6], [3.6, 4.6], [3.6, 5.8], [2.5, 5.8], [2.5, 4.6]],
   ],
+  $: [
+    [[4, 1], [3, 0], [1, 0], [0, 1], [0, 2.2], [1, 3.1], [3, 3.1], [4, 4], [4, 5], [3, 6], [1, 6], [0, 5]],
+    [[2, -0.7], [2, 6.7]],
+  ],
   '°': [[[2.3, 0.3], [3.2, 0.3], [3.6, 0.8], [3.6, 1.6], [3.2, 2.1], [2.3, 2.1], [1.9, 1.6], [1.9, 0.8], [2.3, 0.3]]],
   '·': [[[1.6, 3], [2.4, 3], [2.4, 3.9], [1.6, 3.9], [1.6, 3]]],
   '—': [[[0, 3.3], [4, 3.3]]],
@@ -362,6 +366,23 @@ const measure = (s: string, size: number, tracking = 0): number => {
   return w;
 };
 
+// Every word that reaches the page registers its measured box here, so the
+// build can refuse to write a sheet on which two labels collide.
+interface TextBox {
+  label: string;
+  x0: number;
+  x1: number;
+  y0: number;
+  y1: number;
+}
+
+const BOXES: TextBox[] = [];
+const LAYOUT_ERRORS: string[] = [];
+
+const fail = (msg: string): void => {
+  LAYOUT_ERRORS.push(msg);
+};
+
 const drawText = (
   c: Canvas,
   s: string,
@@ -376,6 +397,9 @@ const drawText = (
   const align = opts.align ?? 'left';
   const total = measure(s, size, tracking);
   let cursor = align === 'left' ? x : align === 'center' ? x - total / 2 : x - total;
+  if (s.trim()) {
+    BOXES.push({ label: s.trim(), x0: cursor, x1: cursor + total, y0: baseline - size, y1: baseline + size * 0.24 });
+  }
   const unit = size / 6;
   const sw = Math.max(1 / SS, weight * unit);
   for (const raw of s) {
@@ -437,6 +461,7 @@ const drawText = (
       c.annulus(cursor + 1.9 * unit, baseline - 5.3 * unit, 1.1 * unit, 0.55 * unit, color);
     } else {
       const g = GLYPHS[ch];
+      if (!g) fail(`no glyph for "${ch}" in "${s}"`);
       if (g) {
         for (const poly of g) {
           const pts = poly.map(([gx, gy]) => [cursor + gx * unit, baseline + (gy - 6) * unit] as const);
@@ -492,6 +517,43 @@ const drawFitted = (
   weight: number,
 ): void => {
   f.lines.forEach((ln, i) => drawText(c, ln, x, firstBaseline + i * f.lead, f.size, color, { weight }));
+};
+
+// Set at one size, no shrinking: the list is measured afterwards, and the build
+// stops if a block turns out taller than the row it was given.
+const typeset = (s: string, maxW: number, size: number, leadRatio: number): Fitted => ({
+  lines: wrap(s, size, maxW),
+  size,
+  lead: Math.round(size * leadRatio * 10) / 10,
+});
+
+const blockHeight = (f: Fitted, firstBaseline: number): number =>
+  firstBaseline + (f.lines.length - 1) * f.lead + f.size * 0.24;
+
+// Pairwise collision test over every recorded box. Text that sits on a drawn
+// rule or a colour block is fine; two pieces of type on each other are not.
+const checkLayout = (): void => {
+  for (const b of BOXES) {
+    if (b.x0 < 30 || b.x1 > W - 36 || b.y0 < 30 || b.y1 > H - 30) {
+      fail(`"${b.label}" crosses the page edge (${b.x0.toFixed(1)}-${b.x1.toFixed(1)}, ${b.y0.toFixed(1)}-${b.y1.toFixed(1)})`);
+    }
+  }
+  for (let i = 0; i < BOXES.length; i++) {
+    for (let j = i + 1; j < BOXES.length; j++) {
+      const a = BOXES[i];
+      const b = BOXES[j];
+      const ox = Math.min(a.x1, b.x1) - Math.max(a.x0, b.x0);
+      const oy = Math.min(a.y1, b.y1) - Math.max(a.y0, b.y0);
+      if (ox > 0.6 && oy > 0.6) {
+        fail(`"${a.label}" and "${b.label}" overlap by ${ox.toFixed(1)} x ${oy.toFixed(1)} px`);
+      }
+    }
+  }
+  if (LAYOUT_ERRORS.length) {
+    console.error(`layout check failed: ${LAYOUT_ERRORS.length} problem(s)`);
+    for (const e of LAYOUT_ERRORS.slice(0, 40)) console.error(`  ${e}`);
+    throw new Error('layout check failed');
+  }
 };
 
 // ---------------------------------------------------------------------------
@@ -826,6 +888,7 @@ interface Story {
   lat: number;
   lon: number;
   text: string;
+  a?: readonly [number, number];
   head?: string;
   lead?: string;
   art?: (c: Canvas, x: number, y: number, w: number, h: number) => void;
@@ -902,7 +965,7 @@ const STORIES: Story[] = [
     lon: -73.6,
     text: 'A car bomb outside the governor office wounded 23, police said.',
     head: 'CAR BOMB ROCKS COLOMBIA',
-    lead: "A car bomb outside Meta's governor's office wounded 23, police said, on the FARC peace deal's tenth anniversary. Dissidents were blamed.",
+    lead: "A car bomb outside government offices in Villavicencio wounded 23 people, as Colombia's violence reached its cities.",
     art: drawRubble,
   },
   {
@@ -911,7 +974,7 @@ const STORIES: Story[] = [
     beat: 'NORTH AMERICA / MARKETS',
     lat: 38.9,
     lon: -77.0,
-    text: 'The S&P 500 fell 0.5% and the Nasdaq 1.48%; the Dow rose 0.85% to 50,018.70.',
+    text: 'The S&P 500 fell 0.5% and the Nasdaq 1.5%; the Dow rose 0.9% to 50,018.70.',
   },
   {
     n: 5,
@@ -919,7 +982,7 @@ const STORIES: Story[] = [
     beat: 'NORTH AMERICA / CONGRESS',
     lat: 35.9,
     lon: -86.4,
-    text: 'Victoria Broderick won a House seat, giving Democrats 259, their most since 1990.',
+    text: 'Broderick won a House seat, giving Democrats 259, their biggest majority in 30 years.',
   },
   {
     n: 6,
@@ -927,7 +990,7 @@ const STORIES: Story[] = [
     beat: 'NORTH AMERICA / ELECTIONS',
     lat: 19.4,
     lon: -99.1,
-    text: "Sheinbaum called INE's supplier network a 'mafia electoral' and pressed the 15-file probe.",
+    text: "Sheinbaum urged INE to review procurement, citing a 'mafia electoral'.",
   },
   {
     n: 7,
@@ -935,7 +998,7 @@ const STORIES: Story[] = [
     beat: 'SOUTH AMERICA / ECONOMY',
     lat: -15.8,
     lon: -47.9,
-    text: "The dollar fell 1.3% after the lower house passed Lula's spending curbs 353-128.",
+    text: "Lower house passed Lula's spending curbs 353-128 as the real slid to R$6.",
   },
   {
     n: 8,
@@ -943,7 +1006,7 @@ const STORIES: Story[] = [
     beat: 'EUROPE / WAR',
     lat: 47.8,
     lon: 35.2,
-    text: 'A Russian strike on an apartment block killed two and wounded at least 22, the governor said.',
+    text: 'A Russian strike on flats killed two and wounded 22, the governor said.',
   },
   {
     n: 9,
@@ -959,7 +1022,7 @@ const STORIES: Story[] = [
     beat: 'EUROPE / WAR',
     lat: 56.95,
     lon: 24.1,
-    text: 'Latvia sees a tipping point next year that could end in Russian defeat, its president said.',
+    text: "Latvia's president sees a tipping point that could end in Russian defeat.",
   },
   {
     n: 11,
@@ -967,15 +1030,7 @@ const STORIES: Story[] = [
     beat: 'EUROPE / TRADE',
     lat: 50.85,
     lon: 4.35,
-    text: 'The EU set temporary limits on hybrid car imports from China, Japan, Turkey and Britain.',
-  },
-  {
-    n: 12,
-    place: 'PARIS',
-    beat: 'EUROPE / COURTS',
-    lat: 48.9,
-    lon: 2.3,
-    text: "A probe opened into Le Havre's authority, chaired by Edouard Philippe, over €30,000 in fees.",
+    text: 'EU sets temporary limits on hybrid cars from China, Japan, Turkey, Britain.',
   },
   {
     n: 13,
@@ -983,7 +1038,7 @@ const STORIES: Story[] = [
     beat: 'EUROPE / LABOUR',
     lat: 52.4,
     lon: 10.8,
-    text: 'Volkswagen and IG Metall ended a first round with no deal; strikes possible from 1 January.',
+    text: 'Talks at Volkswagen ended with no deal; strikes possible from 1 January.',
   },
   {
     n: 14,
@@ -999,7 +1054,7 @@ const STORIES: Story[] = [
     beat: 'AFRICA / HEALTH',
     lat: 1.6,
     lon: 30.2,
-    text: 'Ebola teams sheltered a day in a maternity ward; 11,762 cases and 5,775 deaths, WHO says.',
+    text: 'Ebola health workers have sheltered in a maternity ward since Saturday.',
   },
   {
     n: 16,
@@ -1007,7 +1062,7 @@ const STORIES: Story[] = [
     beat: 'AFRICA / RIGHTS',
     lat: 12.4,
     lon: 39.6,
-    text: 'Amnesty urged a war crimes inquiry into Ethiopian shelling of Tigray towns.',
+    text: 'Amnesty: Alamata shelling killed 14 civilians; a war crimes inquiry urged.',
   },
   {
     n: 17,
@@ -1015,7 +1070,7 @@ const STORIES: Story[] = [
     beat: 'AFRICA / SUDAN',
     lat: 11.8,
     lon: 34.35,
-    text: 'Blue Nile fighting pushed 7,000 families toward Ed Damazin; 28 women and girls abducted.',
+    text: "Monitors reported 28 women and girls abducted in Sudan's Blue Nile state.",
   },
   {
     n: 18,
@@ -1023,7 +1078,7 @@ const STORIES: Story[] = [
     beat: 'AFRICA / GOLD',
     lat: 14.7,
     lon: -17.45,
-    text: "Four West African states' new refineries near double the region's gold output, Reuters said.",
+    text: "West African refineries now exceed the region's gold output, an analysis says.",
   },
   {
     n: 19,
@@ -1031,7 +1086,7 @@ const STORIES: Story[] = [
     beat: 'MIDDLE EAST / GAZA',
     lat: 31.3,
     lon: 34.3,
-    text: 'A drone hit a police post in al-Mawasi, killing three and wounding five, medics said.',
+    text: 'A drone struck al-Mawasi west of Khan Younis, killing 3 and wounding 5.',
   },
   {
     n: 20,
@@ -1039,7 +1094,7 @@ const STORIES: Story[] = [
     beat: 'MIDDLE EAST / OIL',
     lat: 33.3,
     lon: 44.4,
-    text: 'Iraq ordered its oil ministry to run fields in Kurdish-held areas, state media said.',
+    text: 'Iraq moved to take over oilfields and borders in the Kurdish region.',
   },
   {
     n: 21,
@@ -1071,15 +1126,7 @@ const STORIES: Story[] = [
     beat: 'ASIA / MARKETS',
     lat: 25.0,
     lon: 121.5,
-    text: 'The TAIEX jumped 8.99% to 40,122.35, its biggest points gain; October output rose 29.8%.',
-  },
-  {
-    n: 25,
-    place: 'JAKARTA',
-    beat: 'ASIA / POLICE',
-    lat: -6.2,
-    lon: 106.8,
-    text: 'A former police chief was charged with treason over an illegal wiretapping inquiry.',
+    text: 'TAIEX jumped 8.99% to 40,122.35, a record points gain of 3,310.',
   },
   {
     n: 26,
@@ -1095,7 +1142,7 @@ const STORIES: Story[] = [
     beat: 'ASIA / JUSTICE',
     lat: 35.7,
     lon: 139.7,
-    text: 'Japan will pay its full 2027 ICC contribution by year-end as US sanctions loom.',
+    text: 'Japan will pay its 2027 ICC dues early as US sanctions squeeze the court.',
   },
   {
     n: 28,
@@ -1103,7 +1150,7 @@ const STORIES: Story[] = [
     beat: 'ASIA / SPACE',
     lat: 39.9,
     lon: 116.4,
-    text: "Shenzhou-24 launches on Wednesday with a Pakistani, the station's first foreign visitor.",
+    text: "Shenzhou-24 lifted off carrying Pakistan's first astronaut to the station.",
   },
   {
     n: 29,
@@ -1119,15 +1166,7 @@ const STORIES: Story[] = [
     beat: 'OCEANIA / SECURITY',
     lat: -9.4,
     lon: 160.0,
-    text: 'Honiara will let its 2022 China security pact lapse in April, a report said.',
-  },
-  {
-    n: 31,
-    place: 'KANTON',
-    beat: 'OCEANIA / CLIMATE',
-    lat: -2.8,
-    lon: -171.7,
-    text: "Kiribati moved Kanton's 40-50 residents to Tarawa with a day's notice, citing El Nino.",
+    text: 'Solomon Islands named Australia its primary security partner in a new treaty.',
   },
   {
     n: 32,
@@ -1135,7 +1174,7 @@ const STORIES: Story[] = [
     beat: 'OCEANIA / CLIMATE',
     lat: -18.14,
     lon: 178.44,
-    text: "Pacific Elders' Voice accused Australia of betrayal after COP31 ended with no deal.",
+    text: "Pacific Elders' Voice accused Australia of a climate betrayal at COP31.",
   },
   {
     n: 33,
@@ -1143,9 +1182,16 @@ const STORIES: Story[] = [
     beat: 'ASIA / REFUGEES',
     lat: 3.1,
     lon: 101.7,
-    text: "Anwar will keep dealing with Myanmar's government on returning Rohingya refugees.",
+    text: 'Malaysia will send 6,803 more Myanmar nationals home despite an ICJ ruling.',
   },
 ];
+
+// The list above is the running order. Badges take their offset from the
+// hand-placed table, then the numbers are closed up so the page carries no gap.
+for (const s of STORIES) s.a = ANCHOR[s.n] ?? [0, -13];
+STORIES.forEach((s, i) => {
+  s.n = i + 1;
+});
 
 // ---------------------------------------------------------------------------
 // The world, coarse on purpose: land is a stipple of dots, 2.5 degrees of
@@ -1227,7 +1273,7 @@ interface Pin {
 
 const placePins = (): Pin[] => {
   const pins: Pin[] = STORIES.map((s) => {
-    const [ox, oy] = ANCHOR[s.n] ?? [0, -13];
+    const [ox, oy] = s.a ?? [0, -13];
     const ax = lonX(s.lon) + ox;
     const ay = latY(s.lat) + oy;
     return { x: ax, y: ay, ax, ay, s };
@@ -1256,7 +1302,7 @@ const placePins = (): Pin[] => {
       p.x += (p.ax - p.x) * 0.035;
       p.y += (p.ay - p.y) * 0.035;
       p.x = Math.max(MAP.x + 11, Math.min(MAP.x + MAP.w - 11, p.x));
-      p.y = Math.max(MAP.y + 9, Math.min(MAP.y + MAP.h - 9, p.y));
+      p.y = Math.max(MAP.y + 9, Math.min(MAP.y + MAP.h - 26, p.y));
     }
   }
   return pins;
@@ -1294,7 +1340,7 @@ const render = (): Uint8Array => {
 
   // Masthead
   drawText(c, 'WORLD NEWS', M, 58, 20, INK, { weight: 1.3, tracking: 0.16 });
-  drawText(c, 'SIX CONTINENTS · THIRTY-THREE DISPATCHES', RIGHT, 56, 9.5, MUTED, { align: 'right', tracking: 0.16 });
+  drawText(c, 'SIX CONTINENTS · THIRTY DISPATCHES', RIGHT, 56, 9.5, MUTED, { align: 'right', tracking: 0.16 });
   rule(c, M, 66, CONTENT, INK, 3);
 
   // The day
@@ -1321,9 +1367,9 @@ const render = (): Uint8Array => {
   drawText(c, 'THE DAY IN NUMBERS', NX, 92, 8, MUTED, { tracking: 0.18 });
   const figures: [string, string][] = [
     ['3', 'TANKERS MINED, IRGC NAVY'],
-    ['259', 'HOUSE SEATS, ASSOCIATED PRESS'],
-    ['23', 'HURT IN COLOMBIA, POLICE'],
-    ['6.1%', 'SINGAPORE GDP, TRADE MINISTRY'],
+    ['259', 'HOUSE SEATS, AP COUNT'],
+    ['23', 'HURT IN VILLAVICENCIO'],
+    ['6.1%', 'SINGAPORE GDP, METI'],
   ];
   figures.forEach(([fig, label], i) => {
     const col = i % 2;
@@ -1364,31 +1410,48 @@ const render = (): Uint8Array => {
     drawFitted(c, lead, x, leadY, MUTED, 0.7);
   });
 
-  // Also today: three columns of ten
+  // Also today: three columns of ten. Each row is measured before it is drawn:
+  // a block that wants a third line stops the build rather than eating the row
+  // below it.
   rule(c, M, 570, CONTENT, INK, 1);
   drawText(c, 'ALSO TODAY', M, 580, 8.4, INK, { weight: 1.15, tracking: 0.18 });
-  drawText(c, 'THIRTY MORE DISPATCHES', RIGHT, 580, 7.4, MUTED, { align: 'right', tracking: 0.14 });
+  drawText(c, 'TWENTY-SEVEN MORE DISPATCHES', RIGHT, 580, 7.4, MUTED, { align: 'right', tracking: 0.14 });
   const LIST_TOP = 588;
-  const ROW = 34;
+  const ROW = 38;
+  const BAND_BOTTOM = 929;
   const colW = 300;
   const colGap = (CONTENT - colW * 3) / 2;
+  const BODY = 7.6;
+  const PLACE = 8.4;
+  const FIRST_BODY = 21;
   const rest = STORIES.filter((s) => !s.head);
   rest.forEach((s, i) => {
-    const col = Math.floor(i / 10);
-    const row = i % 10;
+    const col = Math.floor(i / 9);
+    const row = i % 9;
     const x = M + col * (colW + colGap);
     const y = LIST_TOP + row * ROW;
+    const body = typeset(s.text, colW - 18, BODY, 1.24);
+    const h = blockHeight(body, FIRST_BODY);
+    if (h > ROW - 1.5) {
+      fail(
+        `dispatch ${s.n} ${s.place}: block is ${h.toFixed(1)}px in a ${(ROW - 1.5).toFixed(1)}px row (${body.lines.length} lines at ${BODY}px)`,
+      );
+    }
+    if (y + h > BAND_BOTTOM) fail(`dispatch ${s.n} ${s.place}: block ends at ${(y + h).toFixed(1)}, past ${BAND_BOTTOM}`);
+    if (measure(s.place, PLACE, 0.1) > colW - 20) fail(`dispatch ${s.n}: place name wider than its column`);
+    for (const ln of body.lines) {
+      if (measure(ln, BODY) > colW - 18) fail(`dispatch ${s.n} ${s.place}: line wider than its column ("${ln}")`);
+    }
     drawText(c, String(s.n), x, y + 8.6, 8.6, RED, { weight: 1.05, tracking: 0.02 });
-    drawText(c, s.place, x + 18, y + 8.6, 8.4, INK, { weight: 1.05, tracking: 0.1 });
-    const body = fit(s.text, colW - 18, 2, 8.2, 7.2, 1.22);
-    drawFitted(c, body, x + 18, y + 20.6, MUTED, 0.68);
+    drawText(c, s.place, x + 18, y + 8.6, PLACE, INK, { weight: 1.05, tracking: 0.1 });
+    drawFitted(c, body, x + 18, y + FIRST_BODY, MUTED, 0.8);
   });
 
   // Footer
   rule(c, M, 934, CONTENT, INK, 2);
   drawText(
     c,
-    'SOURCES, EACH READ IN THIS SESSION AND DATED 24 NOVEMBER 2026: AP · REUTERS · ANADOLU · CNBC · BLOOMBERG · JUST SECURITY · UN NEWS',
+    'SOURCES, EACH A PAGE DATED 24 NOVEMBER 2026: CNBC · REUTERS VIA YAHOO · AP VIA GLOBE AND MAIL · THE GUARDIAN VIA AOL · CBS',
     M,
     950,
     7.2,
@@ -1397,7 +1460,7 @@ const render = (): Uint8Array => {
   );
   drawText(
     c,
-    'METI SINGAPORE · FOCUS TAIWAN · SAUDI PRESS AGENCY · SYDNEY MORNING HERALD · PACNEWS · SUDAN TRIBUNE · LA JORNADA · THE GUARDIAN',
+    'ANADOLU · TRT · UKRINFORM · UN NEWS · ASIAONE · THE STAR · OUTLOOK · YENI SAFAK · DABANGA · POST COURIER · AEROSPACE GLOBAL',
     M,
     963,
     7.2,
@@ -1406,7 +1469,7 @@ const render = (): Uint8Array => {
   );
   drawText(
     c,
-    'FIGURES ARE CREDITED TO WHOEVER GAVE THEM; CLAIMS ARE ATTRIBUTED, NOT ASSERTED. EVERY ITEM READ ON THE DAY.',
+    'FIGURES ARE CREDITED TO WHOEVER GAVE THEM; CLAIMS ARE ATTRIBUTED, NOT ASSERTED. STORIES.JSON LISTS EVERY PAGE.',
     M,
     977,
     7.2,
@@ -1415,6 +1478,7 @@ const render = (): Uint8Array => {
   );
   drawText(c, '24 · 11 · 2026', RIGHT, 976, 7.6, RED, { align: 'right', weight: 1.1, tracking: 0.1 });
 
+  checkLayout();
   return c.resolve();
 };
 
