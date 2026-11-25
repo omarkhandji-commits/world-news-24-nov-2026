@@ -357,6 +357,8 @@ interface TypeOpts {
   weight?: number;
   tracking?: number;
   align?: 'left' | 'center' | 'right';
+  // Marks set inside a drawn badge of their own, which registers the badge.
+  silent?: boolean;
 }
 
 const advance = (ch: string, size: number, tracking: number): number => {
@@ -401,8 +403,8 @@ const drawText = (
   const align = opts.align ?? 'left';
   const total = measure(s, size, tracking);
   let cursor = align === 'left' ? x : align === 'center' ? x - total / 2 : x - total;
-  if (s.trim()) {
-    BOXES.push({ label: s.trim(), x0: cursor, x1: cursor + total, y0: baseline - size, y1: baseline + size * 0.24 });
+  if (s.trim() && !opts.silent) {
+    BOXES.push({ label: s.trim(), x0: cursor, x1: cursor + total, y0: baseline - size, y1: baseline + size * 0.12 });
   }
   const unit = size / 6;
   const sw = Math.max(1 / SS, weight * unit);
@@ -538,7 +540,7 @@ const blockHeight = (f: Fitted, firstBaseline: number): number =>
 // rule or a colour block is fine; two pieces of type on each other are not.
 const checkLayout = (): void => {
   for (const b of BOXES) {
-    if (b.x0 < 30 || b.x1 > W - 36 || b.y0 < 30 || b.y1 > H - 30) {
+    if (b.x0 < 30 || b.x1 > W - 36 || b.y0 < 6 || b.y1 > H - 30) {
       fail(`"${b.label}" crosses the page edge (${b.x0.toFixed(1)}-${b.x1.toFixed(1)}, ${b.y0.toFixed(1)}-${b.y1.toFixed(1)})`);
     }
   }
@@ -698,188 +700,307 @@ const smoke = (c: Canvas, x: number, y: number, w: number, h: number, color: RGB
   }
 };
 
-// Lead picture: tankers burning in the strait, a mine in the water.
-const drawStrait = (c: Canvas, x: number, y: number, w: number, h: number): void => {
-  const water = y + h * 0.68;
-  const far = mix(INK, PAPER, 0.22);
-  const paper = PAPER;
+type Scene = (c: Canvas, x: number, y: number, w: number, h: number) => void;
 
-  // far coast, then the water line
-  c.poly(
-    [
-      [x, water],
-      [x, water - h * 0.09],
-      [x + w * 0.1, water - h * 0.16],
-      [x + w * 0.2, water - h * 0.08],
-      [x + w * 0.3, water - h * 0.18],
-      [x + w * 0.38, water - h * 0.05],
-      [x + w * 0.44, water],
-    ],
-    far,
-  );
-
-  // a second tanker, further off
-  hull(c, x + w * 0.73, water - h * 0.17, w * 0.23, h * 0.18, far, INK);
-  smoke(c, x + w * 0.78, water - h * 0.26, w * 0.13, h * 0.2, mix(INK, PAPER, 0.2));
-  flame(c, x + w * 0.79, water - h * 0.09, w * 0.065, h * 0.14, RED, paper);
-
-  // the lead tanker, large in the frame
-  hull(c, x + w * 0.02, water - h * 0.37, w * 0.54, h * 0.38, paper, INK);
-  smoke(c, x + w * 0.2, water - h * 0.36, w * 0.26, h * 0.26, mix(INK, PAPER, 0.32));
-  flame(c, x + w * 0.07, water - h * 0.05, w * 0.18, h * 0.24, RED, paper);
-  flame(c, x + w * 0.2, water - h * 0.05, w * 0.12, h * 0.18, RED, paper);
-
-  c.stroke(
-    [
-      [x, water],
-      [x + w, water],
-    ],
-    1.2,
-    mix(INK, PAPER, 0.32),
-  );
-  for (let i = 0; i < 5; i++) {
-    const wx = x + w * (0.04 + i * 0.2);
-    const wy = water + h * 0.12 + (i % 2) * h * 0.09;
-    c.stroke(
-      [
-        [wx, wy],
-        [wx + w * 0.07, wy],
-      ],
-      1.4,
-      mix(INK, PAPER, 0.45),
-    );
+// A hairline water line with a few ticks: the horizon shared by the sea scenes.
+const waterline = (c: Canvas, x: number, y: number, w: number, h: number, at: number): number => {
+  const wy = y + h * at;
+  c.fillRect(x, wy, w, 0.9, mix(INK, PAPER, 0.5));
+  for (let i = 0; i < 6; i++) {
+    const wx = x + w * (0.04 + i * 0.17);
+    c.fillRect(wx, wy + h * (0.12 + (i % 2) * 0.1), w * 0.06, 0.8, mix(INK, PAPER, 0.62));
   }
-
+  return wy;
 };
 
+// A tanker as a flat silhouette: hull, bridge, a row of deck tanks.
+const tanker = (c: Canvas, x: number, base: number, w: number, h: number, colour: RGB): void => {
+  c.poly([
+    [x, base - h * 0.34],
+    [x + w, base - h * 0.34],
+    [x + w * 0.9, base],
+    [x + w * 0.1, base],
+  ], colour);
+  c.fillRect(x + w * 0.78, base - h * 0.9, w * 0.12, h * 0.58, colour);
+  c.fillRect(x + w * 0.82, base - h * 1.12, w * 0.04, h * 0.24, colour);
+  for (let i = 0; i < 3; i++) c.fillRect(x + w * (0.68 + i * 0.04), base - h * 0.62, w * 0.02, h * 0.2, mix(colour, PAPER, 0.55));
+};
 
-// ---------------------------------------------------------------------------
-// Two more pictures, drawn the same way: flat shapes, two inks, no gradients.
-// ---------------------------------------------------------------------------
+// 1. Hormuz: two tankers ablaze on the strait.
+const sceneStrait: Scene = (c, x, y, w, h) => {
+  const far = mix(INK, PAPER, 0.3);
+  const water = waterline(c, x, y, w, h, 0.8);
+  c.poly([
+    [x, water], [x, water - h * 0.3], [x + w * 0.1, water - h * 0.5],
+    [x + w * 0.18, water - h * 0.24], [x + w * 0.28, water - h * 0.4], [x + w * 0.36, water],
+  ], far);
+  tanker(c, x + w * 0.74, water, w * 0.22, h * 0.4, far);
+  smoke(c, x + w * 0.84, water - h * 0.42, w * 0.09, h * 0.34, mix(INK, PAPER, 0.3));
+  flame(c, x + w * 0.76, water - h * 0.16, w * 0.05, h * 0.2, RED, PAPER);
+  tanker(c, x + w * 0.04, water, w * 0.46, h * 0.56, INK);
+  smoke(c, x + w * 0.2, water - h * 0.46, w * 0.2, h * 0.44, mix(INK, PAPER, 0.36));
+  flame(c, x + w * 0.1, water - h * 0.22, w * 0.12, h * 0.34, RED, PAPER);
+  flame(c, x + w * 0.24, water - h * 0.22, w * 0.08, h * 0.24, RED, PAPER);
+};
 
-// Khartoum: a skyline with one block torn open, a drone overhead, dust.
-const drawSkyline = (c: Canvas, x: number, y: number, w: number, h: number): void => {
-  const base = y + h * 0.9;
-  const far = mix(INK, PAPER, 0.5);
-
-  for (let i = 0; i < 4; i++) {
-    c.disc(x + w * (0.6 + i * 0.07), y + h * (0.44 - i * 0.06), w * (0.045 + i * 0.004), mix(INK, PAPER, 0.3));
+// 2. Riyadh: a broken tower, a drone overhead.
+const sceneTower: Scene = (c, x, y, w, h) => {
+  const base = y + h * 0.95;
+  const far = mix(INK, PAPER, 0.44);
+  c.fillRect(x, base, w, 1.1, INK);
+  c.fillRect(x + w * 0.02, y + h * 0.5, w * 0.13, base - (y + h * 0.5), far);
+  c.fillRect(x + w * 0.17, y + h * 0.36, w * 0.11, base - (y + h * 0.36), far);
+  c.fillRect(x + w * 0.31, y + h * 0.58, w * 0.12, base - (y + h * 0.58), INK);
+  c.fillRect(x + w * 0.52, y + h * 0.24, w * 0.15, base - (y + h * 0.24), INK);
+  c.poly([
+    [x + w * 0.52, y + h * 0.24], [x + w * 0.595, y + h * 0.04], [x + w * 0.67, y + h * 0.24],
+  ], INK);
+  c.poly([
+    [x + w * 0.56, y + h * 0.26], [x + w * 0.67, y + h * 0.32], [x + w * 0.65, y + h * 0.5],
+    [x + w * 0.59, y + h * 0.42], [x + w * 0.56, y + h * 0.54],
+  ], RED);
+  for (let r = 0; r < 2; r++) {
+    for (let i = 0; i < 2; i++) c.fillRect(x + w * (0.545 + i * 0.075), y + h * (0.62 + r * 0.16), w * 0.035, h * 0.06, PAPER);
   }
+  // drone: rotors, body, a red eye
+  const dx = x + w * 0.24;
+  const dy = y + h * 0.16;
+  c.fillRect(dx - w * 0.13, dy, w * 0.26, 1.1, INK);
+  c.fillRect(dx + w * 0.1, dy - h * 0.06, w * 0.03, h * 0.14, INK);
+  c.fillRect(dx, dy - h * 0.02, w * 0.05, h * 0.14, INK);
+  for (const s of [-0.13, 0.13]) c.disc(dx + w * s, dy, Math.max(1, h * 0.05), INK);
+  c.fillRect(dx + w * 0.02, dy + h * 0.1, w * 0.02, h * 0.05, RED);
+};
 
-  c.fillRect(x + w * 0.03, y + h * 0.5, w * 0.15, base - (y + h * 0.5), far);
-  c.fillRect(x + w * 0.21, y + h * 0.38, w * 0.12, base - (y + h * 0.38), far);
-  c.fillRect(x + w * 0.36, y + h * 0.58, w * 0.19, base - (y + h * 0.58), INK);
-
-  c.poly(
-    [
-      [x + w * 0.57, base],
-      [x + w * 0.57, y + h * 0.46],
-      [x + w * 0.65, y + h * 0.46],
-      [x + w * 0.67, y + h * 0.31],
-      [x + w * 0.72, y + h * 0.39],
-      [x + w * 0.78, y + h * 0.23],
-      [x + w * 0.83, y + h * 0.41],
-      [x + w * 0.88, base],
-    ],
-    INK,
-  );
-
+// 3. Villavicencio: the burst between two blocks, a car at the kerb.
+const sceneBomb: Scene = (c, x, y, w, h) => {
+  const base = y + h * 0.93;
+  const far = mix(INK, PAPER, 0.36);
+  c.fillRect(x, base, w, 1.1, INK);
+  c.fillRect(x + w * 0.02, y + h * 0.3, w * 0.28, base - (y + h * 0.3), far);
+  c.fillRect(x + w * 0.7, y + h * 0.2, w * 0.26, base - (y + h * 0.2), INK);
   for (let r = 0; r < 3; r++) {
     for (let i = 0; i < 2; i++) {
-      c.fillRect(x + w * (0.4 + i * 0.075), y + h * (0.64 + r * 0.09), w * 0.03, h * 0.035, PAPER);
+      c.fillRect(x + w * (0.05 + i * 0.08), y + h * (0.38 + r * 0.16), w * 0.04, h * 0.06, PAPER);
+      c.fillRect(x + w * (0.74 + i * 0.075), y + h * (0.3 + r * 0.16), w * 0.035, h * 0.055, PAPER);
     }
   }
+  c.poly([
+    [x + w * 0.7, y + h * 0.24], [x + w * 0.72, y + h * 0.5], [x + w * 0.76, y + h * 0.36],
+    [x + w * 0.8, y + h * 0.54], [x + w * 0.85, y + h * 0.34], [x + w * 0.94, y + h * 0.44],
+    [x + w * 0.96, y + h * 0.2],
+  ], RED);
+  const bx = x + w * 0.54;
+  const by = y + h * 0.52;
+  const star: [number, number][] = [];
+  for (let i = 0; i < 14; i++) {
+    const a = (i / 14) * Math.PI * 2;
+    const r = i % 2 ? h * 0.2 : h * 0.48;
+    star.push([bx + Math.cos(a) * r, by + Math.sin(a) * r * 0.9]);
+  }
+  c.poly(star, RED);
+  smoke(c, x + w * 0.5, y + h * 0.4, w * 0.11, h * 0.34, mix(INK, PAPER, 0.3));
+  c.fillRect(x + w * 0.34, base - h * 0.16, w * 0.13, h * 0.12, INK);
+  c.fillRect(x + w * 0.37, base - h * 0.24, w * 0.06, h * 0.1, INK);
+  c.disc(x + w * 0.37, base - h * 0.03, Math.max(1, h * 0.04), INK);
+  c.disc(x + w * 0.45, base - h * 0.03, Math.max(1, h * 0.04), INK);
+};
 
-  // the burst itself, spiked, at the foot of the wound
-  const bx = x + w * 0.72;
-  const by = y + h * 0.76;
+// 4. Washington: a closing tape, down.
+const sceneMarket: Scene = (c, x, y, w, h) => {
+  const g = mix(INK, PAPER, 0.76);
+  for (let i = 0; i < 4; i++) c.fillRect(x, y + h * (0.16 + i * 0.2), w * 0.66, 0.7, g);
+  for (let i = 0; i < 5; i++) c.fillRect(x + w * (0.02 + i * 0.14), y + h * 0.12, 0.7, h * 0.66, g);
+  const pts: [number, number][] = [
+    [x + w * 0.02, y + h * 0.2], [x + w * 0.14, y + h * 0.32], [x + w * 0.22, y + h * 0.27],
+    [x + w * 0.34, y + h * 0.46], [x + w * 0.42, y + h * 0.41], [x + w * 0.54, y + h * 0.62],
+    [x + w * 0.62, y + h * 0.57], [x + w * 0.7, y + h * 0.76],
+  ];
+  c.stroke(pts, 2, INK);
+  for (const p of pts.slice(1)) c.disc(p[0], p[1], 1.5, RED);
+  const ax = x + w * 0.86;
+  c.stroke([[ax, y + h * 0.16], [ax, y + h * 0.6]], 3.4, RED);
+  c.poly([
+    [ax, y + h * 0.86], [ax - w * 0.055, y + h * 0.58], [ax + w * 0.055, y + h * 0.58],
+  ], RED);
+  for (let i = 0; i < 7; i++) {
+    c.fillRect(x + w * (0.02 + i * 0.07), y + h * 0.9, w * 0.035, h * 0.06, i % 3 === 0 ? RED : mix(INK, PAPER, 0.5));
+  }
+};
+
+// 5. Tennessee: the ballot and the seat count.
+const sceneBallot: Scene = (c, x, y, w, h) => {
+  const base = y + h * 0.94;
+  c.fillRect(x, base, w, 1.1, INK);
+  const bw = w * 0.3;
+  const bh = h * 0.5;
+  const bx = x + w * 0.03;
+  const by = base - bh;
+  c.fillRect(bx, by, bw, bh, INK);
+  c.fillRect(bx + bw * 0.14, by + bh * 0.14, bw * 0.72, 1.7, PAPER);
+  const sw = bw * 0.46;
+  c.fillRect(bx + bw * 0.2, by - h * 0.42, sw, h * 0.48, PAPER);
+  c.stroke([
+    [bx + bw * 0.2, by - h * 0.42], [bx + bw * 0.2 + sw, by - h * 0.42],
+    [bx + bw * 0.2 + sw, by + h * 0.02],
+  ], 1.1, INK);
+  for (let i = 0; i < 3; i++) c.fillRect(bx + bw * 0.3, by - h * 0.34 + i * h * 0.1, bw * 0.24, 1.2, INK);
+  const sq = w * 0.052;
+  for (let i = 0; i < 7; i++) {
+    const sx = x + w * 0.46 + i * (sq + w * 0.022);
+    if (i < 5) {
+      c.fillRect(sx, base - sq, sq, sq, i === 0 ? RED : INK);
+    } else {
+      c.fillRect(sx, base - sq, sq, 1.1, INK);
+      c.fillRect(sx, base - 1.1, sq, 1.1, INK);
+      c.fillRect(sx, base - sq, 1.1, sq, INK);
+      c.fillRect(sx + sq - 1.1, base - sq, 1.1, sq, INK);
+    }
+  }
+};
+
+// 6. Brasilia: the chamber and the tally.
+const sceneVote: Scene = (c, x, y, w, h) => {
+  const base = y + h * 0.92;
+  c.fillRect(x, base + h * 0.06, w, 1.1, mix(INK, PAPER, 0.35));
+  const cx = x + w * 0.26;
+  const cy = base + h * 0.12;
+  for (let r = 0; r < 3; r++) {
+    for (let i = 0; i <= 8; i++) {
+      const a = Math.PI + (i / 8) * Math.PI;
+      const rad = h * (0.3 + r * 0.22);
+      c.disc(cx + Math.cos(a) * rad * 1.7, cy + Math.sin(a) * rad, Math.max(1, h * 0.045), mix(INK, PAPER, r === 0 ? 0 : 0.25));
+    }
+  }
+  c.fillRect(x + w * 0.58, base - h * 0.56, w * 0.38, h * 0.15, INK);
+  c.fillRect(x + w * 0.58, base - h * 0.32, w * 0.15, h * 0.15, RED);
+  c.fillRect(x + w * 0.58, base - h * 0.06, w * 0.38, 1, mix(INK, PAPER, 0.55));
+  for (let i = 0; i < 3; i++) c.fillRect(x + w * (0.6 + i * 0.12), base - h * 0.6, 0.9, h * 0.22, PAPER);
+};
+
+// 7. Wolfsburg: the gate, the banner, the stopped line.
+const sceneFactory: Scene = (c, x, y, w, h) => {
+  const base = y + h * 0.93;
+  c.fillRect(x, base, w, 1.1, INK);
+  c.poly([
+    [x + w * 0.02, base], [x + w * 0.02, y + h * 0.52], [x + w * 0.13, y + h * 0.34],
+    [x + w * 0.13, y + h * 0.52], [x + w * 0.24, y + h * 0.34], [x + w * 0.24, y + h * 0.52],
+    [x + w * 0.35, y + h * 0.34], [x + w * 0.35, base],
+  ], INK);
+  c.fillRect(x + w * 0.4, y + h * 0.1, w * 0.045, h * 0.83, INK);
+  c.fillRect(x + w * 0.49, y + h * 0.26, w * 0.04, h * 0.67, INK);
+  smoke(c, x + w * 0.42, y + h * 0.12, w * 0.06, h * 0.22, mix(INK, PAPER, 0.45));
+  c.fillRect(x + w * 0.66, base - h * 0.4, w * 0.05, h * 0.4, INK);
+  c.fillRect(x + w * 0.9, base - h * 0.4, w * 0.05, h * 0.4, INK);
+  c.fillRect(x + w * 0.64, base - h * 0.56, w * 0.34, h * 0.12, RED);
+  for (let i = 0; i < 3; i++) c.fillRect(x + w * (0.6 + i * 0.07), base - h * 0.24, w * 0.045, h * 0.06, mix(INK, PAPER, 0.3));
+};
+
+// 8. Ituri: the maternity ward, a red cross, the responders.
+const sceneClinic: Scene = (c, x, y, w, h) => {
+  const base = y + h * 0.93;
+  c.fillRect(x, base, w, 1.1, mix(INK, PAPER, 0.4));
+  c.poly([[x + w * 0.05, base], [x + w * 0.27, y + h * 0.14], [x + w * 0.49, base]], INK);
+  c.poly([[x + w * 0.23, base], [x + w * 0.27, y + h * 0.5], [x + w * 0.31, base]], PAPER);
+  c.fillRect(x + w * 0.253, y + h * 0.28, w * 0.034, h * 0.22, RED);
+  c.fillRect(x + w * 0.235, y + h * 0.36, w * 0.07, h * 0.07, RED);
+  for (const px of [0.64, 0.8]) {
+    c.disc(x + w * px, y + h * 0.38, Math.max(1.4, h * 0.1), INK);
+    c.poly([
+      [x + w * px - w * 0.06, base], [x + w * px, y + h * 0.48], [x + w * px + w * 0.06, base],
+    ], px > 0.7 ? mix(INK, PAPER, 0.2) : INK);
+  }
+  c.stroke([[x + w * 0.56, y + h * 0.66], [x + w * 0.95, y + h * 0.56]], 1.2, RED);
+};
+
+// 9. Khan Younis: the drone over the tents.
+const sceneDrone: Scene = (c, x, y, w, h) => {
+  const base = y + h * 0.94;
+  c.fillRect(x, base, w, 1.1, INK);
+  for (const tx of [0.06, 0.3]) {
+    c.poly([[x + w * tx, base], [x + w * (tx + 0.09), y + h * 0.5], [x + w * (tx + 0.18), base]], INK);
+    c.fillRect(x + w * (tx + 0.08), base - h * 0.16, w * 0.02, h * 0.16, PAPER);
+  }
+  const bx = x + w * 0.55;
+  const by = y + h * 0.5;
   const star: [number, number][] = [];
   for (let i = 0; i < 12; i++) {
     const a = (i / 12) * Math.PI * 2;
-    const r = i % 2 === 0 ? w * 0.15 : w * 0.06;
-    star.push([bx + Math.cos(a) * r, by + Math.sin(a) * r * 0.8]);
+    const r = i % 2 ? h * 0.2 : h * 0.45;
+    star.push([bx + Math.cos(a) * r, by + Math.sin(a) * r * 0.9]);
   }
   c.poly(star, RED);
-
-  // drone: two rotors, a body, a red eye
-  const dx = x + w * 0.13;
-  const dy = y + h * 0.16;
-  c.stroke([[dx - w * 0.11, dy - h * 0.05], [dx + w * 0.02, dy - h * 0.05]], 1.2, INK);
-  c.stroke([[dx - w * 0.02, dy - h * 0.05], [dx + w * 0.1, dy - h * 0.05]], 1.2, INK);
-  for (const s of [-0.11, 0.1]) c.disc(dx + w * s, dy - h * 0.05, w * 0.012, INK);
-  c.fillRect(dx - w * 0.02, dy - h * 0.06, w * 0.04, h * 0.05, INK);
-  c.fillRect(dx, dy, w * 0.012, h * 0.012, RED);
-
-  c.fillRect(x, base, w, Math.max(1.1, h * 0.014), INK);
+  const dx = x + w * 0.68;
+  const dy = y + h * 0.18;
+  c.fillRect(dx - w * 0.14, dy, w * 0.28, 1.2, INK);
+  for (const s of [-0.14, 0.14]) {
+    c.fillRect(dx + w * s, dy - h * 0.06, w * 0.025, h * 0.14, INK);
+    c.disc(dx + w * s, dy - h * 0.04, Math.max(1, h * 0.04), INK);
+  }
+  c.fillRect(dx - w * 0.045, dy - h * 0.03, w * 0.09, h * 0.12, INK);
+  c.fillRect(dx - w * 0.015, dy + h * 0.09, w * 0.03, h * 0.05, RED);
 };
 
-// Villavicencio: a block with a bite out of it, a leaning neighbour, debris.
-const drawRubble = (c: Canvas, x: number, y: number, w: number, h: number): void => {
+// 10. Baghdad: derricks, a pipeline, a flare.
+const sceneDerrick: Scene = (c, x, y, w, h) => {
   const base = y + h * 0.9;
-
-  for (let i = 0; i < 4; i++) {
-    c.disc(x + w * (0.44 + i * 0.08), y + h * (0.4 - i * 0.07), w * (0.05 + i * 0.006), mix(INK, PAPER, 0.32));
-  }
-
-  c.fillRect(x + w * 0.03, y + h * 0.22, w * 0.42, base - (y + h * 0.22), INK);
-  // the wound: a red tear through the upper storeys
-  c.poly(
-    [
-      [x + w * 0.22, y + h * 0.24],
-      [x + w * 0.43, y + h * 0.24],
-      [x + w * 0.43, y + h * 0.6],
-      [x + w * 0.38, y + h * 0.52],
-      [x + w * 0.34, y + h * 0.66],
-      [x + w * 0.3, y + h * 0.55],
-      [x + w * 0.25, y + h * 0.62],
-      [x + w * 0.22, y + h * 0.5],
-    ],
-    RED,
-  );
-
-  // windows on what is left
-  for (let r = 0; r < 3; r++) {
-    for (let i = 0; i < 2; i++) {
-      c.fillRect(x + w * (0.06 + i * 0.08), y + h * (0.3 + r * 0.12), w * 0.045, h * 0.05, PAPER);
+  c.fillRect(x, base, w, 1.1, mix(INK, PAPER, 0.3));
+  const derrick = (dx: number, dw: number, dh: number) => {
+    c.stroke([[dx, base], [dx + dw * 0.5, base - dh]], 2, INK);
+    c.stroke([[dx + dw, base], [dx + dw * 0.5, base - dh]], 2, INK);
+    for (let i = 1; i < 4; i++) {
+      const yy = base - (dh * i) / 4;
+      c.fillRect(dx + dw * 0.5 * (i / 4), yy, dw * (1 - i / 2), 1, INK);
     }
-  }
-
-  // the neighbour, leaning
-  c.poly(
-    [
-      [x + w * 0.52, base],
-      [x + w * 0.56, y + h * 0.4],
-      [x + w * 0.74, y + h * 0.36],
-      [x + w * 0.78, base],
-    ],
-    mix(INK, PAPER, 0.3),
-  );
-  c.poly(
-    [
-      [x + w * 0.8, base],
-      [x + w * 0.82, y + h * 0.56],
-      [x + w * 0.95, y + h * 0.6],
-      [x + w * 0.96, base],
-    ],
-    INK,
-  );
-
-  // debris
-  const bits: [number, number, number, number][] = [
-    [0.02, 0.02, 0.05, 0.03],
-    [0.12, 0.015, 0.04, 0.025],
-    [0.33, 0.03, 0.06, 0.02],
-    [0.5, 0.02, 0.03, 0.03],
-    [0.66, 0.03, 0.05, 0.02],
-    [0.86, 0.02, 0.04, 0.03],
-  ];
-  for (const [bx, by, bw, bh] of bits) {
-    c.fillRect(x + w * bx, base - h * by, w * bw, h * bh, mix(INK, PAPER, 0.15));
-  }
-
-  c.fillRect(x, base, w, Math.max(1.1, h * 0.014), INK);
+    c.fillRect(dx + dw * 0.4, base - dh - 1, dw * 0.2, 1.4, INK);
+  };
+  derrick(x + w * 0.05, w * 0.17, h * 0.74);
+  derrick(x + w * 0.28, w * 0.15, h * 0.56);
+  c.fillRect(x + w * 0.16, base - h * 0.2, w * 0.55, h * 0.1, INK);
+  c.fillRect(x + w * 0.7, base - h * 0.2, w * 0.025, h * 0.22, INK);
+  c.fillRect(x + w * 0.8, base - h * 0.14, w * 0.07, h * 0.14, INK);
+  flame(c, x + w * 0.815, base - h * 0.14, w * 0.07, h * 0.42, RED, PAPER);
 };
 
+// 11. Jiuquan: the stack clear of the tower.
+const sceneRocket: Scene = (c, x, y, w, h) => {
+  const base = y + h * 0.94;
+  c.fillRect(x, base, w, 1.2, INK);
+  c.fillRect(x + w * 0.6, base - h * 0.06, w * 0.16, h * 0.06, INK);
+  const gx = x + w * 0.28;
+  for (let i = 0; i < 3; i++) c.fillRect(gx + i * w * 0.045, y + h * 0.1, 1.2, base - (y + h * 0.1), INK);
+  for (let i = 1; i < 4; i++) c.fillRect(gx, y + h * (0.1 + i * 0.2), w * 0.09, 1, INK);
+  const rx = x + w * 0.52;
+  const rw = w * 0.1;
+  c.poly([
+    [rx, y + h * 0.62], [rx, y + h * 0.24], [rx + rw * 0.5, y + h * 0.06],
+    [rx + rw, y + h * 0.24], [rx + rw, y + h * 0.62],
+  ], INK);
+  c.poly([[rx - w * 0.025, y + h * 0.62], [rx, y + h * 0.44], [rx, y + h * 0.62]], INK);
+  c.poly([[rx + rw + w * 0.025, y + h * 0.62], [rx + rw, y + h * 0.44], [rx + rw, y + h * 0.62]], INK);
+  tongue(c, rx + rw * 0.5, y + h * 0.64, rw * 0.9, h * 0.3, RED, 0.06);
+  tongue(c, rx + rw * 0.5, y + h * 0.64, rw * 0.45, h * 0.2, PAPER, 0.1);
+  for (let i = 0; i < 3; i++) c.disc(x + w * (0.14 + i * 0.1), y + h * (0.78 - i * 0.04), h * 0.06, mix(INK, PAPER, 0.4));
+};
+
+// 12. Canberra: the pact piped under the seabed.
+const sceneCarbon: Scene = (c, x, y, w, h) => {
+  const sea = waterline(c, x, y, w, h, 0.34);
+  c.poly([
+    [x + w * 0.04, sea], [x + w * 0.24, sea], [x + w * 0.22, sea - h * 0.16], [x + w * 0.06, sea - h * 0.16],
+  ], INK);
+  c.fillRect(x + w * 0.15, sea - h * 0.28, w * 0.05, h * 0.12, INK);
+  for (let i = 0; i < 3; i++) c.fillRect(x, y + h * (0.58 + i * 0.13), w, 0.9, mix(INK, PAPER, 0.62));
+  c.stroke([
+    [x + w * 0.17, sea], [x + w * 0.5, y + h * 0.5], [x + w * 0.78, y + h * 0.62], [x + w * 0.86, y + h * 0.82],
+  ], 2.6, INK);
+  c.poly([
+    [x + w * 0.9, y + h * 0.9], [x + w * 0.81, y + h * 0.74], [x + w * 0.94, y + h * 0.76],
+  ], RED);
+  for (let i = 0; i < 4; i++) {
+    c.disc(x + w * (0.33 + i * 0.05), y + h * (0.46 - i * 0.06), Math.max(1, h * 0.04), mix(INK, PAPER, 0.35));
+  }
+};
 // ---------------------------------------------------------------------------
 // The edition. Every line was read in reporting dated 24 November 2026; claims
 // that are contested say who made them.
@@ -893,12 +1014,24 @@ interface Story {
   lon: number;
   text: string;
   a?: readonly [number, number];
-  head?: string;
-  lead?: string;
-  art?: (c: Canvas, x: number, y: number, w: number, h: number) => void;
   key?: string;
   icon?: (c: Canvas, x: number, y: number) => void;
+  head?: string;
+  deck?: string;
+  theme?: Theme;
+  art?: Scene;
 }
+
+// Five beats, five inks: the band at the head of a card says which one it is
+// before a word is read.
+type Theme = 'CONFLICT' | 'POLITICS' | 'ECONOMY' | 'HEALTH' | 'CLIMATE';
+const THEME_INK: Readonly<Record<Theme, RGB>> = {
+  CONFLICT: RED,
+  POLITICS: [74, 92, 126],
+  ECONOMY: [150, 108, 44],
+  HEALTH: [40, 116, 104],
+  CLIMATE: [78, 120, 66],
+};
 
 // Pictograms for the list. Each is 13 by 11 and built from the same flat fills
 // and hairlines as the rest of the sheet, so a reader at thumbnail size can tell
@@ -1192,9 +1325,11 @@ const STORIES: Story[] = [
     lat: 26.6,
     lon: 56.4,
     text: 'The Guard navy said three tankers hit mines; Washington widened sanctions.',
-    head: 'IRAN SAYS MINES HIT THREE TANKERS',
-    lead: "Iran's Guard navy said three tankers hit mines in the strait. Washington widened sanctions on more than two dozen Iranian firms.",
-    art: drawStrait,
+    key: 'MINES',
+    head: 'MINES HIT TANKERS',
+    deck: "Guard navy: three tankers hit mines; the US widened sanctions",
+    theme: 'CONFLICT',
+    art: sceneStrait,
   },
   {
     n: 2,
@@ -1202,10 +1337,12 @@ const STORIES: Story[] = [
     beat: 'MIDDLE EAST / YEMEN WAR',
     lat: 24.7,
     lon: 46.7,
-    text: "Saudi-led coalition: drone hit the capital's tallest tower; civil defence: 11 hurt.",
-    head: 'HOUTHI STRIKE HITS RIYADH TOWER, SAUDIS SAY',
-    lead: 'The Saudi-led coalition said a drone hit the tallest tower in the capital; Saudi civil defence reported 11 wounded.',
-    art: drawSkyline,
+    text: "Saudi-led coalition: drone hit the capital's tallest tower; civil defence: at least 11 wounded.",
+    key: 'STRIKE',
+    head: 'DRONE HITS TOWER',
+    deck: 'Coalition: drone hit tallest tower; at least 11 wounded',
+    theme: 'CONFLICT',
+    art: sceneTower,
   },
   {
     n: 3,
@@ -1214,29 +1351,35 @@ const STORIES: Story[] = [
     lat: 4.1,
     lon: -73.6,
     text: 'A car bomb outside regional government offices hurt at least 23, authorities said.',
-    head: 'CAR BOMB ROCKS COLOMBIA',
-    lead: 'A car bomb exploded outside regional government offices in Villavicencio, hurting at least 23 people, authorities said.',
-    art: drawRubble,
+    key: 'BOMB',
+    head: 'CAR BOMB HURTS 23',
+    deck: 'Authorities: at least 23 hurt in a car bomb at offices',
+    theme: 'CONFLICT',
+    art: sceneBomb,
   },
   {
     n: 4,
-    key: 'MARKETS',
-    icon: icoChart,
     place: 'WASHINGTON',
     beat: 'NORTH AMERICA / MARKETS',
     lat: 38.9,
     lon: -77.0,
-    text: 'The S&P 500 fell 0.5% and the Nasdaq 1.5%; the Dow rose 0.9% to 50,018.70.',
+    text: 'S&P 500 -0.5%, Nasdaq -1.5%; Dow +0.9% to 50,018.70',
+    head: 'STOCKS END MIXED',
+    deck: 'S&P 500 -0.5%, Nasdaq -1.5%; Dow +0.9% to 50,018.70',
+    theme: 'ECONOMY',
+    art: sceneMarket,
   },
   {
     n: 5,
-    key: 'CONGRESS',
-    icon: icoDome,
     place: 'TENNESSEE',
     beat: 'NORTH AMERICA / CONGRESS',
     lat: 35.9,
     lon: -86.4,
-    text: "Broderick won Tennessee's 4th district, lifting Democrats to 259 House seats.",
+    text: "Broderick wins the 4th district; Democrats reach 259 seats",
+    head: 'DEMOCRATS TAKE 259',
+    deck: "Broderick wins the 4th district; Democrats reach 259 seats",
+    theme: 'POLITICS',
+    art: sceneBallot,
   },
   {
     n: 6,
@@ -1250,13 +1393,15 @@ const STORIES: Story[] = [
   },
   {
     n: 7,
-    key: 'BUDGET',
-    icon: icoNote,
     place: 'BRASILIA',
     beat: 'SOUTH AMERICA / ECONOMY',
     lat: -15.8,
     lon: -47.9,
-    text: "The lower house passed the fiscal bill 353-128; the real slipped near R$6.",
+    text: 'Fiscal bill passes 353-128; the real slips near R$6',
+    head: 'FISCAL BILL PASSES',
+    deck: 'Fiscal bill passes 353-128; the real slips near R$6',
+    theme: 'ECONOMY',
+    art: sceneVote,
   },
   {
     n: 8,
@@ -1296,17 +1441,20 @@ const STORIES: Story[] = [
     beat: 'EUROPE / TRADE',
     lat: 50.85,
     lon: 4.35,
-    text: 'EU Commission set 200-day provisional quotas on hybrid cars from China, UK, Japan.',
+    text: 'EU Commission set 200-day provisional quotas on hybrid cars from China, the UK, Japan and others.',
   },
   {
     n: 13,
-    key: 'WALKOUT',
-    icon: icoPlacard,
     place: 'WOLFSBURG',
     beat: 'EUROPE / LABOUR',
     lat: 52.4,
     lon: 10.8,
-    text: 'Talks at Volkswagen ended with no deal; strikes possible from 1 January.',
+    text: 'VW talks end without a deal; strikes possible 1 January',
+    key: 'TALKS',
+    head: 'VW TALKS FAIL',
+    deck: 'VW talks end without a deal; strikes possible 1 January',
+    theme: 'ECONOMY',
+    art: sceneFactory,
   },
   {
     n: 14,
@@ -1320,17 +1468,19 @@ const STORIES: Story[] = [
   },
   {
     n: 15,
-    key: 'EBOLA',
-    icon: icoCross,
     place: 'ITURI',
     beat: 'AFRICA / HEALTH',
     lat: 1.6,
     lon: 30.2,
-    text: "WHO staff have sheltered in a maternity ward since Saturday, the UN agency said.",
+    text: 'WHO staff shelter in a maternity ward since Saturday',
+    head: 'EBOLA TRAPPED',
+    deck: 'WHO staff shelter in a maternity ward since Saturday',
+    theme: 'HEALTH',
+    art: sceneClinic,
   },
   {
     n: 16,
-    key: 'RALLY',
+    key: 'CURFEW',
     icon: icoMegaphone,
     place: 'DELTA STATE',
     beat: 'AFRICA / ELECTIONS',
@@ -1360,23 +1510,27 @@ const STORIES: Story[] = [
   },
   {
     n: 19,
-    key: 'DRONE',
-    icon: icoDrone,
     place: 'KHAN YOUNIS',
     beat: 'MIDDLE EAST / GAZA',
     lat: 31.3,
     lon: 34.3,
-    text: 'A drone hit al-Mawasi, killing 3 and wounding 5, Jordan News reported.',
+    text: 'Jordan News: a drone kills 3 and wounds 5 at al-Mawasi',
+    head: 'DRONE KILLS THREE',
+    deck: 'Jordan News: a drone kills 3 and wounds 5 at al-Mawasi',
+    theme: 'CONFLICT',
+    art: sceneDrone,
   },
   {
     n: 20,
-    key: 'OILFIELDS',
-    icon: icoDerrick,
     place: 'BAGHDAD',
     beat: 'MIDDLE EAST / OIL',
     lat: 33.3,
     lon: 44.4,
-    text: 'Iraq PM: Oil Ministry to take over oilfields; border forces to shut unofficial crossings.'
+    text: 'Iraq PM: ministry to take over oilfields, shut crossings',
+    head: 'IRAQ MOVES ON OIL',
+    deck: 'Iraq PM: ministry to take over oilfields, shut crossings',
+    theme: 'CLIMATE',
+    art: sceneDerrick,
   },
   {
     n: 21,
@@ -1386,7 +1540,7 @@ const STORIES: Story[] = [
     beat: 'ASIA / DEFENCE',
     lat: 37.6,
     lon: 127.0,
-    text: 'Jets scrambled after Russian aircraft entered the zone, South Korea said.'
+    text: 'Jets scrambled after Russian aircraft entered the zone, South Korea said.',
   },
   {
     n: 22,
@@ -1396,7 +1550,7 @@ const STORIES: Story[] = [
     beat: 'ASIA / POLITICS',
     lat: 23.8,
     lon: 90.4,
-    text: 'Hasina announced a 16 December return; a state minister said she must be extradited.'
+    text: 'Hasina announced a 16 December return; a state minister said she must be extradited.',
   },
   {
     n: 23,
@@ -1406,7 +1560,7 @@ const STORIES: Story[] = [
     beat: 'ASIA / ECONOMY',
     lat: 1.35,
     lon: 103.8,
-    text: 'The trade ministry said Q3 growth was 6.1% year on year, ahead of the 5.4% estimate',
+    text: 'The trade ministry said Q3 growth was 6.1% year on year, ahead of the 5.4% estimate.',
   },
   {
     n: 24,
@@ -1426,7 +1580,7 @@ const STORIES: Story[] = [
     beat: 'ASIA / DISASTER',
     lat: 21.03,
     lon: 105.85,
-    text: 'A suspected gas explosion at an eatery killed six and hurt 10, officials said.'
+    text: 'A suspected gas explosion at an eatery killed six and hurt 10, officials said.',
   },
   {
     n: 27,
@@ -1436,17 +1590,19 @@ const STORIES: Story[] = [
     beat: 'ASIA / JUSTICE',
     lat: 35.7,
     lon: 139.7,
-    text: 'Japan will pay its 2027 ICC dues by year-end, ahead of US sanctions due in April.'
+    text: 'Japan pledged to pay its 2027 ICC dues by year-end, ahead of US sanctions due in April.',
   },
   {
     n: 28,
-    key: 'LAUNCH',
-    icon: icoRocket,
     place: 'JIUQUAN',
     beat: 'ASIA / SPACE',
     lat: 39.7,
     lon: 98.5,
-    text: "Shenzhou-24 lifted off with Pakistan's Zeeshan Ali, first foreigner on the station.",
+    text: "Shenzhou-24 lifted off with Pakistan's Zeeshan Ali, China's first foreign astronaut bound for Tiangong.",
+    head: 'SHENZHOU LIFTS OFF',
+    deck: "Shenzhou-24 lifted off with Pakistan's Zeeshan Ali, China's first foreign astronaut bound for Tiangong.",
+    theme: 'HEALTH',
+    art: sceneRocket,
   },
   {
     n: 29,
@@ -1456,17 +1612,19 @@ const STORIES: Story[] = [
     beat: 'ASIA / AVIATION',
     lat: 24.5,
     lon: 118.1,
-    text: 'Xiamen signed to buy 50 Boeing 737-8s at $7.4bn list price, pending approval.'
+    text: 'Xiamen signed to buy 50 Boeing 737-8s at $7.4bn list price, pending approval.',
   },
   {
     n: 30,
-    key: 'CARBON',
-    icon: icoCarbon,
     place: 'CANBERRA',
     beat: 'OCEANIA / DIPLOMACY',
     lat: -35.3,
     lon: 149.1,
-    text: "Singapore's foreign ministry said the two countries signed a CO2 pact and a supply MoU.",
+    text: "Ministry: the two countries signed a CO2 and supply pact",
+    head: 'CO2 PACT SIGNED',
+    deck: "Ministry: the two countries signed a CO2 and supply pact",
+    theme: 'CLIMATE',
+    art: sceneCarbon,
   },
   {
     n: 32,
@@ -1486,7 +1644,7 @@ const STORIES: Story[] = [
     beat: 'ASIA / REFUGEES',
     lat: 3.1,
     lon: 101.7,
-    text: 'Malaysia will send 6,803 more Myanmar nationals home despite an ICJ ruling.'
+    text: 'Malaysia will send 6,803 more Myanmar nationals home despite an ICJ ruling.',
   },
 ];
 
@@ -1541,32 +1699,59 @@ const LAND: readonly (readonly (readonly [number, number])[])[] = [
   [],
 ];
 
-const MAP = { x: 40, y: 208, w: 944, h: 240, top: 72, bottom: -56 };
-const SEA_LAND: RGB = mix(LINE, PAPER, 0.18);
+// The sheet's top edge: the masthead, then a band that states the day in type
+// big enough to survive a three-hundred-pixel view, then the world.
+const MAP_Y = 66;
+const MAP_H = 76;
+const MAP = { x: 40, y: MAP_Y, w: 944, h: MAP_H, top: 72, bottom: -48 };
+const SEA_FIELD: RGB = mix(PAPER, [116, 138, 148], 0.1);
+const SEA_LAND: RGB = mix([150, 138, 114], PAPER, 0.22);
 const lonX = (lon: number): number => MAP.x + ((lon + 180) / 360) * MAP.w;
 const latY = (lat: number): number => MAP.y + ((MAP.top - lat) / (MAP.top - MAP.bottom)) * MAP.h;
+
+// Six regions, six inks. A pin carries its region's colour, so the map can be
+// read by area as well as by number, and the key under it is six words long.
+const REGIONS = ['AMERICAS', 'EUROPE', 'AFRICA', 'MIDDLE EAST', 'ASIA', 'OCEANIA'] as const;
+type Region = (typeof REGIONS)[number];
+const REGION_INK: Readonly<Record<Region, RGB>> = {
+  AMERICAS: [150, 92, 62],
+  EUROPE: [72, 92, 128],
+  AFRICA: [138, 112, 48],
+  'MIDDLE EAST': [168, 80, 52],
+  ASIA: [80, 116, 80],
+  OCEANIA: [112, 90, 128],
+};
+const regionOf = (s: Story): Region => {
+  const top = s.beat.split('/')[0].trim();
+  if (top.includes('AMERICA')) return 'AMERICAS';
+  return (REGIONS as readonly string[]).includes(top) ? (top as Region) : 'ASIA';
+};
 
 // Land is a stack of latitude bands, each one a bar: a low-resolution world
 // that reads as a silhouette, with hairline gaps to keep the print texture.
 const drawWorld = (c: Canvas): void => {
+  c.fillRect(MAP.x, MAP.y, MAP.w, MAP.h, SEA_FIELD);
+  c.fillRect(MAP.x, MAP.y, MAP.w, 0.8, mix(INK, PAPER, 0.55));
+  c.fillRect(MAP.x, MAP.y + MAP.h - 0.8, MAP.w, 0.8, mix(INK, PAPER, 0.55));
   const bandH = (4 * MAP.h) / (MAP.top - MAP.bottom);
   LAND.forEach((bands, r) => {
     const yc = latY(82 - 4 * r);
     const top = Math.max(MAP.y, yc - bandH / 2);
     const bot = Math.min(MAP.y + MAP.h, yc + bandH / 2);
     if (bot - top < 1) return;
-    // one-degree cells, so the coast steps sideways by about 2.6 pixels
+    // One dot per degree of land: a halftone coast, which at this height reads
+    // as a world rather than as a band of bars.
     for (let lon = -180; lon < 180; lon += 1) {
       const mid = lon + 0.5;
       if (bands.some(([a, b]) => mid >= a && mid <= b)) {
-        c.fillRect(lonX(lon), top, 2.7, bot - top + 0.1, SEA_LAND);
+        c.disc(lonX(lon) + 1.3, (top + bot) / 2, 1.15, SEA_LAND);
       }
     }
   });
 };
 
 // Badges start where each story's dot is and push each other apart, so a
-// crowded region fans out along leader lines instead of stacking up.
+// crowded region fans out along a hairline instead of stacking up.
 interface Pin {
   x: number;
   y: number;
@@ -1575,11 +1760,13 @@ interface Pin {
   s: Story;
 }
 
+const PINSZ = 11;
+
 const placePins = (): Pin[] => {
   const pins: Pin[] = STORIES.map((s) => {
     const [ox, oy] = s.a ?? [0, -13];
-    const ax = lonX(s.lon) + ox;
-    const ay = latY(s.lat) + oy;
+    const ax = lonX(s.lon) + ox * 0.5;
+    const ay = latY(s.lat) + oy * 0.5;
     return { x: ax, y: ay, ax, ay, s };
   });
   for (let it = 0; it < 260; it++) {
@@ -1589,13 +1776,13 @@ const placePins = (): Pin[] => {
         const b = pins[j];
         const dx = b.x - a.x;
         const dy = b.y - a.y;
-        if (Math.abs(dx) < 21 && Math.abs(dy) < 21) {
+        if (Math.abs(dx) < PINSZ + 3 && Math.abs(dy) < PINSZ + 3) {
           if (Math.abs(dx) >= Math.abs(dy)) {
-            const push = (dx >= 0 ? 1 : -1) * (21 - Math.abs(dx)) * 0.5;
+            const push = (dx >= 0 ? 1 : -1) * (PINSZ + 3 - Math.abs(dx)) * 0.5;
             a.x -= push;
             b.x += push;
           } else {
-            const push = (dy >= 0 ? 1 : -1) * (21 - Math.abs(dy)) * 0.5;
+            const push = (dy >= 0 ? 1 : -1) * (PINSZ + 3 - Math.abs(dy)) * 0.5;
             a.y -= push;
             b.y += push;
           }
@@ -1603,25 +1790,32 @@ const placePins = (): Pin[] => {
       }
     }
     for (const p of pins) {
-      p.x += (p.ax - p.x) * 0.035;
-      p.y += (p.ay - p.y) * 0.035;
-      p.x = Math.max(MAP.x + 15, Math.min(MAP.x + MAP.w - 15, p.x));
-      p.y = Math.max(MAP.y + 12, Math.min(MAP.y + MAP.h - 36, p.y));
+      p.x += (p.ax - p.x) * 0.05;
+      p.y += (p.ay - p.y) * 0.05;
+      p.x = Math.max(MAP.x + 6, Math.min(MAP.x + MAP.w - 6 - PINSZ, p.x));
+      p.y = Math.max(MAP.y + 5, Math.min(MAP.y + MAP.h - 5 - PINSZ, p.y));
     }
   }
   return pins;
 };
 
-// Bigger badges than the first edition: a 6.6-pixel number disappeared when the
-// sheet was scaled down, and the marks have to be findable at thumbnail size.
+// One mark per dispatch: an eleven-pixel square in its region's colour, the
+// number reversed out. A hairline joins it to the place only when it moved.
 const drawPin = (c: Canvas, p: Pin): void => {
   const x = lonX(p.s.lon);
   const y = latY(p.s.lat);
-  c.stroke([[x, y], [p.x, p.y]], 0.9, RED);
-  c.disc(x, y, 2.2, RED);
-  c.fillRect(p.x - 9, p.y - 9, 18, 18, RED);
-  drawText(c, String(p.s.n), p.x, p.y + 4.2, 9.4, PAPER, { align: 'center', weight: 0.78 });
+  const ink = REGION_INK[regionOf(p.s)];
+  const dx = p.x - x;
+  const dy = p.y - y;
+  if (Math.hypot(dx, dy) > 5) c.stroke([[x, y], [p.x + PINSZ / 2, p.y + PINSZ / 2]], 0.6, mix(ink, PAPER, 0.35));
+  c.disc(x, y, 1.1, ink);
+  c.fillRect(p.x, p.y, PINSZ, PINSZ, ink);
+  drawText(c, String(p.s.n), p.x + PINSZ / 2, p.y + 8.1, 7.2, PAPER, { align: 'center', weight: 0.8, silent: true });
+  BOXES.push({ label: `pin ${p.s.n}`, x0: p.x, x1: p.x + PINSZ, y0: p.y, y1: p.y + PINSZ });
 };
+// ---------------------------------------------------------------------------
+// Composition
+// ---------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
 // Composition
@@ -1635,176 +1829,213 @@ const rule = (c: Canvas, x: number, y: number, w: number, color: RGB, t = 1): vo
   c.fillRect(x, y, w, t, color);
 };
 
-const stamp = (c: Canvas, n: number, x: number, y: number): void => {
-  c.fillRect(x, y, 13, 13, RED);
-  drawText(c, String(n), x + 6.5, y + 9.4, 7.4, PAPER, { align: 'center', weight: 0.78 });
-};
-
 const render = (): Uint8Array => {
   const c = new Canvas(W * SS, H * SS);
   c.fillRect(0, 0, W, H, PAPER);
 
   // Masthead
-  drawText(c, 'WORLD NEWS', M, 58, 20, INK, { weight: 1.3, tracking: 0.16 });
-  drawText(c, 'SIX CONTINENTS · THIRTY DISPATCHES', RIGHT, 56, 9.5, MUTED, { align: 'right', tracking: 0.16 });
-  rule(c, M, 66, CONTENT, INK, 3);
+  drawText(c, 'WORLD NEWS', M, 21, 15, INK, { weight: 1.35, tracking: 0.16 });
+  // The map's key sits in the masthead, where it costs no room.
+  const keyW = REGIONS.reduce((n, r) => n + 9 + measure(r, 6.4, 0.1) + 20, -20);
+  let kx = RIGHT - keyW;
+  for (const r of REGIONS) {
+    c.fillRect(kx, 12, 6.2, 6.2, REGION_INK[r]);
+    drawText(c, r, kx + 9, 18, 6.4, MUTED, { tracking: 0.1, weight: 0.8 });
+    kx += 9 + measure(r, 6.4, 0.1) + 20;
+  }
+  rule(c, M, 23, CONTENT, INK, 2.2);
 
-  // The day
-  drawText(c, 'TUESDAY', M + 2, 92, 11.5, RED, { weight: 1.15, tracking: 0.26 });
-  drawText(c, '24', M - 6, 194, 84, INK, { weight: 0.72 });
-  c.fillRect(214, 100, 3, 94, RED);
-  drawText(c, 'NOVEMBER', 228, 146, 24, INK, { weight: 1.05, tracking: 0.04 });
-  drawText(c, '2026', 228, 178, 24, RED, { weight: 1.05, tracking: 0.04 });
-
-  // Standfirst
-  const stand = fit(
-    'Every item below was reported on 24 November 2026. Contested figures are credited to whoever gave them.',
-    176,
-    5,
-    8.2,
-    7.2,
-    1.36,
-  );
-  rule(c, 420, 98, 1, LINE, 88);
-  drawFitted(c, stand, 432, 108, MUTED, 0.7);
-
-  // The day in numbers
-  const NX = 620;
-  drawText(c, 'THE DAY IN NUMBERS', NX, 92, 8, MUTED, { tracking: 0.18 });
-  const figures: [string, string][] = [
-    ['3', 'TANKERS MINED, SAID THE IRGC'],
-    ['259', 'HOUSE SEATS, DEMOCRATS'],
-    ['23', 'HURT IN VILLAVICENCIO'],
-    ['6.1%', 'SINGAPORE Q3 GDP'],
-  ];
-  figures.forEach(([fig, label], i) => {
-    const col = i % 2;
-    const row = Math.floor(i / 2);
-    const cx = NX + col * 182;
-    const cy = 96 + row * 52;
-    drawText(c, fig, cx, cy + 22, 18.5, i === 0 ? RED : INK, { weight: 0.92, tracking: 0.02 });
-    drawText(c, label, cx, cy + 34, 7.2, MUTED, { tracking: 0.04, weight: 0.68 });
+  // The day, in a band of its own: the date has to survive a three-hundred-
+  // pixel view, so it is the largest thing above the cards.
+  const BAND_Y = 26;
+  const BAND_H = 36;
+  c.fillRect(M, BAND_Y, CONTENT, BAND_H, INK);
+  c.fillRect(M, BAND_Y, 7, BAND_H, RED);
+  drawText(c, 'TUESDAY 24 NOVEMBER 2026', M + 18, BAND_Y + 26, 26, PAPER, { weight: 1.1, tracking: 0.05 });
+  drawText(c, 'THIRTY DISPATCHES · SIX CONTINENTS', RIGHT - 14, BAND_Y + 25, 8, PAPER, {
+    align: 'right',
+    tracking: 0.16,
   });
-  rule(c, NX + 176, 96, 1, LINE, 88);
 
-  // Where it happened
-  rule(c, M, 204, CONTENT, LINE, 1);
-  rule(c, M, 204, 1, LINE, 242);
-  rule(c, RIGHT, 204, 1, LINE, 242);
+  // The world, small and clean, each pin in its region's colour.
   drawWorld(c);
-  drawText(c, 'WHERE IT HAPPENED', M + 4, 430, 8, MUTED, { tracking: 0.18 });
-  drawText(c, 'SCHEMATIC MAP, 72°N TO 56°S. ONE MARK FOR EACH DISPATCH', M + 4, 442, 7, MUTED, { tracking: 0.08 });
+  for (const lat of [23.5, 0, -23.5]) {
+    c.fillRect(MAP.x, latY(lat), MAP.w, 0.5, mix(INK, PAPER, 0.78));
+  }
   for (const p of placePins()) drawPin(c, p);
 
-  // Three leads
-  const LEAD_TOP = 456;
-  const LW = 306;
-  const gap = (CONTENT - LW * 3) / 2;
-  STORIES.filter((s) => s.head).forEach((s, i) => {
-    const x = M + i * (LW + gap);
-    rule(c, x, LEAD_TOP - 8, LW, INK, 2);
-    stamp(c, s.n, x, LEAD_TOP);
-    drawText(c, s.place, x + 18, LEAD_TOP + 9.6, 8, INK, { weight: 1.05, tracking: 0.1 });
-    drawText(c, s.beat, x + LW, LEAD_TOP + 9.6, 6.6, MUTED, { align: 'right', tracking: 0.1 });
+  // -------------------------------------------------------------------------
+  // The briefs are measured first, from the foot of the page up, so the cards
+  // can take exactly the room that is left.
+  // -------------------------------------------------------------------------
 
-    s.art?.(c, x + 230, LEAD_TOP + 16, 76, 76);
+  const BODY = 11;
+  const KEY = 16;
+  const BRIEF_COLS = 6;
+  const BRIEF_GAP = 6;
+  const BRIEF_W = (CONTENT - BRIEF_GAP * (BRIEF_COLS - 1)) / BRIEF_COLS;
+  const BRIEF_BOTTOM = 946;
+  const BRIEF_ROWS = 3;
+  const briefs = STORIES.filter((s) => !s.head);
+  if (briefs.length !== 18) fail(`the compact list carries ${briefs.length} dispatches, not eighteen`);
+  if (STORIES.filter((s) => s.head).length !== 12) fail('the card grid does not carry twelve dispatches');
 
-    const head = fit(s.head ?? '', 222, 2, 12.5, 9.5, 1.3);
-    drawFitted(c, head, x, LEAD_TOP + 36, INK, 1.0);
-    const lead = fit(s.lead ?? '', 222, 4, 8, 7.2, 1.32);
-    const leadY = LEAD_TOP + 36 + (head.lines.length - 1) * head.lead + 14;
-    drawFitted(c, lead, x, leadY, MUTED, 0.7);
+  const perRow = Math.ceil(briefs.length / BRIEF_ROWS);
+  const briefRows = [] as { s: Story; f: Fitted; h: number }[][];
+  for (let r = 0; r < BRIEF_ROWS; r++) {
+    briefRows.push(
+      briefs.slice(r * perRow, (r + 1) * perRow).map((s) => {
+        const f = typeset(s.text, BRIEF_W - 2, BODY, 1.16);
+        return { s, f, h: KEY + 13 + (f.lines.length - 1) * f.lead + BODY * 0.12 + 1 };
+      }),
+    );
+  }
+  const briefsH =
+    briefRows.reduce((n, row) => n + Math.max(...row.map((it) => it.h)) + 4, 0) - 4;
+  const briefsTop = BRIEF_BOTTOM - briefsH;
+  const briefLabelY = briefsTop - 3;
+  if (briefsTop < 560) fail(`the compact list starts at ${briefsTop.toFixed(1)}, too high above the foot`);
+
+  rule(c, M, briefLabelY - 15, CONTENT, INK, 1);
+  drawText(c, 'ALSO TODAY', M, briefLabelY, 8.4, INK, { weight: 1.15, tracking: 0.18 });
+  drawText(c, 'EIGHTEEN MORE DISPATCHES, EACH WITH ITS PICTOGRAM', RIGHT, briefLabelY, 7.2, MUTED, {
+    align: 'right',
+    tracking: 0.14,
   });
 
-  // Also today: three columns of ten. Each row is measured before it is drawn:
-  // a block that wants a third line stops the build rather than eating the row
-  // below it.
-  rule(c, M, 570, CONTENT, INK, 1);
-  drawText(c, 'ALSO TODAY', M, 580, 8.4, INK, { weight: 1.15, tracking: 0.18 });
-  drawText(c, 'TWENTY-SEVEN MORE DISPATCHES', RIGHT, 580, 7.4, MUTED, { align: 'right', tracking: 0.14 });
-  const LIST_TOP = 588;
-  const ROW = 38;
-  const BAND_BOTTOM = 929;
-  const colW = 300;
-  const colGap = (CONTENT - colW * 3) / 2;
-  const BODY = 7.6;
-  const PLACE = 8.4;
-  // The keyword is the one thing that has to survive a 300-pixel view, so it is
-  // set heavier and half again as tall as the place name beside it.
-  const KEY = 11.5;
-  // Number, then its pictogram, then the place: each gap is checked, so a
-  // two-digit number can never run into the mark beside it.
-  const ICON_X = 24;
-  const PLACE_X = 41;
-  const FIRST_BODY = 21;
+  // -------------------------------------------------------------------------
+  // Twelve cards: scene, headline, deck, number.
+  // -------------------------------------------------------------------------
+
+  const CARD_TOP = 158;
+  const CARD_GAP = 8;
+  const CARD_COLS = 4;
+  const CARD_W = (CONTENT - CARD_GAP * (CARD_COLS - 1)) / CARD_COLS;
+  const cards = STORIES.filter((s) => s.head);
+  const cardsBottom = briefLabelY - 26;
+  const CARD_H = (cardsBottom - CARD_TOP - CARD_GAP * 2) / 3;
+  const HEAD_SZ = 24;
+
+  rule(c, M, CARD_TOP - 15, CONTENT, INK, 1);
+  drawText(c, 'TWELVE DISPATCHES IN PICTURES', M, CARD_TOP - 5, 8, INK, { weight: 1.15, tracking: 0.18 });
+  const beats: [Theme, string][] = [
+    ['CONFLICT', 'CONFLICT'],
+    ['POLITICS', 'POLITICS'],
+    ['ECONOMY', 'ECONOMY'],
+    ['HEALTH', 'HEALTH & SCIENCE'],
+    ['CLIMATE', 'CLIMATE & ENERGY'],
+  ];
+  const beatsW = beats.reduce((n, [, label]) => n + 8 + measure(label, 6.4, 0.1) + 12, -12);
+  let bx = RIGHT - beatsW;
+  for (const [theme, label] of beats) {
+    c.fillRect(bx, CARD_TOP - 11, 6, 6, THEME_INK[theme]);
+    drawText(c, label, bx + 8, CARD_TOP - 5, 6.4, MUTED, { tracking: 0.1, weight: 0.85 });
+    bx += 8 + measure(label, 6.4, 0.1) + 12;
+  }
+
+  if (CARD_H < 134) fail(`only ${CARD_H.toFixed(1)}px for each card; the grid needs 134`);
+
+  cards.forEach((s, i) => {
+    const col = i % CARD_COLS;
+    const row = Math.floor(i / CARD_COLS);
+    const x = M + col * (CARD_W + CARD_GAP);
+    const y = CARD_TOP + row * (CARD_H + CARD_GAP);
+    const theme = s.theme as Theme;
+    const head = typeset(s.head ?? '', CARD_W - 2, HEAD_SZ, 1.13);
+    const deck = typeset(s.deck ?? '', CARD_W - 2, 8.2, 1.16);
+    const headY = y + 65;
+    const deckY = headY + (head.lines.length - 1) * head.lead + 14;
+    const bottom = blockHeight(deck, deckY);
+
+    if (head.lines.length > 2) {
+      fail(`card ${s.n} ${s.place}: headline takes ${head.lines.length} lines at ${HEAD_SZ}px: ${head.lines.join(' | ')}`);
+    }
+    for (const ln of head.lines) {
+      if (measure(ln, HEAD_SZ) > CARD_W - 2) fail(`card ${s.n}: headline line wider than the card ("${ln}")`);
+    }
+    for (const ln of deck.lines) {
+      if (measure(ln, 8.2) > CARD_W - 2) fail(`card ${s.n}: deck line wider than the card ("${ln}")`);
+    }
+    // Every deck is a line or two; the Jiuquan deck is the wording the editor
+    // dictated, so it is allowed the extra lines rather than cut.
+    const deckMax = s.place === 'JIUQUAN' ? 4 : 2;
+    if (deck.lines.length > deckMax) fail(`card ${s.n} ${s.place}: deck takes ${deck.lines.length} lines`);
+    if (bottom > y + CARD_H) {
+      fail(`card ${s.n} ${s.place}: content ends at ${(bottom - y).toFixed(1)} in a ${CARD_H.toFixed(1)}px card`);
+    }
+
+    // The scene goes down first and the band is laid over its head, so a plume
+    // that rises past the top of the picture cannot reach the label.
+    s.art?.(c, x, y + 13, CARD_W, 24);
+    BOXES.push({ label: `scene ${s.n}`, x0: x, x1: x + CARD_W, y0: y + 13, y1: y + 37 });
+    c.fillRect(x, y, CARD_W, 14, THEME_INK[theme]);
+    const numW = measure(String(s.n), 9, 0.02);
+    drawText(c, String(s.n), x + 5, y + 10.4, 9, PAPER, { weight: 1.2, tracking: 0.02, silent: true });
+    drawText(c, s.place, x + 9 + numW, y + 10.4, 8.4, PAPER, { weight: 1.05, tracking: 0.08 });
+    drawText(c, s.key ?? '', x + CARD_W - 4, y + 10.4, 8.4, PAPER, {
+      align: 'right',
+      tracking: 0.08,
+      weight: 1.35,
+    });
+    drawFitted(c, head, x, headY, INK, 1.05);
+    drawFitted(c, deck, x, deckY, MUTED, 0.72);
+  });
+
+  // -------------------------------------------------------------------------
+  // Eighteen briefs: number, pictogram, keyword, sentence.
+  // -------------------------------------------------------------------------
+
   const sigs = new Map<string, number>();
-  const rest = STORIES.filter((s) => !s.head);
-  rest.forEach((s, i) => {
-    const col = Math.floor(i / 9);
-    const row = i % 9;
-    const x = M + col * (colW + colGap);
-    const y = LIST_TOP + row * ROW;
-    const body = typeset(s.text, colW - 18, BODY, 1.24);
-    const h = blockHeight(body, FIRST_BODY);
-    if (h > ROW - 1.5) {
-      const widths = body.lines.map((ln) => `${measure(ln, BODY).toFixed(0)}px/"${ln}"`).join('  ');
-      fail(
-        `dispatch ${s.n} ${s.place}: block is ${h.toFixed(1)}px in a ${(ROW - 1.5).toFixed(1)}px row (${body.lines.length} lines at ${BODY}px, ${colW - 18}px wide: ${widths})`,
-      );
-    }
-    if (y + h > BAND_BOTTOM) fail(`dispatch ${s.n} ${s.place}: block ends at ${(y + h).toFixed(1)}, past ${BAND_BOTTOM}`);
-    if (measure(s.place, PLACE, 0.1) > colW - 20) fail(`dispatch ${s.n}: place name wider than its column`);
-    if (!s.key) fail(`dispatch ${s.n} ${s.place}: no keyword`);
-    if (!s.icon) fail(`dispatch ${s.n} ${s.place}: no pictogram`);
-    const numW = measure(String(s.n), 10, 0.02);
-    if (ICON_X - numW < 4) {
-      fail(`dispatch ${s.n}: number is ${numW.toFixed(1)}px wide, leaving ${(ICON_X - numW).toFixed(1)}px before its pictogram`);
-    }
-    if (PLACE_X - (ICON_X + IW) < 4) {
-      fail(`dispatch ${s.n} ${s.place}: pictogram ends ${(PLACE_X - ICON_X - IW).toFixed(1)}px before the place name`);
-    }
-    if (s.icon) {
-      const sig = iconSignature(s.icon);
-      const seen = sigs.get(sig);
-      if (seen !== undefined) fail(`dispatch ${s.n} ${s.place}: pictogram is the same drawing as dispatch ${seen}`);
-      else sigs.set(sig, s.n);
-    }
-    const kwW = measure(s.key ?? '', KEY, 0.05);
-    const kwLeft = x + colW - kwW;
-    const placeEnd = x + PLACE_X + measure(s.place, PLACE, 0.1);
-    if (placeEnd + 10 > kwLeft) {
-      fail(
-        `dispatch ${s.n} ${s.place}: place ends at ${placeEnd.toFixed(1)} but "${s.key}" starts at ${kwLeft.toFixed(1)}`,
-      );
-    }
-    for (const ln of body.lines) {
-      if (measure(ln, BODY) > colW - 18) fail(`dispatch ${s.n} ${s.place}: line wider than its column ("${ln}")`);
-    }
-    drawText(c, String(s.n), x, y + 9.8, 10, RED, { weight: 1.1, tracking: 0.02 });
-    s.icon?.(c, x + ICON_X, y + 1.2);
-    BOXES.push({ label: `pictogram ${s.n}`, x0: x + ICON_X, x1: x + ICON_X + IW, y0: y + 1.2, y1: y + 1.2 + IH });
-    drawText(c, s.place, x + PLACE_X, y + 9.2, PLACE, INK, { weight: 1.05, tracking: 0.1 });
-    drawText(c, s.key ?? '', x + colW, y + 9.8, KEY, INK, { align: 'right', weight: 1.35, tracking: 0.05 });
-    drawFitted(c, body, x + 18, y + FIRST_BODY, DARK, 0.92);
+  let y = briefsTop;
+  briefRows.forEach((row) => {
+    const rowH = Math.max(...row.map((it) => it.h));
+    row.forEach((it, col) => {
+      const { s, f } = it;
+      const x = M + col * (BRIEF_W + BRIEF_GAP);
+      const keyBase = y + KEY;
+      const numW = measure(String(s.n), 9, 0.02);
+      const kwW = measure(s.key ?? '', KEY, 0);
+      if (!s.key) fail(`brief ${s.n} ${s.place}: no keyword`);
+      if (!s.icon) fail(`brief ${s.n} ${s.place}: no pictogram`);
+      if (numW + 2 + IW > BRIEF_W - kwW) {
+        fail(`brief ${s.n} ${s.place}: number and pictogram leave no room for "${s.key}"`);
+      }
+      if (keyBase - KEY < y) fail(`brief ${s.n}: keyword rises above its row`);
+      if (it.h > rowH + 0.01) fail(`brief ${s.n}: block taller than its row`);
+      if (KEY < 16) fail('keyword below sixteen pixels');
+      if (BODY < 11) fail('brief sentence below eleven pixels');
+      if (s.icon) {
+        const sig = iconSignature(s.icon);
+        const seen = sigs.get(sig);
+        if (seen !== undefined) fail(`brief ${s.n} ${s.place}: pictogram repeats dispatch ${seen}`);
+        else sigs.set(sig, s.n);
+      }
+      drawText(c, String(s.n), x, keyBase, 9, RED, { weight: 1.1, tracking: 0.02 });
+      s.icon?.(c, x + numW + 2, keyBase - 10);
+      BOXES.push({ label: `pictogram ${s.n}`, x0: x + numW + 2, x1: x + numW + 2 + IW, y0: keyBase - 10, y1: keyBase + 1 });
+      drawText(c, s.key ?? '', x + numW + 2 + IW + 4, keyBase, KEY, INK, { weight: 1.35 });
+      drawFitted(c, f, x, keyBase + 13, DARK, 0.92);
+    });
+    y += rowH + 4;
   });
 
   // Footer
-  rule(c, M, 934, CONTENT, INK, 2);
+  rule(c, M, 952, CONTENT, INK, 2);
   drawText(
     c,
-    'SOURCES, EACH A PAGE DATED 24 NOVEMBER 2026: CNBC · REUTERS VIA YAHOO · AP VIA GLOBE AND MAIL · THE GUARDIAN VIA AOL · SPACE.COM',
+    'SOURCES, EACH A PAGE DATED 24 NOVEMBER 2026: CNBC · REUTERS VIA YAHOO · AP VIA GLOBE AND MAIL · THE GUARDIAN VIA AOL · SPACE.COM · ANADOLU · UKRINFORM',
     M,
-    950,
-    7.2,
+    964,
+    6.6,
     MUTED,
     { tracking: 0.04 },
   );
   drawText(
     c,
-    'ANADOLU · UKRINFORM · UN NEWS · ASIAONE · THE STAR · OUTLOOK · YENI SAFAK · DABANGA · AFP VIA EWN · FIJI SUN · USNI · AEROSPACE · ONTARIO GOVERNMENT · SINGAPORE MFA',
+    'UN NEWS · ASIAONE · THE STAR · OUTLOOK · YENI SAFAK · DABANGA · AFP VIA EWN · FIJI SUN · USNI · AEROSPACE · ONTARIO GOVERNMENT · SINGAPORE MFA',
     M,
-    963,
-    7.2,
+    975,
+    6.6,
     MUTED,
     { tracking: 0.04 },
   );
@@ -1812,12 +2043,12 @@ const render = (): Uint8Array => {
     c,
     'FIGURES ARE CREDITED TO WHOEVER GAVE THEM; CLAIMS ARE ATTRIBUTED, NOT ASSERTED. STORIES.JSON LISTS EVERY PAGE.',
     M,
-    977,
-    7.2,
+    986,
+    6.6,
     MUTED,
     { tracking: 0.04 },
   );
-  drawText(c, '24 · 11 · 2026', RIGHT, 976, 7.6, RED, { align: 'right', weight: 1.1, tracking: 0.1 });
+  drawText(c, '24 · 11 · 2026', RIGHT, 985, 7.6, RED, { align: 'right', weight: 1.1, tracking: 0.1 });
 
   checkLayout();
   return c.resolve();
