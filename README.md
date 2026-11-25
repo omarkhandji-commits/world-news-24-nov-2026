@@ -13,22 +13,29 @@ randomness.
 ## What is on the page
 
 - **The day**: the date as a masthead, the standfirst, and four figures — three
-  tankers ablaze, 1,144 children killed or hurt, 19.5 million Sudanese in crisis
-  hunger, an 8.99% jump in Taipei's TAIEX.
-- **The map**: land drawn from latitude bands, 64°N to 56°S, with a numbered
+  tankers mined in Hormuz, 259 House seats won by the Democrats, 23 people hurt
+  by the Villavicencio car bomb, 6.1% growth in Singapore.
+- **The map**: land drawn from latitude bands, 72°N to 56°S, with a numbered
   vermilion pin and a leader line for each dispatch.
-- **Three leads**: mines in the Strait of Hormuz, drone strikes on Khartoum, a car
-  bomb in Villavicencio — each with a small drawn picture.
+- **Three leads**: mines in the Strait of Hormuz, a Houthi strike on a Riyadh
+  tower, a car bomb in Villavicencio — each with a small drawn picture.
 - **Also today**: thirty more, from Washington to Honiara, in three columns.
-- **The footer**: the sources read for the edition and a note that disputed
+- **The footer**: the sources read for the edition and a note that contested
   figures are credited to whoever gave them.
+
+## Sourcing rule
+
+Every dispatch was read on a page dated 24 November 2026, and the copy keeps the
+wording and figures of that page. Claims that are disputed or one-sided are
+attributed in the text ("the Guard navy said", "police said", "Amnesty said")
+rather than asserted. Items that could not be dated to 24 November — and figures
+that turned out to belong to other dates — were cut rather than carried over.
 
 ## Sources
 
-All reporting read for this edition is dated 24 November 2026: AP, Reuters,
-Anadolu, Democracy Now!, CNBC, Bloomberg, Nikkei Asia, The Japan Times, G1,
-Euronews, The Rio Times, Xinhua, allAfrica, Al Jazeera, Taipei Times, Liberty
-Times, Dawn, ABC News, RNZ, Amnesty International.
+AP, Reuters, Anadolu, CNBC, Bloomberg, Just Security, UN News, METI Singapore,
+Focus Taiwan, Saudi Press Agency, The Sydney Morning Herald, PACNEWS, Sudan
+Tribune, La Jornada, The Guardian.
 
 ## Run it
 

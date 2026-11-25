@@ -835,61 +835,63 @@ interface Story {
 // regions (Europe, the Gulf, the Sahel) fan out instead of stacking.
 const ANCHOR: Readonly<Record<number, readonly [number, number]>> = {
   1: [26, 17],
-  2: [1, 19],
-  3: [-19, 15],
-  4: [22, -8],
-  5: [-16, -17],
-  6: [-9, -20],
-  7: [18, 10],
-  8: [18, 4],
-  9: [-18, 12],
-  10: [-22, -8],
-  11: [26, -14],
-  12: [-19, -16],
-  13: [13, 2],
-  14: [18, -32],
-  15: [-8, -26],
-  16: [-26, 7],
-  17: [-42, -14],
-  18: [-27, 11],
-  19: [-25, 12],
-  20: [18, 24],
-  21: [-36, 6],
-  22: [-28, 17],
-  23: [34, 6],
-  24: [30, 10],
-  25: [22, 19],
-  26: [15, 14],
-  27: [14, -16],
-  28: [-13, -15],
-  29: [-18, 16],
-  30: [-23, -13],
-  31: [13, -15],
-  32: [14, 5],
-  33: [17, 4],
+  2: [14, -18],
+  3: [-22, 14],
+  4: [-30, 10],
+  5: [12, 18],
+  6: [-20, -16],
+  7: [22, 10],
+  8: [-18, 12],
+  9: [26, 4],
+  10: [-6, 6],
+  11: [-24, 4],
+  12: [-14, -14],
+  13: [10, -14],
+  14: [-16, 18],
+  15: [20, -8],
+  16: [12, -22],
+  17: [-16, -18],
+  18: [-26, 10],
+  19: [-26, 6],
+  20: [24, -6],
+  21: [22, -10],
+  22: [-24, 8],
+  23: [-24, 12],
+  24: [24, 4],
+  25: [4, 22],
+  26: [-20, -10],
+  27: [26, 10],
+  28: [0, -22],
+  29: [26, -4],
+  30: [10, -14],
+  31: [8, 10],
+  32: [-40, 24],
+  33: [-14, -16],
 };
 
+// Every entry below was read on a page dated 24 November 2026. Figures are
+// quoted as that page gave them, and contested figures are credited in the copy.
 const STORIES: Story[] = [
   {
     n: 1,
     place: 'STRAIT OF HORMUZ',
-    beat: 'MIDDLE EAST / ENERGY',
+    beat: 'MIDDLE EAST / SHIPPING',
     lat: 26.6,
     lon: 56.4,
-    text: 'Three tankers struck mines, the Guard navy said; Washington widened sanctions.',
+    text: 'The Guard navy said three tankers hit mines; Washington widened sanctions.',
     head: 'MINES SET THREE TANKERS ABLAZE',
-    lead: "Iran's Guard navy said three tankers hit mines in the strait it closed in July. Washington widened sanctions on more than two dozen Iranian firms.",
+    lead: "Iran's Guard navy said three tankers hit mines in the strait. Washington widened sanctions on more than two dozen Iranian firms.",
     art: drawStrait,
   },
   {
     n: 2,
-    place: 'KHARTOUM',
-    beat: 'AFRICA / CONFLICT',
-    lat: 15.6,
-    lon: 32.5,
-    text: 'Drones hit the airport and a UN building, killing at least four; the grid is failing.',
-    head: 'DRONES STRIKE KHARTOUM',
-    lead: 'Drones hit the airport and a UN building, killing at least four. The army said it downed more; the power grid is near collapse.',
+    place: 'RIYADH',
+    beat: 'MIDDLE EAST / YEMEN WAR',
+    lat: 24.7,
+    lon: 46.7,
+    text: 'A Houthi attack on a tower in the financial district wounded 11, civil defence said.',
+    head: 'HOUTHIS HIT RIYADH TOWER',
+    lead: "A Houthi drone hit a tower in Riyadh's financial district, wounding 11, Saudi civil defence said, the second strike there in a week.",
     art: drawSkyline,
   },
   {
@@ -898,9 +900,9 @@ const STORIES: Story[] = [
     beat: 'SOUTH AMERICA / SECURITY',
     lat: 4.1,
     lon: -73.6,
-    text: 'A car bomb wounded 25 and wrecked 80 buildings, the president said.',
+    text: 'A car bomb outside the governor office wounded 23, police said.',
     head: 'CAR BOMB ROCKS COLOMBIA',
-    lead: 'A car bomb wounded 25 and wrecked more than 80 buildings; the president blamed FARC dissidents.',
+    lead: "A car bomb outside Meta's governor's office wounded 23, police said, on the FARC peace deal's tenth anniversary. Dissidents were blamed.",
     art: drawRubble,
   },
   {
@@ -909,239 +911,239 @@ const STORIES: Story[] = [
     beat: 'NORTH AMERICA / MARKETS',
     lat: 38.9,
     lon: -77.0,
-    text: 'Nasdaq fell 1.5% to 23,733.54; the Dow gained 423.39 to 50,018.70.',
+    text: 'The S&P 500 fell 0.5% and the Nasdaq 1.48%; the Dow rose 0.85% to 50,018.70.',
   },
   {
     n: 5,
-    place: 'SANTA CLARA',
-    beat: 'NORTH AMERICA / TECH',
-    lat: 37.35,
-    lon: -121.95,
-    text: "Nvidia reinstated Jensen Huang as chief executive after Trump's pressure.",
+    place: 'TENNESSEE',
+    beat: 'NORTH AMERICA / CONGRESS',
+    lat: 35.9,
+    lon: -86.4,
+    text: 'Victoria Broderick won a House seat, giving Democrats 259, their most since 1990.',
   },
   {
     n: 6,
-    place: 'IOWA',
-    beat: 'NORTH AMERICA / DEFENCE',
-    lat: 41.9,
-    lon: -93.6,
-    text: 'The Army will detonate lead-contaminated munitions at a depot on Wednesday.',
+    place: 'MEXICO CITY',
+    beat: 'NORTH AMERICA / ELECTIONS',
+    lat: 19.4,
+    lon: -99.1,
+    text: "Sheinbaum called INE's supplier network a 'mafia electoral' and pressed the 15-file probe.",
   },
   {
     n: 7,
-    place: 'MEXICO CITY',
-    beat: 'NORTH AMERICA / JUSTICE',
-    lat: 19.4,
-    lon: -99.1,
-    text: "Mexico refused to extradite 'El Chapo Isidro' to the US after his arrest.",
-  },
-  {
-    n: 8,
     place: 'BRASILIA',
     beat: 'SOUTH AMERICA / ECONOMY',
     lat: -15.8,
     lon: -47.9,
-    text: "The lower house passed Lula's spending curbs; the real rose 1.3% on the relief.",
+    text: "The dollar fell 1.3% after the lower house passed Lula's spending curbs 353-128.",
   },
   {
-    n: 9,
-    place: 'LIMA',
-    beat: 'SOUTH AMERICA / CLIMATE',
-    lat: -12.0,
-    lon: -77.0,
-    text: '10,877 sea lions have died this year as El Nino warms the sea, wildlife data show.',
-  },
-  {
-    n: 10,
-    place: 'HAVANA',
-    beat: 'CARIBBEAN / TOURISM',
-    lat: 23.1,
-    lon: -82.4,
-    text: 'Cuba drew 507,083 visitors in ten months, down 65.7%, as US pressure bites.',
-  },
-  {
-    n: 11,
+    n: 8,
     place: 'ZAPORIZHZHIA',
     beat: 'EUROPE / WAR',
     lat: 47.8,
     lon: 35.2,
-    text: 'A guided bomb hit an apartment block, killing two and wounding more than 40.',
+    text: 'A Russian strike on an apartment block killed two and wounded at least 22, the governor said.',
+  },
+  {
+    n: 9,
+    place: 'MOSCOW',
+    beat: 'EUROPE / ENERGY WAR',
+    lat: 55.75,
+    lon: 37.6,
+    text: "Putin said retaliation for Ukrainian refinery strikes was 'inevitable'.",
+  },
+  {
+    n: 10,
+    place: 'RIGA',
+    beat: 'EUROPE / WAR',
+    lat: 56.95,
+    lon: 24.1,
+    text: 'Latvia sees a tipping point next year that could end in Russian defeat, its president said.',
+  },
+  {
+    n: 11,
+    place: 'BRUSSELS',
+    beat: 'EUROPE / TRADE',
+    lat: 50.85,
+    lon: 4.35,
+    text: 'The EU set temporary limits on hybrid car imports from China, Japan, Turkey and Britain.',
   },
   {
     n: 12,
-    place: 'TALLINN',
-    beat: 'EUROPE / SECURITY',
-    lat: 59.4,
-    lon: 24.8,
-    text: "Estonia said Russia was waging 'open war'.",
+    place: 'PARIS',
+    beat: 'EUROPE / COURTS',
+    lat: 48.9,
+    lon: 2.3,
+    text: "A probe opened into Le Havre's authority, chaired by Edouard Philippe, over €30,000 in fees.",
   },
   {
     n: 13,
-    place: 'BLACK SEA',
-    beat: 'EUROPE / SHIPPING',
-    lat: 43.5,
-    lon: 34.0,
-    text: 'At the UN, Moscow accused Kyiv of hitting more than 200 commercial vessels.',
-  },
-  {
-    n: 14,
-    place: 'KYIV',
-    beat: 'EUROPE / CHILDREN',
-    lat: 50.45,
-    lon: 30.5,
-    text: 'UNICEF says 1,144 Ukrainian children have been killed or injured in 2026.',
-  },
-  {
-    n: 15,
     place: 'WOLFSBURG',
     beat: 'EUROPE / LABOUR',
     lat: 52.4,
     lon: 10.8,
-    text: "Volkswagen's talks with its unions ended without a deal; strikes loom in January.",
+    text: 'Volkswagen and IG Metall ended a first round with no deal; strikes possible from 1 January.',
   },
   {
-    n: 16,
-    place: 'PARIS',
-    beat: 'EUROPE / POLITICS',
-    lat: 48.9,
-    lon: 2.3,
-    text: 'Prosecutors opened a probe into public funds at a body chaired by a candidate.',
-  },
-  {
-    n: 17,
+    n: 14,
     place: 'LONDON',
-    beat: 'EUROPE / COURTS',
+    beat: 'EUROPE / TRANSPORT',
     lat: 51.5,
     lon: -0.12,
-    text: 'The GTA VI hacker was released on licence part-way through a seven-year term.',
+    text: 'RMT drivers will start rolling 24-hour Tube strikes on Thursday after talks failed.',
   },
   {
-    n: 18,
-    place: 'SUDAN',
-    beat: 'AFRICA / HUNGER',
-    lat: 13.0,
-    lon: 29.5,
-    text: '19.5 million Sudanese face crisis hunger, 135,000 of them catastrophic, WFP says.',
-  },
-  {
-    n: 19,
+    n: 15,
     place: 'ITURI',
     beat: 'AFRICA / HEALTH',
     lat: 1.6,
     lon: 30.2,
-    text: 'Ebola responders sheltered in a hospital for 24 hours; 5,775 have died.',
+    text: 'Ebola teams sheltered a day in a maternity ward; 11,762 cases and 5,775 deaths, WHO says.',
   },
   {
-    n: 20,
+    n: 16,
     place: 'ALAMATA',
     beat: 'AFRICA / RIGHTS',
     lat: 12.4,
     lon: 39.6,
-    text: 'Amnesty sought a war crimes inquiry into shelling that killed 14 civilians.',
+    text: 'Amnesty urged a war crimes inquiry into Ethiopian shelling of Tigray towns.',
   },
   {
-    n: 21,
-    place: 'BENGHAZI',
-    beat: 'AFRICA / LIBYA',
-    lat: 32.1,
-    lon: 20.1,
-    text: 'Blasts blamed on drones hit a Russian warship and a cargo ship at the port.',
+    n: 17,
+    place: 'ED DAMAZIN',
+    beat: 'AFRICA / SUDAN',
+    lat: 11.8,
+    lon: 34.35,
+    text: 'Blue Nile fighting pushed 7,000 families toward Ed Damazin; 28 women and girls abducted.',
   },
   {
-    n: 22,
+    n: 18,
+    place: 'DAKAR',
+    beat: 'AFRICA / GOLD',
+    lat: 14.7,
+    lon: -17.45,
+    text: "Four West African states' new refineries near double the region's gold output, Reuters said.",
+  },
+  {
+    n: 19,
     place: 'KHAN YOUNIS',
     beat: 'MIDDLE EAST / GAZA',
     lat: 31.3,
     lon: 34.3,
-    text: 'A strike on a police post killed three; Oxfam says 99% of Gaza is contaminated.',
+    text: 'A drone hit a police post in al-Mawasi, killing three and wounding five, medics said.',
   },
   {
-    n: 23,
-    place: 'SANAA',
-    beat: 'MIDDLE EAST / YEMEN',
-    lat: 15.4,
-    lon: 44.2,
-    text: 'At least 41 civilians were killed across Yemen in a day, the Houthi ministry said.',
+    n: 20,
+    place: 'BAGHDAD',
+    beat: 'MIDDLE EAST / OIL',
+    lat: 33.3,
+    lon: 44.4,
+    text: 'Iraq ordered its oil ministry to run fields in Kurdish-held areas, state media said.',
   },
   {
-    n: 24,
-    place: 'TEHRAN',
-    beat: 'MIDDLE EAST / IRAN',
-    lat: 35.7,
-    lon: 51.4,
-    text: "Iran vowed to use 'all available tools' against the US naval blockade.",
-  },
-  {
-    n: 25,
-    place: 'SINGAPORE',
-    beat: 'ASIA / ECONOMY',
-    lat: 1.35,
-    lon: 103.8,
-    text: 'Third-quarter growth of 6.1% beat forecasts; the 2026 outlook rose to about 6%.',
-  },
-  {
-    n: 26,
-    place: 'TAIPEI',
-    beat: 'ASIA / MARKETS',
-    lat: 25.0,
-    lon: 121.5,
-    text: 'The TAIEX jumped 8.99% as Jensen Huang returned; October output set a record.',
-  },
-  {
-    n: 27,
+    n: 21,
     place: 'SEOUL',
     beat: 'ASIA / DEFENCE',
     lat: 37.6,
     lon: 127.0,
-    text: 'Fighter jets scrambled after Russian warplanes entered the air-defence zone.',
+    text: "Jets scrambled after Russian aircraft entered South Korea's air defence zone.",
   },
   {
-    n: 28,
+    n: 22,
     place: 'DHAKA',
     beat: 'ASIA / POLITICS',
     lat: 23.8,
     lon: 90.4,
-    text: 'Sheikh Hasina is to return home on 16 December to face a tribunal verdict.',
+    text: 'Hasina plans to fly home on 16 December; the government says she must be extradited.',
   },
   {
-    n: 29,
+    n: 23,
+    place: 'SINGAPORE',
+    beat: 'ASIA / ECONOMY',
+    lat: 1.35,
+    lon: 103.8,
+    text: 'Growth was 6.1% in the third quarter, beating the 5.4% estimate; 2026 is seen at about 6%.',
+  },
+  {
+    n: 24,
+    place: 'TAIPEI',
+    beat: 'ASIA / MARKETS',
+    lat: 25.0,
+    lon: 121.5,
+    text: 'The TAIEX jumped 8.99% to 40,122.35, its biggest points gain; October output rose 29.8%.',
+  },
+  {
+    n: 25,
     place: 'JAKARTA',
     beat: 'ASIA / POLICE',
     lat: -6.2,
     lon: 106.8,
-    text: 'A former police chief was named a treason suspect over alleged wiretapping.',
+    text: 'A former police chief was charged with treason over an illegal wiretapping inquiry.',
+  },
+  {
+    n: 26,
+    place: 'HANOI',
+    beat: 'ASIA / DISASTER',
+    lat: 21.03,
+    lon: 105.85,
+    text: 'An explosion in a crowded district killed at least six people and injured 10.',
+  },
+  {
+    n: 27,
+    place: 'TOKYO',
+    beat: 'ASIA / JUSTICE',
+    lat: 35.7,
+    lon: 139.7,
+    text: 'Japan will pay its full 2027 ICC contribution by year-end as US sanctions loom.',
+  },
+  {
+    n: 28,
+    place: 'BEIJING',
+    beat: 'ASIA / SPACE',
+    lat: 39.9,
+    lon: 116.4,
+    text: "Shenzhou-24 launches on Wednesday with a Pakistani, the station's first foreign visitor.",
+  },
+  {
+    n: 29,
+    place: 'XIAMEN',
+    beat: 'ASIA / AVIATION',
+    lat: 24.5,
+    lon: 118.1,
+    text: 'Xiamen Airlines will buy 50 Boeing 737-8s listed at about $7.4bn.',
   },
   {
     n: 30,
-    place: 'KUALA LUMPUR',
-    beat: 'ASIA / REFUGEES',
-    lat: 3.1,
-    lon: 101.7,
-    text: 'Malaysia will repatriate another 6,803 Burmese refugees, the government said.',
-  },
-  {
-    n: 31,
     place: 'HONIARA',
     beat: 'OCEANIA / SECURITY',
     lat: -9.4,
     lon: 160.0,
-    text: 'The Solomons will not renew its China security pact; an Australia treaty is due.',
+    text: 'Honiara will let its 2022 China security pact lapse in April, a report said.',
+  },
+  {
+    n: 31,
+    place: 'KANTON',
+    beat: 'OCEANIA / CLIMATE',
+    lat: -2.8,
+    lon: -171.7,
+    text: "Kiribati moved Kanton's 40-50 residents to Tarawa with a day's notice, citing El Nino.",
   },
   {
     n: 32,
-    place: "NUKU'ALOFA",
-    beat: 'OCEANIA / DROUGHT',
-    lat: -21.1,
-    lon: -175.2,
-    text: "Tonga declared a 27-day state of emergency as drought grips Ha'apai.",
+    place: 'SUVA',
+    beat: 'OCEANIA / CLIMATE',
+    lat: -18.14,
+    lon: 178.44,
+    text: "Pacific Elders' Voice accused Australia of betrayal after COP31 ended with no deal.",
   },
   {
     n: 33,
-    place: 'CANBERRA',
-    beat: 'OCEANIA / JOBS',
-    lat: -35.3,
-    lon: 149.1,
-    text: 'The treasurer warned unemployment will climb above 5% as rate rises bite.',
+    place: 'KUALA LUMPUR',
+    beat: 'ASIA / REFUGEES',
+    lat: 3.1,
+    lon: 101.7,
+    text: "Anwar will keep dealing with Myanmar's government on returning Rohingya refugees.",
   },
 ];
 
@@ -1189,7 +1191,7 @@ const LAND: readonly (readonly (readonly [number, number])[])[] = [
   [],
 ];
 
-const MAP = { x: 40, y: 208, w: 944, h: 262, top: 64, bottom: -56 };
+const MAP = { x: 40, y: 208, w: 944, h: 240, top: 72, bottom: -56 };
 const SEA_LAND: RGB = mix(LINE, PAPER, 0.18);
 const lonX = (lon: number): number => MAP.x + ((lon + 180) / 360) * MAP.w;
 const latY = (lat: number): number => MAP.y + ((MAP.top - lat) / (MAP.top - MAP.bottom)) * MAP.h;
@@ -1237,13 +1239,13 @@ const placePins = (): Pin[] => {
         const b = pins[j];
         const dx = b.x - a.x;
         const dy = b.y - a.y;
-        if (Math.abs(dx) < 15 && Math.abs(dy) < 15) {
+        if (Math.abs(dx) < 17 && Math.abs(dy) < 17) {
           if (Math.abs(dx) >= Math.abs(dy)) {
-            const push = (dx >= 0 ? 1 : -1) * (15 - Math.abs(dx)) * 0.5;
+            const push = (dx >= 0 ? 1 : -1) * (17 - Math.abs(dx)) * 0.5;
             a.x -= push;
             b.x += push;
           } else {
-            const push = (dy >= 0 ? 1 : -1) * (15 - Math.abs(dy)) * 0.5;
+            const push = (dy >= 0 ? 1 : -1) * (17 - Math.abs(dy)) * 0.5;
             a.y -= push;
             b.y += push;
           }
@@ -1296,20 +1298,20 @@ const render = (): Uint8Array => {
   rule(c, M, 66, CONTENT, INK, 3);
 
   // The day
-  drawText(c, 'TUESDAY', M + 2, 92, 10.5, RED, { weight: 1.1, tracking: 0.26 });
-  drawText(c, '24', M - 6, 186, 92, INK, { weight: 0.72 });
-  c.fillRect(214, 100, 3, 86, RED);
-  drawText(c, 'NOVEMBER', 228, 136, 24, INK, { weight: 1.05, tracking: 0.04 });
-  drawText(c, '2026', 228, 168, 24, RED, { weight: 1.05, tracking: 0.04 });
+  drawText(c, 'TUESDAY', M + 2, 92, 11.5, RED, { weight: 1.15, tracking: 0.26 });
+  drawText(c, '24', M - 6, 194, 84, INK, { weight: 0.72 });
+  c.fillRect(214, 100, 3, 94, RED);
+  drawText(c, 'NOVEMBER', 228, 146, 24, INK, { weight: 1.05, tracking: 0.04 });
+  drawText(c, '2026', 228, 178, 24, RED, { weight: 1.05, tracking: 0.04 });
 
   // Standfirst
   const stand = fit(
-    'Every item was reported on the day. Contested figures are credited to whoever gave them.',
+    'Every item below was reported on 24 November 2026. Contested figures are credited to whoever gave them.',
     176,
-    4,
-    7.6,
-    6.8,
-    1.38,
+    5,
+    8.2,
+    7.2,
+    1.36,
   );
   rule(c, 420, 98, 1, LINE, 88);
   drawFitted(c, stand, 432, 108, MUTED, 0.7);
@@ -1318,10 +1320,10 @@ const render = (): Uint8Array => {
   const NX = 620;
   drawText(c, 'THE DAY IN NUMBERS', NX, 92, 8, MUTED, { tracking: 0.18 });
   const figures: [string, string][] = [
-    ['3', 'TANKERS ABLAZE, IRGC NAVY'],
-    ['1,144', 'KILLED OR HURT, UNICEF'],
-    ['19.5M', 'HUNGRY IN SUDAN, WFP'],
-    ['8.99%', 'TAIEX JUMPS, TAIPEI TIMES'],
+    ['3', 'TANKERS MINED, IRGC NAVY'],
+    ['259', 'HOUSE SEATS, ASSOCIATED PRESS'],
+    ['23', 'HURT IN COLOMBIA, POLICE'],
+    ['6.1%', 'SINGAPORE GDP, TRADE MINISTRY'],
   ];
   figures.forEach(([fig, label], i) => {
     const col = i % 2;
@@ -1329,21 +1331,21 @@ const render = (): Uint8Array => {
     const cx = NX + col * 182;
     const cy = 96 + row * 52;
     drawText(c, fig, cx, cy + 22, 18.5, i === 0 ? RED : INK, { weight: 0.92, tracking: 0.02 });
-    drawText(c, label, cx, cy + 33, 6.6, MUTED, { tracking: 0.04, weight: 0.68 });
+    drawText(c, label, cx, cy + 34, 7.2, MUTED, { tracking: 0.04, weight: 0.68 });
   });
   rule(c, NX + 176, 96, 1, LINE, 88);
 
   // Where it happened
   rule(c, M, 204, CONTENT, LINE, 1);
-  rule(c, M, 204, 1, LINE, 264);
-  rule(c, RIGHT, 204, 1, LINE, 264);
+  rule(c, M, 204, 1, LINE, 242);
+  rule(c, RIGHT, 204, 1, LINE, 242);
   drawWorld(c);
-  drawText(c, 'WHERE IT HAPPENED', M + 4, 452, 8, MUTED, { tracking: 0.18 });
-  drawText(c, 'SCHEMATIC MAP, 64°N TO 56°S. ONE MARK FOR EACH DISPATCH', M + 4, 463, 6.4, MUTED, { tracking: 0.08 });
+  drawText(c, 'WHERE IT HAPPENED', M + 4, 430, 8, MUTED, { tracking: 0.18 });
+  drawText(c, 'SCHEMATIC MAP, 72°N TO 56°S. ONE MARK FOR EACH DISPATCH', M + 4, 442, 7, MUTED, { tracking: 0.08 });
   for (const p of placePins()) drawPin(c, p);
 
   // Three leads
-  const LEAD_TOP = 478;
+  const LEAD_TOP = 456;
   const LW = 306;
   const gap = (CONTENT - LW * 3) / 2;
   STORIES.filter((s) => s.head).forEach((s, i) => {
@@ -1357,17 +1359,17 @@ const render = (): Uint8Array => {
 
     const head = fit(s.head ?? '', 222, 2, 12.5, 9.5, 1.3);
     drawFitted(c, head, x, LEAD_TOP + 36, INK, 1.0);
-    const lead = fit(s.lead ?? '', 222, 4, 7.5, 6.6, 1.3);
+    const lead = fit(s.lead ?? '', 222, 4, 8, 7.2, 1.32);
     const leadY = LEAD_TOP + 36 + (head.lines.length - 1) * head.lead + 14;
     drawFitted(c, lead, x, leadY, MUTED, 0.7);
   });
 
   // Also today: three columns of ten
-  rule(c, M, 584, CONTENT, INK, 1);
-  drawText(c, 'ALSO TODAY', M, 594, 8.4, INK, { weight: 1.15, tracking: 0.18 });
-  drawText(c, 'THIRTY MORE DISPATCHES', RIGHT, 594, 7, MUTED, { align: 'right', tracking: 0.14 });
-  const LIST_TOP = 602;
-  const ROW = 32.8;
+  rule(c, M, 570, CONTENT, INK, 1);
+  drawText(c, 'ALSO TODAY', M, 580, 8.4, INK, { weight: 1.15, tracking: 0.18 });
+  drawText(c, 'THIRTY MORE DISPATCHES', RIGHT, 580, 7.4, MUTED, { align: 'right', tracking: 0.14 });
+  const LIST_TOP = 588;
+  const ROW = 34;
   const colW = 300;
   const colGap = (CONTENT - colW * 3) / 2;
   const rest = STORIES.filter((s) => !s.head);
@@ -1376,38 +1378,38 @@ const render = (): Uint8Array => {
     const row = i % 10;
     const x = M + col * (colW + colGap);
     const y = LIST_TOP + row * ROW;
-    drawText(c, String(s.n), x, y + 8.2, 8.2, RED, { weight: 1.05, tracking: 0.02 });
-    drawText(c, s.place, x + 17, y + 8.2, 7.9, INK, { weight: 1.05, tracking: 0.1 });
-    const body = fit(s.text, colW - 17, 2, 7.5, 6.8, 1.24);
-    drawFitted(c, body, x + 17, y + 19.6, MUTED, 0.68);
+    drawText(c, String(s.n), x, y + 8.6, 8.6, RED, { weight: 1.05, tracking: 0.02 });
+    drawText(c, s.place, x + 18, y + 8.6, 8.4, INK, { weight: 1.05, tracking: 0.1 });
+    const body = fit(s.text, colW - 18, 2, 8.2, 7.2, 1.22);
+    drawFitted(c, body, x + 18, y + 20.6, MUTED, 0.68);
   });
 
   // Footer
   rule(c, M, 934, CONTENT, INK, 2);
   drawText(
     c,
-    'SOURCES READ FOR THIS EDITION, ALL DATED 24 NOVEMBER 2026: AP · REUTERS · ANADOLU · DEMOCRACY NOW! · CNBC · BLOOMBERG · NIKKEI ASIA · THE JAPAN TIMES',
+    'SOURCES, EACH READ IN THIS SESSION AND DATED 24 NOVEMBER 2026: AP · REUTERS · ANADOLU · CNBC · BLOOMBERG · JUST SECURITY · UN NEWS',
     M,
     950,
-    6.8,
+    7.2,
     MUTED,
     { tracking: 0.04 },
   );
   drawText(
     c,
-    'G1 · EURONEWS · THE RIO TIMES · XINHUA · ALLAFRICA · AL JAZEERA · TAIPEI TIMES · LIBERTY TIMES · DAWN · ABC NEWS · RNZ · AMNESTY INTERNATIONAL',
+    'METI SINGAPORE · FOCUS TAIWAN · SAUDI PRESS AGENCY · SYDNEY MORNING HERALD · PACNEWS · SUDAN TRIBUNE · LA JORNADA · THE GUARDIAN',
     M,
-    962,
-    6.8,
+    963,
+    7.2,
     MUTED,
     { tracking: 0.04 },
   );
   drawText(
     c,
-    'DISPUTED FIGURES ARE CREDITED TO WHOEVER GAVE THEM. COMPILED AS THE DAY CLOSED, IN ANY TIME ZONE.',
+    'FIGURES ARE CREDITED TO WHOEVER GAVE THEM; CLAIMS ARE ATTRIBUTED, NOT ASSERTED. EVERY ITEM READ ON THE DAY.',
     M,
-    976,
-    6.8,
+    977,
+    7.2,
     MUTED,
     { tracking: 0.04 },
   );
