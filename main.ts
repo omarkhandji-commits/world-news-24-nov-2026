@@ -942,7 +942,7 @@ const STORIES: Story[] = [
     lat: 26.6,
     lon: 56.4,
     text: 'The Guard navy said three tankers hit mines; Washington widened sanctions.',
-    head: 'MINES SET THREE TANKERS ABLAZE',
+    head: 'IRAN SAYS MINES HIT THREE TANKERS',
     lead: "Iran's Guard navy said three tankers hit mines in the strait. Washington widened sanctions on more than two dozen Iranian firms.",
     art: drawStrait,
   },
@@ -953,7 +953,7 @@ const STORIES: Story[] = [
     lat: 24.7,
     lon: 46.7,
     text: "Saudi-led coalition: drone hit the capital's tallest tower; civil defence: 11 hurt.",
-    head: 'HOUTHIS HIT RIYADH TOWER',
+    head: 'HOUTHI STRIKE HITS RIYADH TOWER, SAUDIS SAY',
     lead: 'The Saudi-led coalition said a drone hit the tallest tower in the capital; Saudi civil defence reported 11 wounded.',
     art: drawSkyline,
   },
@@ -1058,10 +1058,10 @@ const STORIES: Story[] = [
   },
   {
     n: 16,
-    place: 'LAGOS',
+    place: 'DELTA STATE',
     beat: 'AFRICA / ELECTIONS',
-    lat: 6.45,
-    lon: 3.39,
+    lat: 6.2,
+    lon: 6.7,
     text: 'Delta state declared a curfew after four died at an opposition rally, AFP reported.',
   },
   {
@@ -1078,7 +1078,7 @@ const STORIES: Story[] = [
     beat: 'AFRICA / GOLD',
     lat: 7.5,
     lon: -5.0,
-    text: "Refining projects since 2024 would out-process 585 tons of gold, Reuters found.",
+    text: "Planned refining capacity above 1,000 tons a year tops the region's 585, Reuters found.",
   },
   {
     n: 19,
@@ -1086,7 +1086,7 @@ const STORIES: Story[] = [
     beat: 'MIDDLE EAST / GAZA',
     lat: 31.3,
     lon: 34.3,
-    text: 'A drone struck al-Mawasi west of Khan Younis, killing 3 and wounding 5, WAFA reported.',
+    text: 'A drone hit al-Mawasi, killing 3 and wounding 5, Jordan News reported.',
   },
   {
     n: 20,
@@ -1118,7 +1118,7 @@ const STORIES: Story[] = [
     beat: 'ASIA / ECONOMY',
     lat: 1.35,
     lon: 103.8,
-    text: 'METI said Q3 growth was 6.1% year on year, beating its 5.4% estimate; 2026: about 6%.',
+    text: 'The trade ministry said Q3 growth was 6.1% year on year, ahead of the 5.4% estimate',
   },
   {
     n: 24,
@@ -1146,10 +1146,10 @@ const STORIES: Story[] = [
   },
   {
     n: 28,
-    place: 'BEIJING',
+    place: 'JIUQUAN',
     beat: 'ASIA / SPACE',
-    lat: 39.9,
-    lon: 116.4,
+    lat: 39.7,
+    lon: 98.5,
     text: "Shenzhou-24 lifted off with Pakistan's Zeeshan Ali, first foreigner on the station.",
   },
   {
@@ -1162,10 +1162,10 @@ const STORIES: Story[] = [
   },
   {
     n: 30,
-    place: 'HONIARA',
+    place: 'CANBERRA',
     beat: 'OCEANIA / SECURITY',
-    lat: -9.4,
-    lon: 160.0,
+    lat: -35.3,
+    lon: 149.1,
     text: 'Solomon Islands named Australia its security partner, rejecting the China pact.'
   },
   {
@@ -1174,7 +1174,7 @@ const STORIES: Story[] = [
     beat: 'OCEANIA / CLIMATE',
     lat: -18.14,
     lon: 178.44,
-    text: "Pacific Elders' Voice: Australia sided with fossil fuel producers, not island states.",
+    text: "Pacific Elders' Voice said Australia sided with fossil fuel producers and lobbyists.",
   },
   {
     n: 33,
@@ -1369,7 +1369,7 @@ const render = (): Uint8Array => {
     ['3', 'TANKERS MINED, SAID THE IRGC'],
     ['259', 'HOUSE SEATS, DEMOCRATS'],
     ['23', 'HURT IN VILLAVICENCIO'],
-    ['6.1%', 'SINGAPORE Q3 GDP, METI'],
+    ['6.1%', 'SINGAPORE Q3 GDP'],
   ];
   figures.forEach(([fig, label], i) => {
     const col = i % 2;

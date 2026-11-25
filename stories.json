@@ -6,7 +6,7 @@
     {
       "n": 1,
       "place": "STRAIT OF HORMUZ",
-      "headline": "Iran says three tankers hit mines in Hormuz despite U.S. escort",
+      "headline": "Iran says mines hit three tankers",
       "publisher": "CNBC",
       "url": "https://www.cnbc.com/2026/11/24/iran-trump-hormuz-crude-.html",
       "date_on_page": "2026-11-24T05:05:08+0000",
@@ -15,7 +15,7 @@
     {
       "n": 2,
       "place": "RIYADH",
-      "headline": "Houthis hit Riyadh's tallest tower, 11 wounded, Saudi Civil defense says",
+      "headline": "Houthi strike hits Riyadh tower, Saudis say",
       "publisher": "Reuters, via Yahoo News Canada",
       "url": "https://ca.news.yahoo.com/eleven-hurt-second-houthi-strike-164808701.html",
       "date_on_page": "Tue, November 24, 2026 at 8:41 p.m. UTC",
@@ -46,7 +46,7 @@
       "publisher": "The Guardian, via AOL",
       "url": "https://www.aol.com/articles/democrat-victoria-broderick-unseats-eight-202024000.html",
       "date_on_page": "2026-11-24T20:20:24+00:00",
-      "attribution": "The 259-seat total rests on the Associated Press race call cited in the report; the page says nothing about the size of the majority."
+      "attribution": "The report gives 259 House seats, resting on the Associated Press race call it cites."
     },
     {
       "n": 6,
@@ -131,12 +131,12 @@
     },
     {
       "n": 15,
-      "place": "LAGOS",
+      "place": "DELTA STATE",
       "headline": "Nigerian state imposes curfew after four killed at political rally",
       "publisher": "AFP, via EWN",
       "url": "https://www.ewn.co.za/2026/11/24/nigerian-state-imposes-curfew-after-four-killed-at-political-rally",
       "date_on_page": "24 November 2026, 3:37",
-      "attribution": "Quote: 'Authorities have imposed a curfew in Nigeria's southern Delta state after four opposition supporters were killed at a political rally on Monday.' The curfew is the Delta state government's, announced by its secretary; the four deaths were confirmed by aviation minister Festus Keyamo. This replaces an Alamata dispatch: the page there said Amnesty's findings were 'published late on Monday', i.e. 23 November."
+      "attribution": "Quote: 'Authorities have imposed a curfew in Nigeria's southern Delta state after four opposition supporters were killed at a political rally on Monday.' The page places the rally and the curfew in Delta state, so the pin sits there rather than at the AFP dateline, Lagos. The curfew is the state government's, announced by its secretary; the four deaths were confirmed by aviation minister Festus Keyamo. This replaces an Alamata dispatch: the page there said Amnesty's findings were 'published late on Monday', i.e. 23 November."
     },
     {
       "n": 16,
@@ -154,7 +154,7 @@
       "publisher": "Benin Web TV",
       "url": "https://beninwebtv.bj/en/west-africa-gold-refining-projects-already-exceed-mining-production/",
       "date_on_page": "24/11/26 07:24",
-      "attribution": "Quote: 'According to a Reuters survey published on Tuesday, November 24, the capacities of projects launched or announced since 2024 exceed 1,000 tons per year, while regional production is estimated at 585 tons.' The page names no city, so the place is the region it covers."
+      "attribution": "Quote: 'According to a Reuters survey published on Tuesday, November 24, the capacities of projects launched or announced since 2024 exceed 1,000 tons per year, while regional production is estimated at 585 tons.' The page names no city, so the place is the region it covers. The printed line compresses the two figures to 'planned refining capacity above 1,000 tons a year tops the region's 585'."
     },
     {
       "n": 18,
@@ -163,7 +163,7 @@
       "publisher": "Jordan News",
       "url": "https://www.jordannews.jo/Section-20/Middle-East/Three-Palestinians-Martyred-Five-Injured-in-Khan-Younis-Strike-59293",
       "date_on_page": "2026-11-24T10:49:21",
-      "attribution": "The toll is WAFA's, as reported; Israel's account of the target is not carried on the page."
+      "attribution": "The toll as printed is attributed to Jordan News, which reported it; the page does not credit WAFA. Israel's account of the target is not carried on the page."
     },
     {
       "n": 19,
@@ -199,7 +199,7 @@
       "publisher": "AsiaOne",
       "url": "https://www.asiaone.com/singapore/gdp-economy-growth-q3-meti-forecast-2027-outlook",
       "date_on_page": "PUBLISHED ON November 24, 2026 9:58 AM",
-      "attribution": "Quote: \"Singapore's economy grew 6.1 per cent year-on-year in the third quarter, beating its advance estimate of 5.4 per cent\". Quote: 'the Ministry of Energy, Trade and Industry (METI) said on Nov 24 (Tuesday)'. Note: the page, and the ministry's own release at meti.gov.sg dated 24 November 2026, both name the ministry METI ('Ministry of Energy, Trade and Industry'); the printed line follows the cited page."
+      "attribution": "Quote: \"Singapore's economy grew 6.1 per cent year-on-year in the third quarter, beating its advance estimate of 5.4 per cent\". The printed line calls it 'the trade ministry' and the tile reads 'SINGAPORE Q3 GDP'; the page itself names the body the Ministry of Energy, Trade and Industry (METI), as does its release at meti.gov.sg dated 24 November 2026."
     },
     {
       "n": 23,
@@ -230,12 +230,12 @@
     },
     {
       "n": 26,
-      "place": "BEIJING",
+      "place": "JIUQUAN",
       "headline": "China's Shenzhou-24 mission launches 1st international astronaut to Tiangong space station",
       "publisher": "Space.com",
       "url": "https://www.space.com/space-exploration/human-spaceflight/china-shenzhou-24-first-international-astronaut-launch-tiangong-space-station",
       "date_on_page": "published 24 November 2026 (last updated 25 November 2026)",
-      "attribution": "Quote: 'The Shenzhou-24 mission lifted off today (Nov. 24) at 7:18 p.m. ET.' Quote: 'That trailblazer is Muhammad Zeeshan Ali, a former pilot in Pakistan's armed forces who is the first person from his country ever to reach orbit.' The page says international astronaut/foreign national, not that he is Pakistan's first astronaut. This replaces a CBS page stamped 25 November."
+      "attribution": "Quote: 'The Shenzhou-24 mission lifted off today (Nov. 24) at 7:18 p.m. ET.' Quote: 'That trailblazer is Muhammad Zeeshan Ali, a former pilot in Pakistan's armed forces who is the first person from his country ever to reach orbit.' Quote: 'a Long March 2F rocket lifted off ... from the Jiuquan Satellite Launch Center', so the pin sits at the launch site, not Beijing. The page says international astronaut/foreign national, not that he is Pakistan's first astronaut. This replaces a CBS page stamped 25 November."
     },
     {
       "n": 27,
@@ -248,12 +248,12 @@
     },
     {
       "n": 28,
-      "place": "HONIARA",
+      "place": "CANBERRA",
       "headline": "Solomon Islands signs treaty with Australia that checks China's influence in the South Pacific",
       "publisher": "The Associated Press, via The Spec",
       "url": "https://www.thespec.com/news/world/australia/solomon-islands-names-australia-as-its-primary-security-partner-in-a-new-treaty-that-excludes-china/article_929c4c3b-8dfd-51be-a6d3-d233d664a189.html",
       "date_on_page": "Nov. 24, 2026, updated Nov. 25, 2026",
-      "attribution": "Quote: 'The Solomon Islands rejected a secretive 4-year-old defense deal with China ... and declared Wednesday while signing a treaty with Australia that it would never allow a foreign military base on its soil.' Caption: 'shakes hands with Australia's Prime Minister Anthony Albanese after signing the Australia Solomon Islands Treaty at Parliament House in Canberra, Wednesday, Nov. 25, 2026.' The page headline names Australia as primary security partner; the signing was Wednesday 25 November in Canberra, first reported 24 November in New York."
+      "attribution": "Quote: 'The Solomon Islands rejected a secretive 4-year-old defense deal with China ... and declared Wednesday while signing a treaty with Australia that it would never allow a foreign military base on its soil.' Caption: 'shakes hands with Australia's Prime Minister Anthony Albanese after signing the Australia Solomon Islands Treaty at Parliament House in Canberra, Wednesday, Nov. 25, 2026.' The page headline names Australia as primary security partner. The signing took place at Parliament House in Canberra, so the pin sits there; it happened Wednesday 25 November Canberra time, first reported on 24 November in New York, which is the date the page carries."
     },
     {
       "n": 29,
@@ -262,7 +262,7 @@
       "publisher": "The Fiji Sun",
       "url": "https://fijisun.com.fj/news/environment/when-it-mattered-australia-failed-pacific-at-cop31-elders-say",
       "date_on_page": "Tuesday 24 November 2026, 16:30, updated 25 November 2026",
-      "attribution": "Quote: '\"When it mattered, Australia has sided with the fossil fuel producers and lobbyists,\" the group said in a statement.' This page replaces a Post Courier article that could not be retrieved."
+      "attribution": "Quote: '\"When it mattered, Australia has sided with the fossil fuel producers and lobbyists,\" the group said in a statement.' This page replaces a Post Courier article that could not be retrieved. Fiji's capital is only where the paper is based; the statement is the Pacific Elders' Voice's."
     },
     {
       "n": 30,
