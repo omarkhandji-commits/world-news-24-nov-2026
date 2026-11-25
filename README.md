@@ -37,10 +37,18 @@ therefore a build error, not a smudge — the copy gets cut to fit.
 
 Every dispatch was read on a page dated 24 November 2026, and the copy keeps the
 wording and figures of that page. Claims that are disputed or one-sided are
-attributed in the text ("the Guard navy said", "Amnesty said", "monitors
-reported") rather than asserted. `stories.json` lists, for each printed
+attributed in the text ("the Guard navy said", "Amnesty said", "the SIHA Network
+said") rather than asserted, and a figure is credited to whoever gave it rather
+than to a body that merely repeated it. `stories.json` lists, for each printed
 dispatch, the headline, the exact page read, its publisher and the date that page
 states.
+
+Every page was reopened and checked sentence by sentence against the copy. Two
+sources failed that check and were replaced, not deleted: the London Tube item
+first cited a Standard article whose page is dated 25 November, and now cites
+Anadolu's report of 24 November; the Suva item first cited a Post Courier page
+that would not load, and now cites The Fiji Sun's report of 24 November. The
+wording of both dispatches was brought back to what those pages say.
 
 Three dispatches from an earlier draft were dropped because no page dated 24
 November 2026 could be cited for them — Paris (Le Havre port authority inquiry),
@@ -52,9 +60,9 @@ evacuation, published 23 November) — so the edition carries thirty.
 CNBC, Reuters and AP (via Yahoo News Canada, The Globe and Mail and The Spec),
 The Guardian (via AOL), Anadolu, TRT World, Ukrinform, UN News, CBS News,
 AsiaOne, The Star, Outlook India, Daily Times, Yeni Safak, Dabanga Sudan, Daily
-News Egypt, Benin Web TV, Post Courier, Jordan News, The Standard, The News,
-Reporte Indigo, Valor International, Connected To India, ad-hoc-news and
-Aerospace Global News. Full URLs are in `stories.json`.
+News Egypt, Benin Web TV, The Fiji Sun, Jordan News, The News, Reporte Indigo,
+Valor International, Connected To India, ad-hoc-news and Aerospace Global News.
+Full URLs are in `stories.json`.
 
 ## Run it
 

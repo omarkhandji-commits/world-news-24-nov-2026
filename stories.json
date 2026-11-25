@@ -1,7 +1,7 @@
 {
   "edition": "World News, Tuesday 24 November 2026",
   "dispatches": 30,
-  "note": "One entry per dispatch printed on the page, in page order. Every URL below was opened and read while building this entry, and every page declares a 24 November 2026 publication date; the raw date string the page itself carries is quoted in date_on_page. Three dispatches from an earlier draft were dropped for want of such a page: Paris (Le Havre port authority inquiry), Jakarta (treason charge against a former police chief) and Kanton (Kiribati evacuation, published 23 November).",
+  "note": "One entry per dispatch printed on the page, in page order. Every URL below was opened and read while building this entry, and every page declares a 24 November 2026 publication date; the raw date string the page itself carries is quoted in date_on_page. Three dispatches from an earlier draft were dropped for want of such a page: Paris (Le Havre port authority inquiry), Jakarta (treason charge against a former police chief) and Kanton (Kiribati evacuation, published 23 November). Two more were replaced when their pages were reopened: the London Tube item, because The Standard's page is dated 25 November 2026, now cites Anadolu's report of the same day; the Suva COP31 item, because the Post Courier page could not be retrieved, now cites The Fiji Sun. Both replacements were opened and are dated 24 November 2026.",
   "stories": [
     {
       "n": 1,
@@ -19,7 +19,7 @@
       "publisher": "Reuters, via Yahoo News Canada",
       "url": "https://ca.news.yahoo.com/eleven-hurt-second-houthi-strike-164808701.html",
       "date_on_page": "2026-11-24T20:41:55Z",
-      "attribution": "The wounding toll and the attribution to a Houthi drone are Saudi civil defence's, as reported."
+      "attribution": "The 11 wounded, the description of the tower as the capital's tallest and the 'second Houthi strike' framing are Saudi civil defence's, as reported."
     },
     {
       "n": 3,
@@ -28,7 +28,7 @@
       "publisher": "Yahoo News Canada",
       "url": "https://ca.news.yahoo.com/23-injured-car-bomb-explodes-154738600.html",
       "date_on_page": "2026-11-24T15:47:38Z",
-      "attribution": "The toll is the figure the report carries; the page names no claim of responsibility."
+      "attribution": "The toll is attributed to 'authorities' on the page, which describes regional government offices as the site; it names no claim of responsibility and carries no police statement."
     },
     {
       "n": 4,
@@ -46,7 +46,7 @@
       "publisher": "The Guardian, via AOL",
       "url": "https://www.aol.com/articles/democrat-victoria-broderick-unseats-eight-202024000.html",
       "date_on_page": "2026-11-24T20:20:24+00:00",
-      "attribution": "The 259-seat total rests on the Associated Press race call cited in the report."
+      "attribution": "The 259-seat total rests on the Associated Press race call cited in the report; the page says nothing about the size of the majority."
     },
     {
       "n": 6,
@@ -54,8 +54,8 @@
       "headline": "Claudia Sheinbaum exhorta al INE a revisar lineamientos de adquisiciones en OPLES",
       "publisher": "Reporte Indigo",
       "url": "https://www.reporteindigo.com/nacional/claudia-sheinbaum-exhorta-al-ine-a-revisar-lineamientos-de-adquisiciones-en-oples-20261124-0036.html",
-      "date_on_page": "2026-11-24T11:55:20-0500",
-      "attribution": "The accusation of a 'mafia electoral' is President Sheinbaum's own phrase."
+      "date_on_page": "24 de noviembre 2026, 10:55 hs",
+      "attribution": "'Mafia electoral' is President Sheinbaum's own phrase; she asked the INE's general council to review the hiring and procurement rules of the state electoral bodies."
     },
     {
       "n": 7,
@@ -63,8 +63,8 @@
       "headline": "Lower House passes fiscal bill in decisive vote",
       "publisher": "Valor International",
       "url": "https://valorinternational.globo.com/politics/news/2026/11/24/lower-house-passes-fiscal-bill-in-decisive-vote.ghtml",
-      "date_on_page": "2026-11-24 (date in the page address and in the report's dateline; the ballot itself was cast on 23 November)",
-      "attribution": "The 353-128 count is the chamber's recorded vote as reported; the exchange rate is the outlet's market note."
+      "date_on_page": "24/11/2026 06h16 (the vote itself was cast on 23 November)",
+      "attribution": "The 353-128 count is the chamber's recorded vote as reported; the exchange rate is the outlet's market note for Monday, when the real weakened to around R$6 per dollar."
     },
     {
       "n": 8,
@@ -73,7 +73,7 @@
       "publisher": "Daily Times",
       "url": "https://dailytimes.com.pk/1586275/russian-overnight-attack-injures-22-in-zaporizhzhia/",
       "date_on_page": "2026-11-24T15:20:28+00:00",
-      "attribution": "The casualty figures are the regional governor's, as reported."
+      "attribution": "The two dead and 22 wounded are a regional defence official's figures, as reported."
     },
     {
       "n": 9,
@@ -91,7 +91,7 @@
       "publisher": "Ukrinform",
       "url": "https://www.ukrinform.net/rubric-polytics/4188107-latvian-president-sees-potential-turning-point-in-ukraine-war-next-year.html",
       "date_on_page": "2026-11-24T16:18:00+02:00",
-      "attribution": "The forecast is President Edgars Rinkevics's, not the outlet's."
+      "attribution": "The forecast is President Edgars Rinkevics's: a tipping point that could come in spring or summer. The page carries no prediction of a Russian defeat."
     },
     {
       "n": 11,
@@ -100,7 +100,7 @@
       "publisher": "The News",
       "url": "https://www.thenews.com.pk/latest/1424932-eu-imposes-hard-import-quotas-on-chinese-hybrid-cars-sweeping-in-uk-and-japan",
       "date_on_page": "2026-11-24T17:49:00+05:00",
-      "attribution": "The quota terms are reported from EU officials; the page cites no regulation text."
+      "attribution": "The quotas cover hybrid cars from China, Britain, Japan and others, as reported from EU officials; the page cites no regulation text."
     },
     {
       "n": 12,
@@ -114,11 +114,11 @@
     {
       "n": 13,
       "place": "LONDON",
-      "headline": "Revealed: Four clash points at centre of the RMT Tube strike row",
-      "publisher": "The Standard",
-      "url": "https://www.standard.co.uk/news/transport/tube-strikes-rmt-tfl-b1306252.html",
-      "date_on_page": "2026-11-24T20:20:40.000Z",
-      "attribution": "The walkout dates are the RMT's, as reported after talks failed."
+      "headline": "London Tube drivers to go on strike as talks over working conditions fail",
+      "publisher": "Anadolu Agency",
+      "url": "http://aa.com.tr/en/europe/london-tube-drivers-to-go-on-strike-as-talks-over-working-conditions-fail/4136295",
+      "date_on_page": "24 November 2026, updated 24 November 2026",
+      "attribution": "The strike call, the Thursday start at noon and the dates of the further walkouts are the RMT's, as reported. This page replaces a Standard article that turned out to be dated 25 November."
     },
     {
       "n": 14,
@@ -126,8 +126,8 @@
       "headline": "DR Congo: Concern for trapped Ebola workers as violence against women and girls deepens",
       "publisher": "UN News",
       "url": "https://news.un.org/en/story/2026/11/1168865",
-      "date_on_page": "2026-11-24T08:32:15-05:00",
-      "attribution": "The account of the maternity ward is the UN humanitarian office's."
+      "date_on_page": "24 November 2026",
+      "attribution": "The account of the trapped staff and the maternity ward is the World Health Organization's, reported by UN News."
     },
     {
       "n": 15,
@@ -144,8 +144,8 @@
       "headline": "Outrage as 28 women, girls abducted, 15 cases of sexual violence against minors reported in Sudan's Blue Nile state",
       "publisher": "Dabanga Sudan",
       "url": "https://www.dabangasudan.org/en/all-news/article/outrage-as-28-women-girls-abducted-15-cases-of-sexual-violence-against-minors-reported-in-sudans-blue-nile-state",
-      "date_on_page": "2026-11-24T14:35:00+00:00",
-      "attribution": "The abduction figures come from local monitors and medical sources cited by Dabanga, not from the army or the RSF."
+      "date_on_page": "24/11/2026 15:35",
+      "attribution": "The 28 abductions and the 15 cases of sexual violence against girls under 18 are the SIHA Network's, which blames the RSF and allied militias; the page is a report on the network's statement, not a monitor's tally."
     },
     {
       "n": 17,
@@ -154,7 +154,7 @@
       "publisher": "Benin Web TV",
       "url": "https://beninwebtv.bj/en/west-africa-gold-refining-projects-already-exceed-mining-production/",
       "date_on_page": "2026-11-24T06:24:54+00:00",
-      "attribution": "The comparison of refining capacity with mined output is the analysis's own calculation."
+      "attribution": "The 585 tons of gold output and the finding that refining projects launched or announced since 2024 would exceed it come from a Reuters survey, as carried by the outlet."
     },
     {
       "n": 18,
@@ -163,7 +163,7 @@
       "publisher": "Jordan News",
       "url": "https://www.jordannews.jo/Section-20/Middle-East/Three-Palestinians-Martyred-Five-Injured-in-Khan-Younis-Strike-59293",
       "date_on_page": "2026-11-24T10:49:21",
-      "attribution": "The toll is the figure given in the report; Israel's account of the target is not carried on the page."
+      "attribution": "The toll is WAFA's, as reported; Israel's account of the target is not carried on the page."
     },
     {
       "n": 19,
@@ -172,7 +172,7 @@
       "publisher": "Outlook India",
       "url": "https://www.outlookindia.com/international/iraq-kurdish-region-oilfields-border-crossings-takeover",
       "date_on_page": "2026-11-24T19:19:55+05:30",
-      "attribution": "The move is the federal government's; the Kurdish regional government rejects it, as reported."
+      "attribution": "The order is the prime minister's, as reported: the Oil Ministry to take over oilfields and border forces to shut unofficial crossings. The page describes an instruction, not a completed takeover, and carries no Kurdish reaction."
     },
     {
       "n": 20,
@@ -181,7 +181,7 @@
       "publisher": "Yeni Safak",
       "url": "https://en.yenisafak.com/world/south-korea-scrambles-jets-as-russian-warplanes-enter-air-defense-zone-3725920",
       "date_on_page": "2026-11-24T09:23:40+03:00",
-      "attribution": "The incursion is the South Korean military's account; Moscow has not confirmed it here."
+      "attribution": "The scramble and the incursion are South Korea's account, as reported; no airspace violation was reported."
     },
     {
       "n": 21,
@@ -190,7 +190,7 @@
       "publisher": "Connected To India",
       "url": "https://www.connectedtoindia.com/hasinas-december-16-homecoming-plan-bangladesh-says-ex-pm-can-be-brought-back-only-through-extradition/",
       "date_on_page": "2026-11-24T08:49:34+00:00",
-      "attribution": "The 16 December date is Sheikh Hasina's announcement; the extradition position is the Bangladesh government's."
+      "attribution": "The 16 December plan is Sheikh Hasina's announcement; the position that she can only be brought back by extradition is a state minister's, as reported."
     },
     {
       "n": 22,
@@ -199,7 +199,7 @@
       "publisher": "AsiaOne",
       "url": "https://www.asiaone.com/singapore/gdp-economy-growth-q3-meti-forecast-2027-outlook",
       "date_on_page": "2026-11-24T09:58:00+08:00",
-      "attribution": "Growth and forecast are the Ministry of Trade and Industry's; the 5.4% comparison is MTI's own advance estimate."
+      "attribution": "The 6.1% year-on-year growth, the 2026 forecast and the 2027 outlook are the Ministry of Trade and Industry's; 5.4% is MTI's own advance estimate."
     },
     {
       "n": 23,
@@ -217,7 +217,7 @@
       "publisher": "Yahoo News",
       "url": "https://www.yahoo.com/news/world/articles/gas-explosion-hanoi-kills-six-091837522.html",
       "date_on_page": "2026-11-24T09:18:37Z",
-      "attribution": "The toll is the figure in the report; the suspected gas leak is presented as the likely cause, not a finding."
+      "attribution": "The toll and the description of a suspected gas explosion at an eatery are officials' account as reported; the gas leak is the likely cause, not a finding."
     },
     {
       "n": 25,
@@ -226,7 +226,7 @@
       "publisher": "The News",
       "url": "https://www.thenews.com.pk/latest/1424903-japan-boosts-icc-funding-amid-us-sanctions-threat",
       "date_on_page": "2026-11-24T14:32:00+05:00",
-      "attribution": "The payment pledge is Japan's; the April 2027 sanctions date is the U.S. measure's, as reported."
+      "attribution": "Payment of Japan's 2027 dues by year-end is Japan's pledge; the April sanctions deadline is the U.S. measure's, as reported."
     },
     {
       "n": 26,
@@ -244,25 +244,25 @@
       "publisher": "Aerospace Global News",
       "url": "https://aerospaceglobalnews.com/news/xiamen-airlines-boeing-737-8-order/",
       "date_on_page": "2026-11-24T12:55:46+00:00",
-      "attribution": "The $7.4bn is the list price of the order, not a disclosed payment."
+      "attribution": "The $7.4bn is the list price of the order, not a disclosed payment, and the page reports the order as pending approval."
     },
     {
       "n": 28,
       "place": "HONIARA",
-      "headline": "Solomon Islands names Australia as its primary security partner in a new treaty that excludes China",
+      "headline": "Solomon Islands signs treaty with Australia that checks China's influence in the South Pacific",
       "publisher": "The Associated Press, via The Spec",
       "url": "https://www.thespec.com/news/world/australia/solomon-islands-names-australia-as-its-primary-security-partner-in-a-new-treaty-that-excludes-china/article_929c4c3b-8dfd-51be-a6d3-d233d664a189.html",
-      "date_on_page": "2026-11-24T23:15:32-05:00",
-      "attribution": "The treaty terms are the two governments'; the signing itself took place in Canberra on 25 November local time."
+      "date_on_page": "Nov. 24, 2026, updated Nov. 25, 2026",
+      "attribution": "The page, dated 24 November, reports the treaty with Australia and the rejection of the 2022 China defence deal; the signing itself took place in Canberra on 25 November local time."
     },
     {
       "n": 29,
       "place": "SUVA",
-      "headline": "Pacific Elders' Voice accuse Australia of climate betrayal at COP31",
-      "publisher": "Post Courier",
-      "url": "https://www.postcourier.com.pg/pacific-elders-voice-accuse-australia-of-climate-betrayal-at-cop31/",
-      "date_on_page": "2026-11-24T19:44:51+00:00",
-      "attribution": "The charge of betrayal is the Pacific Elders' Voice's."
+      "headline": "'When it mattered' Australia failed Pacific at COP31, elders say",
+      "publisher": "The Fiji Sun",
+      "url": "https://fijisun.com.fj/news/environment/when-it-mattered-australia-failed-pacific-at-cop31-elders-say",
+      "date_on_page": "Tuesday 24 November 2026, 16:30, updated 25 November 2026",
+      "attribution": "The charge that Australia sided with fossil fuel producers and lobbyists rather than island nations is the Pacific Elders' Voice's. This page replaces a Post Courier article that could not be retrieved."
     },
     {
       "n": 30,
@@ -270,8 +270,8 @@
       "headline": "Malaysia to repatriate another 6,803 Myanmar nationals despite ICJ genocide ruling",
       "publisher": "The Star",
       "url": "https://www.thestar.com/news/world/asia/malaysia-to-repatriate-another-6-803-myanmar-nationals-despite-icj-genocide-ruling/article_b6c02159-49d5-504d-8edb-94005a73e9b1.html",
-      "date_on_page": "2026-11-24T06:25:52-05:00",
-      "attribution": "The 6,803 figure is the Malaysian immigration department's, as reported."
+      "date_on_page": "Nov. 24, 2026",
+      "attribution": "The 6,803 figure and the reference to the ICJ genocide ruling are as the page's headline and opening report give them."
     }
   ]
 }

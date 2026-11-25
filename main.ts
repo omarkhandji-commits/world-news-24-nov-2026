@@ -1,4 +1,4 @@
-// world-news-20261124 — one front page for Tuesday 24 November 2026: thirty-three
+// world-news-20261124 — one front page for Tuesday 24 November 2026: thirty
 // dispatches from six inhabited continents, a world map with a numbered pin for
 // each, three lead stories with drawn pictures, and the rest in a dense list.
 //
@@ -952,9 +952,9 @@ const STORIES: Story[] = [
     beat: 'MIDDLE EAST / YEMEN WAR',
     lat: 24.7,
     lon: 46.7,
-    text: 'A Houthi attack on a tower in the financial district wounded 11, civil defence said.',
+    text: "A Houthi attack on the capital's tallest tower wounded 11, Saudi civil defence said.",
     head: 'HOUTHIS HIT RIYADH TOWER',
-    lead: "A Houthi drone hit a tower in Riyadh's financial district, wounding 11, Saudi civil defence said, the second strike there in a week.",
+    lead: "A Houthi drone hit the tallest tower in the capital, wounding 11, Saudi civil defence said.",
     art: drawSkyline,
   },
   {
@@ -963,9 +963,9 @@ const STORIES: Story[] = [
     beat: 'SOUTH AMERICA / SECURITY',
     lat: 4.1,
     lon: -73.6,
-    text: 'A car bomb outside the governor office wounded 23, police said.',
+    text: 'A car bomb outside regional government offices hurt at least 23, authorities said.',
     head: 'CAR BOMB ROCKS COLOMBIA',
-    lead: "A car bomb outside government offices in Villavicencio wounded 23 people, as Colombia's violence reached its cities.",
+    lead: 'A car bomb exploded outside regional government offices in Villavicencio, hurting at least 23 people, authorities said.',
     art: drawRubble,
   },
   {
@@ -982,7 +982,7 @@ const STORIES: Story[] = [
     beat: 'NORTH AMERICA / CONGRESS',
     lat: 35.9,
     lon: -86.4,
-    text: 'Broderick won a House seat, giving Democrats 259, their biggest majority in 30 years.',
+    text: "Broderick won Tennessee's 4th district, lifting Democrats to 259 House seats.",
   },
   {
     n: 6,
@@ -998,7 +998,7 @@ const STORIES: Story[] = [
     beat: 'SOUTH AMERICA / ECONOMY',
     lat: -15.8,
     lon: -47.9,
-    text: "Lower house passed Lula's spending curbs 353-128 as the real slid to R$6.",
+    text: "The lower house passed the fiscal bill 353-128; the real slipped near R$6.",
   },
   {
     n: 8,
@@ -1006,7 +1006,7 @@ const STORIES: Story[] = [
     beat: 'EUROPE / WAR',
     lat: 47.8,
     lon: 35.2,
-    text: 'A Russian strike on flats killed two and wounded 22, the governor said.',
+    text: 'A Russian strike killed two and wounded 22, a regional defence official said.',
   },
   {
     n: 9,
@@ -1022,7 +1022,7 @@ const STORIES: Story[] = [
     beat: 'EUROPE / WAR',
     lat: 56.95,
     lon: 24.1,
-    text: "Latvia's president sees a tipping point that could end in Russian defeat.",
+    text: "Latvia's president said the war's tipping point could come next spring or summer.",
   },
   {
     n: 11,
@@ -1030,7 +1030,7 @@ const STORIES: Story[] = [
     beat: 'EUROPE / TRADE',
     lat: 50.85,
     lon: 4.35,
-    text: 'EU sets temporary limits on hybrid cars from China, Japan, Turkey, Britain.',
+    text: 'The EU set temporary limits on hybrid cars from China, Britain, Japan and others.',
   },
   {
     n: 13,
@@ -1046,7 +1046,7 @@ const STORIES: Story[] = [
     beat: 'EUROPE / TRANSPORT',
     lat: 51.5,
     lon: -0.12,
-    text: 'RMT drivers will start rolling 24-hour Tube strikes on Thursday after talks failed.',
+    text: 'Tube drivers will begin rolling 24-hour strikes on Thursday, the RMT said.',
   },
   {
     n: 15,
@@ -1054,7 +1054,7 @@ const STORIES: Story[] = [
     beat: 'AFRICA / HEALTH',
     lat: 1.6,
     lon: 30.2,
-    text: 'Ebola health workers have sheltered in a maternity ward since Saturday.',
+    text: "WHO staff have sheltered in a maternity ward since Saturday, the UN agency said.",
   },
   {
     n: 16,
@@ -1070,7 +1070,7 @@ const STORIES: Story[] = [
     beat: 'AFRICA / SUDAN',
     lat: 11.8,
     lon: 34.35,
-    text: "Monitors reported 28 women and girls abducted in Sudan's Blue Nile state.",
+    text: 'The SIHA Network said 28 women and girls were abducted in Blue Nile state.',
   },
   {
     n: 18,
@@ -1078,7 +1078,7 @@ const STORIES: Story[] = [
     beat: 'AFRICA / GOLD',
     lat: 14.7,
     lon: -17.45,
-    text: "West African refineries now exceed the region's gold output, an analysis says.",
+    text: "Refining plans since 2024 would exceed 585 tons of gold, a Reuters survey found.",
   },
   {
     n: 19,
@@ -1086,7 +1086,7 @@ const STORIES: Story[] = [
     beat: 'MIDDLE EAST / GAZA',
     lat: 31.3,
     lon: 34.3,
-    text: 'A drone struck al-Mawasi west of Khan Younis, killing 3 and wounding 5.',
+    text: 'A drone struck al-Mawasi west of Khan Younis, killing 3 and wounding 5, WAFA reported.',
   },
   {
     n: 20,
@@ -1094,7 +1094,7 @@ const STORIES: Story[] = [
     beat: 'MIDDLE EAST / OIL',
     lat: 33.3,
     lon: 44.4,
-    text: 'Iraq moved to take over oilfields and borders in the Kurdish region.',
+    text: "Iraq's PM told the Oil Ministry: take over oilfields; border forces: close crossings.",
   },
   {
     n: 21,
@@ -1102,7 +1102,7 @@ const STORIES: Story[] = [
     beat: 'ASIA / DEFENCE',
     lat: 37.6,
     lon: 127.0,
-    text: "Jets scrambled after Russian aircraft entered South Korea's air defence zone.",
+    text: 'Jets scrambled after Russian aircraft entered the zone, South Korea said.'
   },
   {
     n: 22,
@@ -1110,7 +1110,7 @@ const STORIES: Story[] = [
     beat: 'ASIA / POLITICS',
     lat: 23.8,
     lon: 90.4,
-    text: 'Hasina plans to fly home on 16 December; the government says she must be extradited.',
+    text: 'Hasina announced a 16 December return; a state minister said she must be extradited.'
   },
   {
     n: 23,
@@ -1118,7 +1118,7 @@ const STORIES: Story[] = [
     beat: 'ASIA / ECONOMY',
     lat: 1.35,
     lon: 103.8,
-    text: 'Growth was 6.1% in the third quarter, beating the 5.4% estimate; 2026 is seen at about 6%.',
+    text: 'Q3 growth was 6.1% year on year, beating the 5.4% estimate; 2026 is seen at about 6%.',
   },
   {
     n: 24,
@@ -1134,7 +1134,7 @@ const STORIES: Story[] = [
     beat: 'ASIA / DISASTER',
     lat: 21.03,
     lon: 105.85,
-    text: 'An explosion in a crowded district killed at least six people and injured 10.',
+    text: 'A suspected gas explosion at an eatery killed six and hurt 10, officials said.'
   },
   {
     n: 27,
@@ -1142,7 +1142,7 @@ const STORIES: Story[] = [
     beat: 'ASIA / JUSTICE',
     lat: 35.7,
     lon: 139.7,
-    text: 'Japan will pay its 2027 ICC dues early as US sanctions squeeze the court.',
+    text: 'Japan will pay its 2027 ICC dues by year-end, ahead of US sanctions due in April.'
   },
   {
     n: 28,
@@ -1158,7 +1158,7 @@ const STORIES: Story[] = [
     beat: 'ASIA / AVIATION',
     lat: 24.5,
     lon: 118.1,
-    text: 'Xiamen Airlines will buy 50 Boeing 737-8s listed at about $7.4bn.',
+    text: 'Xiamen signed to buy 50 Boeing 737-8s at $7.4bn list price, pending approval.'
   },
   {
     n: 30,
@@ -1166,7 +1166,7 @@ const STORIES: Story[] = [
     beat: 'OCEANIA / SECURITY',
     lat: -9.4,
     lon: 160.0,
-    text: 'Solomon Islands named Australia its primary security partner in a new treaty.',
+    text: 'Solomon Islands named Australia its security partner, rejecting the China pact.'
   },
   {
     n: 32,
@@ -1174,7 +1174,7 @@ const STORIES: Story[] = [
     beat: 'OCEANIA / CLIMATE',
     lat: -18.14,
     lon: 178.44,
-    text: "Pacific Elders' Voice accused Australia of a climate betrayal at COP31.",
+    text: "Pacific Elders' Voice: Australia sided with fossil fuel producers, not island states.",
   },
   {
     n: 33,
@@ -1182,7 +1182,7 @@ const STORIES: Story[] = [
     beat: 'ASIA / REFUGEES',
     lat: 3.1,
     lon: 101.7,
-    text: 'Malaysia will send 6,803 more Myanmar nationals home despite an ICJ ruling.',
+    text: 'Malaysia will send 6,803 more Myanmar nationals home despite an ICJ ruling.'
   },
 ];
 
@@ -1366,10 +1366,10 @@ const render = (): Uint8Array => {
   const NX = 620;
   drawText(c, 'THE DAY IN NUMBERS', NX, 92, 8, MUTED, { tracking: 0.18 });
   const figures: [string, string][] = [
-    ['3', 'TANKERS MINED, IRGC NAVY'],
-    ['259', 'HOUSE SEATS, AP COUNT'],
+    ['3', 'TANKERS MINED, SAID THE IRGC'],
+    ['259', 'HOUSE SEATS, DEMOCRATS'],
     ['23', 'HURT IN VILLAVICENCIO'],
-    ['6.1%', 'SINGAPORE GDP, METI'],
+    ['6.1%', 'SINGAPORE Q3 GDP, METI'],
   ];
   figures.forEach(([fig, label], i) => {
     const col = i % 2;
@@ -1433,8 +1433,9 @@ const render = (): Uint8Array => {
     const body = typeset(s.text, colW - 18, BODY, 1.24);
     const h = blockHeight(body, FIRST_BODY);
     if (h > ROW - 1.5) {
+      const widths = body.lines.map((ln) => `${measure(ln, BODY).toFixed(0)}px/"${ln}"`).join('  ');
       fail(
-        `dispatch ${s.n} ${s.place}: block is ${h.toFixed(1)}px in a ${(ROW - 1.5).toFixed(1)}px row (${body.lines.length} lines at ${BODY}px)`,
+        `dispatch ${s.n} ${s.place}: block is ${h.toFixed(1)}px in a ${(ROW - 1.5).toFixed(1)}px row (${body.lines.length} lines at ${BODY}px, ${colW - 18}px wide: ${widths})`,
       );
     }
     if (y + h > BAND_BOTTOM) fail(`dispatch ${s.n} ${s.place}: block ends at ${(y + h).toFixed(1)}, past ${BAND_BOTTOM}`);
@@ -1460,7 +1461,7 @@ const render = (): Uint8Array => {
   );
   drawText(
     c,
-    'ANADOLU · TRT · UKRINFORM · UN NEWS · ASIAONE · THE STAR · OUTLOOK · YENI SAFAK · DABANGA · POST COURIER · AEROSPACE GLOBAL',
+    'ANADOLU · TRT · UKRINFORM · UN NEWS · ASIAONE · THE STAR · OUTLOOK · YENI SAFAK · DABANGA · FIJI SUN · AEROSPACE GLOBAL',
     M,
     963,
     7.2,
