@@ -1,301 +1,323 @@
 {
   "edition": "World News, Tuesday 24 November 2026",
-  "dispatches": 30,
-  "note": "One entry per dispatch printed on the page, in page order. every URL was opened during the build, and each carries a 24 November 2026 date stamp, quoted in date_on_page. The rule applied: a dispatch stands if the event happened on 24 November 2026 in some time zone. Three dispatches from an early draft were dropped for want of such a page (Paris, Jakarta, Kanton); two were re-sourced when their pages failed a date check (London: The Standard's page is dated 25 November, now Anadolu; Suva: Post Courier returned HTTP 403, now The Fiji Sun). In this round Taipei was replaced (auto-generated source), Alamata was replaced (Amnesty's findings were published late on Monday 23 November, per the page itself), Moscow was re-sourced to a page that shows a date, and Dakar became WEST AFRICA because the page never names Dakar. In the final polish the printed keywords follow what each page actually describes: Brussels reads QUOTAS (the page reports '200-day provisional quotas') and Delta State prints 'a political rally', the page's phrase for the event. In the last round the two dispatches that could not be verified independently were replaced: the Mexico City page answered a plain request with HTTP 403, so that slot now carries Ontario's mining announcement, and the Canberra treaty dispatch is gone because the signing took place on Wednesday 25 November with only its report falling on the 24th, so the slot now carries the Singapore-Australia leaders' meeting held in Canberra on 24 November. Toronto reads MINING and Canberra reads CARBON. Kuala Lumpur still says 'genocide ruling' because the page says the ICJ 'found Myanmar guilty of genocide' last week. In the redesign the sheet carries twelve illustrated cards — the three former leads plus Washington, Tennessee, Brasilia, Wolfsburg, Ituri, Khan Younis, Baghdad, Jiuquan and Canberra — and eighteen briefs, under a date band and a region-coloured map ribbon. Each card prints a 24-pixel headline, a deck of one or two lines (four for Jiuquan, whose sentence the editor dictated) and its keyword in the beat band; printed_headline and printed_deck record exactly what each card prints, and the decks are shorter than the pages, so the attribution beside each one says what the deck leaves out.",
+  "dispatches": 24,
+  "note": "One entry per dispatch printed on the page, in page order: twelve cards (1-12) and twelve briefs (13-24). Every URL was opened during the build and carries a 24 November 2026 date stamp, quoted in date_on_page. The rule applied: a dispatch stands if the event happened on 24 November 2026 in some time zone. Six dispatches that were printed in an earlier draft are listed under held_back with their citations: the brief column was cut from eighteen to twelve so that every sentence could be set at 15 pixels in two columns, and an eighteen-item list at 11 pixels was unreadable on a thumbnail. The sheet therefore carries twenty-four dispatches, and the masthead, the map and this file all say twenty-four. Cards print a headline at 24 pixels in at most three lines; where a figure or an attribution would not fit, the card drops it and the attribution field below records the page's wording. Three dispatches from an early draft were dropped outright for want of a page dated 24 November (Paris, Jakarta, Kanton), and two were re-sourced when their pages failed a date check (London: The Standard's page is dated 25 November, now Anadolu; Suva: Post Courier returned HTTP 403). Taipei, Alamata, Moscow, Mexico City and the Canberra treaty slot were replaced earlier for the reasons recorded in the repository history; the Canberra slot now carries the Singapore-Australia leaders' meeting held there on 24 November.",
   "stories": [
     {
       "n": 1,
       "place": "STRAIT OF HORMUZ",
+      "printed_as": "card",
+      "printed_headline": "IRAN SAYS MINES HIT 3 TANKERS",
       "headline": "Iran says mines hit three tankers",
       "publisher": "CNBC",
       "url": "https://www.cnbc.com/2026/11/24/iran-trump-hormuz-crude-.html",
       "date_on_page": "2026-11-24T05:05:08+0000",
-      "attribution": "The mine strikes are the IRGC navy's account, carried by Iranian state media; the sanctions count is the U.S. Treasury's. The card deck compresses the page: it prints 'the US widened sanctions' for Washington's measures on more than two dozen Iranian firms, and 'Guard navy' for the Revolutionary Guard's navy.",
-      "printed_headline": "MINES HIT TANKERS",
-      "printed_deck": "Guard navy: three tankers hit mines; the US widened sanctions"
+      "attribution": "Quote: 'The Guard navy said three tankers hit mines'. The mine strikes are the Revolutionary Guard navy's account, carried by Iranian state media. The card prints that account and its figure of three tankers at 24 pixels; it has no line left for the separate U.S. Treasury measure widening sanctions on more than two dozen Iranian firms, which is recorded here rather than asserted on the page."
     },
     {
       "n": 2,
       "place": "RIYADH",
+      "printed_as": "card",
+      "printed_headline": "DRONE HITS RIYADH TOWER",
       "headline": "Houthi strike hits Riyadh tower, Saudis say",
       "publisher": "Reuters, via Yahoo News Canada",
       "url": "https://ca.news.yahoo.com/eleven-hurt-second-houthi-strike-164808701.html",
       "date_on_page": "Tue, November 24, 2026 at 8:41 p.m. UTC",
-      "attribution": "Quote: 'Yemen's Houthi fighters struck the tallest tower in the Saudi capital, Riyadh, on Tuesday for the second time in less than a week, wounding at least 11 people.' Quote: 'Saudi Arabia's Civil Defense reported the injuries.' Quote: 'The Saudi-led coalition ... said later on Tuesday that the attack was carried out with a drone.' The toll is civil defence's; the drone claim is the coalition's. The card deck keeps 'at least 11 wounded' and drops the separate civil defence line, whose figure it is.",
-      "printed_headline": "DRONE HITS TOWER",
-      "printed_deck": "Coalition: drone hit tallest tower; at least 11 wounded"
+      "attribution": "Quote: 'Yemen's Houthi fighters struck the tallest tower in the Saudi capital, Riyadh, on Tuesday for the second time in less than a week, wounding at least 11 people.' Quote: 'The Saudi-led coalition ... said later on Tuesday that the attack was carried out with a drone.' The card's word 'drone' is the coalition's account, not the page's assertion, and the toll of at least 11 is Saudi Arabia's Civil Defense figure; neither attribution fits the card at 24 pixels, so both are here."
     },
     {
       "n": 3,
       "place": "VILLAVICENCIO",
+      "printed_as": "card",
+      "printed_headline": "CAR BOMB HURTS 23",
+      "printed_deck": "At regional offices",
       "headline": "23 injured after car bomb explodes outside government offices in Colombia",
       "publisher": "Yahoo News Canada",
       "url": "https://ca.news.yahoo.com/23-injured-car-bomb-explodes-154738600.html",
       "date_on_page": "2026-11-24T15:47:38Z",
-      "attribution": "The toll is attributed to 'authorities' on the page, which describes regional government offices as the site; it names no claim of responsibility and carries no police statement. The card deck keeps 'at least 23' but shortens 'outside regional government offices' to 'at offices'.",
-      "printed_headline": "CAR BOMB HURTS 23",
-      "printed_deck": "Authorities: at least 23 hurt in a car bomb at offices"
+      "attribution": "The toll is attributed to 'authorities' on the page, which names no claim of responsibility. The card prints 'at regional offices'; the page says the bomb exploded 'outside regional government offices', and the deck shortens that to fit one line at 13.5 pixels."
     },
     {
       "n": 4,
       "place": "WASHINGTON",
+      "printed_as": "card",
+      "printed_headline": "DOW UP 0.9%, NASDAQ -1.5%",
       "headline": "How major US stock indexes fared Tuesday 11/24/2026",
       "publisher": "The Globe and Mail, carrying The Associated Press markets table",
       "url": "https://www.theglobeandmail.com/investing/markets/commodities/ZBZ20/pressreleases/8992524/how-major-us-stock-indexes-fared-tuesday-11-24-2026/",
       "date_on_page": "Tue Nov 24, 4:28PM CST",
-      "attribution": "Index levels and percentage moves are the AP table's closing figures.",
-      "printed_headline": "STOCKS END MIXED",
-      "printed_deck": "S&P 500 -0.5%, Nasdaq -1.5%; Dow +0.9% to 50,018.70"
+      "attribution": "Index levels and percentage moves are the Associated Press table's closing figures, carried by The Globe and Mail. The card prints the three moves and drops the Dow's closing level of 50,018.70, which the table gives."
     },
     {
       "n": 5,
       "place": "TENNESSEE",
+      "printed_as": "card",
+      "printed_headline": "DEMOCRATS REACH 259 SEATS",
       "headline": "Democrat Victoria Broderick unseats eight-term Republican incumbent in Tennessee",
       "publisher": "The Guardian, via AOL",
       "url": "https://www.aol.com/articles/democrat-victoria-broderick-unseats-eight-202024000.html",
       "date_on_page": "2026-11-24T20:20:24+00:00",
-      "attribution": "The report gives 259 House seats, resting on the Associated Press race call it cites.",
-      "printed_headline": "DEMOCRATS TAKE 259",
-      "printed_deck": "Broderick wins the 4th district; Democrats reach 259 seats"
+      "attribution": "The report gives 259 House seats, resting on the Associated Press race call it cites. The card prints that figure as the fact; Victoria Broderick's win in the 4th district, which the page leads on, does not fit a three-line headline at 24 pixels and is recorded here."
     },
     {
       "n": 6,
+      "place": "BRASILIA",
+      "printed_as": "card",
+      "printed_headline": "FISCAL BILL PASSES 353-128",
+      "headline": "Lower House passes fiscal bill in decisive vote",
+      "publisher": "Valor International",
+      "url": "https://valorinternational.globo.com/politics/news/2026/11/24/lower-house-passes-fiscal-bill-in-decisive-vote.ghtml",
+      "date_on_page": "24/11/2026 06h16, updated 24/11/2026 06h16",
+      "attribution": "Quote: 'Brazil's Lower House approved the government's fiscal adjustment bill on Monday (Nov. 23) by a decisive 353-128 vote'. The ballot was cast on 23 November; this report of it is dated 24 November. The card prints the vote and drops the page's line that the real weakened to around R$6 per dollar."
+    },
+    {
+      "n": 7,
+      "place": "WOLFSBURG",
+      "printed_as": "card",
+      "printed_headline": "VW TALKS FAIL",
+      "printed_deck": "Strikes 1 January",
+      "headline": "Volkswagen labor talks end without deal as union warns of January strikes",
+      "publisher": "Anadolu Agency",
+      "url": "https://www.aa.com.tr/en/economy/volkswagen-labor-talks-end-without-deal-as-union-warns-of-january-strikes/4136379",
+      "date_on_page": "2026-11-24T22:13:30.147",
+      "attribution": "The strike warning is IG Metall's; the no-deal account is the union's and the company's. The card's sub-line says strikes could begin on 1 January, which is the union's warning, not a decision."
+    },
+    {
+      "n": 8,
+      "place": "ITURI",
+      "printed_as": "card",
+      "printed_headline": "EBOLA: WHO STAFF TRAPPED",
+      "headline": "DR Congo: Concern for trapped Ebola workers as violence against women and girls deepens",
+      "publisher": "UN News",
+      "url": "https://news.un.org/en/story/2026/11/1168865",
+      "date_on_page": "24 November 2026",
+      "attribution": "Quote: 'Staff from the World Health Organization (WHO) and Ebola responders remain trapped in a hospital in Ituri province ... the UN agency said'. Quote: 'The health workers have been sheltering in a maternity ward since fighting began on Saturday'. The card prints who is trapped; the maternity ward and the day the fighting began are here, not on the page."
+    },
+    {
+      "n": 9,
+      "place": "KHAN YOUNIS",
+      "printed_as": "card",
+      "printed_headline": "JORDAN NEWS: DRONE KILLS 3",
+      "headline": "Three Palestinians Martyred, Five Injured in Khan Younis Strike",
+      "publisher": "Jordan News",
+      "url": "https://www.jordannews.jo/Section-20/Middle-East/Three-Palestinians-Martyred-Five-Injured-in-Khan-Younis-Strike-59293",
+      "date_on_page": "2026-11-24T10:49:21",
+      "attribution": "The toll is the one Jordan News reported, and the card credits that paper in its headline because the page does not attribute the figure to a monitor. Five wounded and the site, al-Mawasi, are on the page and do not fit a three-line headline; they are recorded here."
+    },
+    {
+      "n": 10,
+      "place": "BAGHDAD",
+      "printed_as": "card",
+      "printed_headline": "IRAQ PM MOVES ON KURDISH OIL",
+      "headline": "Iraq Moves To Take Control Of Oilfields, Border Crossings In Kurdish Region",
+      "publisher": "Outlook India",
+      "url": "https://www.outlookindia.com/international/iraq-kurdish-region-oilfields-border-crossings-takeover",
+      "date_on_page": "2026-11-24T19:19:55+05:30",
+      "attribution": "The order is the prime minister's, as reported: the Oil Ministry to take over oilfields and border forces to shut unofficial crossings. The page describes an instruction, not a completed takeover, and carries no Kurdish reaction. The card prints the oilfields; the crossings are recorded here."
+    },
+    {
+      "n": 11,
+      "place": "JIUQUAN",
+      "printed_as": "card",
+      "printed_headline": "CHINA PUTS PAKISTANI IN ORBIT",
+      "headline": "China's Shenzhou-24 mission launches 1st international astronaut to Tiangong space station",
+      "publisher": "Space.com",
+      "url": "https://www.space.com/space-exploration/human-spaceflight/china-shenzhou-24-first-international-astronaut-launch-tiangong-space-station",
+      "date_on_page": "published 24 November 2026 (last updated 25 November 2026)",
+      "attribution": "Quote: 'The Shenzhou-24 mission lifted off today (Nov. 24) at 7:18 p.m. ET.' Quote: 'That trailblazer is Muhammad Zeeshan Ali, a former pilot in Pakistan's armed forces who is the first person from his country ever to reach orbit.' The card prints China, the nationality and the orbit. The mission name is not on the card: 'SHENZHOU-24' is a single word 242 pixels wide, wider than a card's 227, so it cannot be set at 24 pixels; Tiangong, and the fact that Ali is the first person from Pakistan in orbit, are recorded here."
+    },
+    {
+      "n": 12,
+      "place": "CANBERRA",
+      "printed_as": "card",
+      "printed_headline": "AUSTRALIA, SINGAPORE: CO2 PACT",
+      "headline": "11th Singapore-Australia Annual Leaders' Meeting, 24 November 2026",
+      "publisher": "Singapore Ministry of Foreign Affairs",
+      "url": "https://www.mfa.gov.sg/newsroom/press-statements-transcripts-and-photos/11th-singapore-australia-annual-leaders--meeting--24-november-2026/",
+      "date_on_page": "24 November 2026",
+      "attribution": "Quote: 'Prime Minister and Minister for Finance Lawrence Wong and Australian Prime Minister Anthony Albanese held the 11th Singapore-Australia Annual Leaders' Meeting (ALM) in Canberra today.' Quote: 'Key outcomes of the ALM included the signing of the landmark Agreement on Transboundary Movement of Carbon Dioxide Streams for the Purposes of Offshore Geological Sequestration; the signing of a Memorandum of Understanding (MOU) on Essential Supplies'. The card prints the CO2 pact in two names and drops the supplies memorandum; 'landmark' and 'first-of-its-kind' are the statement's own words and are not printed."
+    },
+    {
+      "n": 13,
+      "place": "BRUSSELS",
+      "printed_as": "brief",
+      "headline": "EU imposes hard import quotas on Chinese hybrid cars, sweeping in UK and Japan",
+      "publisher": "The News",
+      "url": "https://www.thenews.com.pk/latest/1424932-eu-imposes-hard-import-quotas-on-chinese-hybrid-cars-sweeping-in-uk-and-japan",
+      "date_on_page": "Published November 24, 2026",
+      "attribution": "Quote: 'Announced by the European Commission, the 200-day provisional safeguard is designed to shield European automakers from a 49% surge in hybrid imports'. Quote: 'capping shipments from China while sweeping in major auto exporters including the United Kingdom, Japan, Turkey, and South Korea.' The brief prints the measure and China, its main target; the sweep-in of the UK, Japan, Turkey and South Korea, and the 49% surge, are here.",
+      "printed_brief": "EU sets 200-day quotas on hybrid cars from China."
+    },
+    {
+      "n": 14,
+      "place": "MOSCOW",
+      "printed_as": "brief",
+      "headline": "Putin says Russia's response to Ukrainian attacks on oil refineries inevitable",
+      "publisher": "Anadolu Agency",
+      "url": "http://aa.com.tr/en/eurasia/putin-says-russias-response-to-ukrainian-attacks-on-oil-refineries-inevitable/4136296",
+      "date_on_page": "24 November 2026, updated 24 November 2026",
+      "attribution": "Quote: 'Russian President Vladimir Putin said Tuesday that Moscow's response to Ukrainian attacks on Russian oil refineries was inevitable.' Quote: 'retaliatory actions on our part are inevitable.' The brief keeps the word 'inevitable' as the page prints it, in quotation marks' stead by attribution to Putin. This page replaces a TRT World article that displayed no date; the words are the same report.",
+      "printed_brief": "Putin: retaliation for refinery strikes is inevitable."
+    },
+    {
+      "n": 15,
+      "place": "ZAPORIZHZHIA",
+      "printed_as": "brief",
+      "headline": "Russian overnight attack injures 22 in Zaporizhzhia",
+      "publisher": "Daily Times",
+      "url": "https://dailytimes.com.pk/1586275/russian-overnight-attack-injures-22-in-zaporizhzhia/",
+      "date_on_page": "2026-11-24T15:20:28+00:00",
+      "attribution": "The two dead and 22 wounded are a regional defence official's figures, as reported. The brief calls that official a Ukraine official, which is what the page describes.",
+      "printed_brief": "Strike kills two and wounds 22, Ukraine official says."
+    },
+    {
+      "n": 16,
+      "place": "LONDON",
+      "printed_as": "brief",
+      "headline": "London Tube drivers to go on strike as talks over working conditions fail",
+      "publisher": "Anadolu Agency",
+      "url": "http://aa.com.tr/en/europe/london-tube-drivers-to-go-on-strike-as-talks-over-working-conditions-fail/4136295",
+      "date_on_page": "24 November 2026, updated 24 November 2026",
+      "attribution": "Quote: 'the union will launch a series of rolling 24-hour strikes beginning on Thursday'. The brief's 'Tube drivers' and 'Thursday' are the page's; the union is the RMT, which the brief does not name. This page replaces a Standard article that turned out to be dated 25 November.",
+      "printed_brief": "Tube drivers to start 24-hour strikes on Thursday."
+    },
+    {
+      "n": 17,
+      "place": "DELTA STATE",
+      "printed_as": "brief",
+      "headline": "Nigerian state imposes curfew after four killed at political rally",
+      "publisher": "AFP, via EWN",
+      "url": "https://www.ewn.co.za/2026/11/24/nigerian-state-imposes-curfew-after-four-killed-at-political-rally",
+      "date_on_page": "24 November 2026, 3:37",
+      "attribution": "Quote: 'Authorities have imposed a curfew in Nigeria's southern Delta state after four opposition supporters were killed at a political rally on Monday.' The brief says 'four die at rally', the page's own label for the event; the page calls the dead 'opposition supporters' and places the rally and the curfew in Delta state, so the pin sits there rather than at the AFP dateline, Lagos. The curfew is the state government's, announced by its secretary; the four deaths were confirmed by aviation minister Festus Keyamo. This replaces an Alamata dispatch: the page there said Amnesty's findings were 'published late on Monday', i.e. 23 November.",
+      "printed_brief": "Delta state declares curfew after four die at rally."
+    },
+    {
+      "n": 18,
+      "place": "ED DAMAZIN",
+      "printed_as": "brief",
+      "headline": "Outrage as 28 women, girls abducted, 15 cases of sexual violence against minors reported in Sudan's Blue Nile state",
+      "publisher": "Dabanga Sudan",
+      "url": "https://www.dabangasudan.org/en/all-news/article/outrage-as-28-women-girls-abducted-15-cases-of-sexual-violence-against-minors-reported-in-sudans-blue-nile-state",
+      "date_on_page": "24/11/2026 15:35",
+      "attribution": "Quote: 'The Strategic Initiative for Women in the Horn of Africa (SIHA Network) has reported the abduction of 28 women and girls fleeing fighting in Damazin'. Quote: 'fighters from the Rapid Support Forces (RSF) and allied militias had abducted the women and girls'. The brief says 'a group says', which is the SIHA Network; the state is the Blue Nile, as the page has it. No monitor's tally is cited.",
+      "printed_brief": "Group says 28 women and girls abducted in Blue Nile."
+    },
+    {
+      "n": 19,
+      "place": "SINGAPORE",
+      "printed_as": "brief",
+      "headline": "Singapore upgrades GDP forecast to around 6% for 2026, expects growth to moderate in 2027",
+      "publisher": "AsiaOne",
+      "url": "https://www.asiaone.com/singapore/gdp-economy-growth-q3-meti-forecast-2027-outlook",
+      "date_on_page": "PUBLISHED ON November 24, 2026 9:58 AM",
+      "attribution": "Quote: \"Singapore's economy grew 6.1 per cent year-on-year in the third quarter, beating its advance estimate of 5.4 per cent\". The brief calls the body 'Singapore' and prints the two figures; the page names the Ministry of Energy, Trade and Industry (METI), as does its release at meti.gov.sg dated 24 November 2026.",
+      "printed_brief": "Singapore Q3 growth 6.1%, ahead of 5.4% estimate."
+    },
+    {
+      "n": 20,
+      "place": "TOKYO",
+      "printed_as": "brief",
+      "headline": "Japan boosts ICC funding amid US sanctions threat",
+      "publisher": "The News",
+      "url": "https://www.thenews.com.pk/latest/1424903-japan-boosts-icc-funding-amid-us-sanctions-threat",
+      "date_on_page": "2026-11-24T14:32:00+05:00",
+      "attribution": "Payment of Japan's 2027 dues by year-end is Japan's pledge; the April sanctions deadline is the U.S. measure's, as reported. The brief says 'before US sanctions', which is the page's sequence; it drops the year-end deadline for the payment.",
+      "printed_brief": "Japan to pay 2027 ICC dues before US sanctions."
+    },
+    {
+      "n": 21,
+      "place": "MANILA",
+      "printed_as": "brief",
+      "headline": "Philippine Forces Train to Secure Luzon Strait with Warships, BrahMos Missiles",
+      "publisher": "USNI News",
+      "url": "https://news.usni.org/2026/11/24/philippine-forces-train-to-secure-luzon-strait-with-warships-brahmos-missiles",
+      "date_on_page": "November 24, 2026 1:47 PM",
+      "attribution": "Quote: 'Philippine forces are practicing how to secure the Luzon Strait through the deployment of warships and a BrahMos missile battery for maritime strike operations this month.' The brief says 'drills', the page's 'practicing'. This replaces a Taipei market report from an auto-generated site.",
+      "printed_brief": "Philippines drills to hold Luzon Strait with BrahMos."
+    },
+    {
+      "n": 22,
+      "place": "HANOI",
+      "printed_as": "brief",
+      "headline": "Gas explosion in Hanoi kills six, injures 10",
+      "publisher": "Yahoo News",
+      "url": "https://www.yahoo.com/news/world/articles/gas-explosion-hanoi-kills-six-091837522.html",
+      "date_on_page": "2026-11-24T09:18:37Z",
+      "attribution": "The toll and the description of a suspected gas explosion at an eatery are officials' account as reported; the gas leak is the likely cause, not a finding. The brief keeps 'suspected' out of its line for want of room and says 'gas blast'.",
+      "printed_brief": "Gas blast at Hanoi eatery kills six, injures 10."
+    },
+    {
+      "n": 23,
+      "place": "XIAMEN",
+      "printed_as": "brief",
+      "headline": "Xiamen Airlines signs deal for 50 Boeing 737-8s",
+      "publisher": "Aerospace Global News",
+      "url": "https://aerospaceglobalnews.com/news/xiamen-airlines-boeing-737-8-order/",
+      "date_on_page": "2026-11-24T12:55:46+00:00",
+      "attribution": "The $7.4bn is the list price of the order, not a disclosed payment, and the page reports the order as pending approval. The brief prints the list price and drops the pending approval.",
+      "printed_brief": "Xiamen orders 50 Boeing 737-8s at $7.4bn list."
+    },
+    {
+      "n": 24,
+      "place": "KUALA LUMPUR",
+      "printed_as": "brief",
+      "headline": "Malaysia to repatriate another 6,803 Myanmar nationals despite ICJ genocide ruling",
+      "publisher": "The Star",
+      "url": "https://www.thestar.com/news/world/asia/malaysia-to-repatriate-another-6-803-myanmar-nationals-despite-icj-genocide-ruling/article_b6c02159-49d5-504d-8edb-94005a73e9b1.html",
+      "date_on_page": "Nov. 24, 2026",
+      "attribution": "Quote: 'The International Court of Justice ... last week found Myanmar guilty of genocide against its Rohingya minority'. The 6,803 figure is in the page's headline. A final ruling, not a pending case. The brief drops the ICJ ruling for want of a line.",
+      "printed_brief": "Malaysia to send 6,803 more Myanmar nationals home."
+    }
+  ],
+  "held_back": [
+    {
       "place": "TORONTO",
       "headline": "Ontario Announces Bold Plan to Build Mines Faster",
       "publisher": "Government of Ontario newsroom (Ministry of Energy and Mines)",
       "url": "https://news.ontario.ca/en/release/1008319/ontario-announces-bold-plan-to-build-mines-faster",
       "date_on_page": "November 24, 2026",
-      "attribution": "Quote: 'TORONTO – Today, Minister Stephen Lecce announced the Ontario government intends to introduce new legislative measures and related policy changes that, if passed, would fast-track the development of new and expanded mines and accelerate early and advanced exploration, all while creating an enhanced compliance regime.' The page's wording is 'intends to introduce ... that, if passed, would fast-track'; the printed line calls that a plan to legislate, so nothing is law and the conditional passage is not asserted. The bill is an intention, announced at the Ontario Critical Minerals Forum in Toronto that day, not law — the page adds that the government acted 'in the face of U.S. tariffs', a motive the printed line leaves out for want of room: the page says the government intends to introduce it 'in the coming days', and its claim that the changes would speed approvals is the government's own. This replaces a Mexico City dispatch whose cited page answered a plain request with HTTP 403."
+      "why_held_back": "The page's wording is 'intends to introduce ... that, if passed, would fast-track'; nothing is law. Held back when the brief column was cut from eighteen to twelve, because a bill that is only an intention is the least of the day's news."
     },
     {
-      "n": 7,
-      "place": "BRASILIA",
-      "headline": "Lower House passes fiscal bill in decisive vote",
-      "publisher": "Valor International",
-      "url": "https://valorinternational.globo.com/politics/news/2026/11/24/lower-house-passes-fiscal-bill-in-decisive-vote.ghtml",
-      "date_on_page": "24/11/2026 06h16, updated 24/11/2026 06h16",
-      "attribution": "Quote: 'Brazil's Lower House approved the government's fiscal adjustment bill on Monday (Nov. 23) by a decisive 353-128 vote'. Quote: 'the Brazilian real, which weakened to around R$6 per dollar on Monday'. The ballot was cast on 23 November; this report of it is dated 24 November.",
-      "printed_headline": "FISCAL BILL PASSES",
-      "printed_deck": "Fiscal bill passes 353-128; the real slips near R$6"
-    },
-    {
-      "n": 8,
-      "place": "ZAPORIZHZHIA",
-      "headline": "Russian overnight attack injures 22 in Zaporizhzhia",
-      "publisher": "Daily Times",
-      "url": "https://dailytimes.com.pk/1586275/russian-overnight-attack-injures-22-in-zaporizhzhia/",
-      "date_on_page": "2026-11-24T15:20:28+00:00",
-      "attribution": "The two dead and 22 wounded are a regional defence official's figures, as reported."
-    },
-    {
-      "n": 9,
-      "place": "MOSCOW",
-      "headline": "Putin says Russia's response to Ukrainian attacks on oil refineries inevitable",
-      "publisher": "Anadolu Agency",
-      "url": "http://aa.com.tr/en/eurasia/putin-says-russias-response-to-ukrainian-attacks-on-oil-refineries-inevitable/4136296",
-      "date_on_page": "24 November 2026, updated 24 November 2026",
-      "attribution": "Quote: 'Russian President Vladimir Putin said Tuesday that Moscow's response to Ukrainian attacks on Russian oil refineries was inevitable.' Quote: 'retaliatory actions on our part are inevitable.' This page replaces a TRT World article that displayed no date; the words are the same report."
-    },
-    {
-      "n": 10,
       "place": "RIGA",
       "headline": "Latvian President sees potential turning point in Ukraine war next year",
       "publisher": "Ukrinform",
       "url": "https://www.ukrinform.net/rubric-polytics/4188107-latvian-president-sees-potential-turning-point-in-ukraine-war-next-year.html",
       "date_on_page": "2026-11-24T16:18:00+02:00",
-      "attribution": "The forecast is President Edgars Rinkevics's: a tipping point that could come in spring or summer. The page carries no prediction of a Russian defeat."
+      "why_held_back": "The forecast is President Edgars Rinkevics's: a tipping point that could come in spring or summer. Held back with the brief column's cut to twelve."
     },
     {
-      "n": 11,
-      "place": "BRUSSELS",
-      "headline": "EU imposes hard import quotas on Chinese hybrid cars, sweeping in UK and Japan",
-      "publisher": "The News",
-      "url": "https://www.thenews.com.pk/latest/1424932-eu-imposes-hard-import-quotas-on-chinese-hybrid-cars-sweeping-in-uk-and-japan",
-      "date_on_page": "Published November 24, 2026",
-      "attribution": "Quote: 'Announced by the European Commission, the 200-day provisional safeguard is designed to shield European automakers from a 49% surge in hybrid imports'. Quote: 'capping shipments from China while sweeping in major auto exporters including the United Kingdom, Japan, Turkey, and South Korea.' The printed line ends 'and others', the page's own wording for the sweep-in."
-    },
-    {
-      "n": 12,
-      "place": "WOLFSBURG",
-      "headline": "Volkswagen labor talks end without deal as union warns of January strikes",
-      "publisher": "Anadolu Agency",
-      "url": "https://www.aa.com.tr/en/economy/volkswagen-labor-talks-end-without-deal-as-union-warns-of-january-strikes/4136379",
-      "date_on_page": "2026-11-24T22:13:30.147",
-      "attribution": "The strike warning is IG Metall's; the no-deal account is the union's and the company's. The card's keyword is TALKS.",
-      "printed_headline": "VW TALKS FAIL",
-      "printed_deck": "VW talks end without a deal; strikes possible 1 January"
-    },
-    {
-      "n": 13,
-      "place": "LONDON",
-      "headline": "London Tube drivers to go on strike as talks over working conditions fail",
-      "publisher": "Anadolu Agency",
-      "url": "http://aa.com.tr/en/europe/london-tube-drivers-to-go-on-strike-as-talks-over-working-conditions-fail/4136295",
-      "date_on_page": "24 November 2026, updated 24 November 2026",
-      "attribution": "Quote: 'the union will launch a series of rolling 24-hour strikes beginning on Thursday'. This page replaces a Standard article that turned out to be dated 25 November."
-    },
-    {
-      "n": 14,
-      "place": "ITURI",
-      "headline": "DR Congo: Concern for trapped Ebola workers as violence against women and girls deepens",
-      "publisher": "UN News",
-      "url": "https://news.un.org/en/story/2026/11/1168865",
-      "date_on_page": "24 November 2026",
-      "attribution": "Quote: 'Staff from the World Health Organization (WHO) and Ebola responders remain trapped in a hospital in Ituri province ... the UN agency said'. Quote: 'The health workers have been sheltering in a maternity ward since fighting began on Saturday'. The card deck drops 'the UN agency said', which the WHO attribution at the head of the deck carries.",
-      "printed_headline": "EBOLA TRAPPED",
-      "printed_deck": "WHO staff shelter in a maternity ward since Saturday"
-    },
-    {
-      "n": 15,
-      "place": "DELTA STATE",
-      "headline": "Nigerian state imposes curfew after four killed at political rally",
-      "publisher": "AFP, via EWN",
-      "url": "https://www.ewn.co.za/2026/11/24/nigerian-state-imposes-curfew-after-four-killed-at-political-rally",
-      "date_on_page": "24 November 2026, 3:37",
-      "attribution": "Quote: 'Authorities have imposed a curfew in Nigeria's southern Delta state after four opposition supporters were killed at a political rally on Monday.' Quote, the page's own label for the event and its headline: 'political rally' (the party's account calls it 'a campaign rally in Ughelli North district'). The printed line therefore says 'a political rally': the page uses 'opposition' for the supporters and the NDC, not for the rally itself. The page places the rally and the curfew in Delta state, so the pin sits there rather than at the AFP dateline, Lagos. The curfew is the state government's, announced by its secretary; the four deaths were confirmed by aviation minister Festus Keyamo. This replaces an Alamata dispatch: the page there said Amnesty's findings were 'published late on Monday', i.e. 23 November."
-    },
-    {
-      "n": 16,
-      "place": "ED DAMAZIN",
-      "headline": "Outrage as 28 women, girls abducted, 15 cases of sexual violence against minors reported in Sudan's Blue Nile state",
-      "publisher": "Dabanga Sudan",
-      "url": "https://www.dabangasudan.org/en/all-news/article/outrage-as-28-women-girls-abducted-15-cases-of-sexual-violence-against-minors-reported-in-sudans-blue-nile-state",
-      "date_on_page": "24/11/2026 15:35",
-      "attribution": "Quote: 'The Strategic Initiative for Women in the Horn of Africa (SIHA Network) has reported the abduction of 28 women and girls fleeing fighting in Damazin'. Quote: 'fighters from the Rapid Support Forces (RSF) and allied militias had abducted the women and girls'. No monitor's tally is cited. The printed keyword is CURFEW, the measure the page reports."
-    },
-    {
-      "n": 17,
       "place": "WEST AFRICA",
       "headline": "West Africa: Gold Refining Projects Already Exceed Mining Production",
       "publisher": "Benin Web TV",
       "url": "https://beninwebtv.bj/en/west-africa-gold-refining-projects-already-exceed-mining-production/",
       "date_on_page": "24/11/26 07:24",
-      "attribution": "Quote: 'According to a Reuters survey published on Tuesday, November 24, the capacities of projects launched or announced since 2024 exceed 1,000 tons per year, while regional production is estimated at 585 tons.' The page names no city, so the place is the region it covers. The printed line compresses the two figures to 'planned refining capacity above 1,000 tons a year tops the region's 585'."
+      "why_held_back": "Quote: 'According to a Reuters survey published on Tuesday, November 24, the capacities of projects launched or announced since 2024 exceed 1,000 tons per year, while regional production is estimated at 585 tons.' The page names no city. Held back with the brief column's cut to twelve."
     },
     {
-      "n": 18,
-      "place": "KHAN YOUNIS",
-      "headline": "Three Palestinians Martyred, Five Injured in Khan Younis Strike",
-      "publisher": "Jordan News",
-      "url": "https://www.jordannews.jo/Section-20/Middle-East/Three-Palestinians-Martyred-Five-Injured-in-Khan-Younis-Strike-59293",
-      "date_on_page": "2026-11-24T10:49:21",
-      "attribution": "The toll as printed is attributed to Jordan News, which reported it; the page does not credit WAFA. Israel's account of the target is not carried on the page."
-    },
-    {
-      "n": 19,
-      "place": "BAGHDAD",
-      "headline": "Iraq Moves To Take Control Of Oilfields, Border Crossings In Kurdish Region",
-      "publisher": "Outlook India",
-      "url": "https://www.outlookindia.com/international/iraq-kurdish-region-oilfields-border-crossings-takeover",
-      "date_on_page": "2026-11-24T19:19:55+05:30",
-      "attribution": "The order is the prime minister's, as reported: the Oil Ministry to take over oilfields and border forces to shut unofficial crossings. The page describes an instruction, not a completed takeover, and carries no Kurdish reaction.",
-      "printed_headline": "DRONE KILLS THREE",
-      "printed_deck": "Jordan News: a drone kills 3 and wounds 5 at al-Mawasi"
-    },
-    {
-      "n": 20,
       "place": "SEOUL",
       "headline": "South Korea scrambles jets as Russian warplanes enter air defense zone",
       "publisher": "Yeni Safak",
       "url": "https://en.yenisafak.com/world/south-korea-scrambles-jets-as-russian-warplanes-enter-air-defense-zone-3725920",
       "date_on_page": "2026-11-24T09:23:40+03:00",
-      "attribution": "The scramble and the incursion are South Korea's account, as reported; no airspace violation was reported. The card deck shortens 'border forces to shut unofficial crossings' to 'shut crossings'.",
-      "printed_headline": "IRAQ MOVES ON OIL",
-      "printed_deck": "Iraq PM: ministry to take over oilfields, shut crossings"
+      "why_held_back": "The scramble and the incursion are South Korea's account, as reported; no airspace violation was reported. Held back because the Manila drill covers the same beat."
     },
     {
-      "n": 21,
       "place": "DHAKA",
       "headline": "Hasina's December 16 homecoming plan: Bangladesh says ex-PM can be brought back only through extradition",
       "publisher": "Connected To India",
       "url": "https://www.connectedtoindia.com/hasinas-december-16-homecoming-plan-bangladesh-says-ex-pm-can-be-brought-back-only-through-extradition/",
       "date_on_page": "2026-11-24T08:49:34+00:00",
-      "attribution": "The 16 December plan is Sheikh Hasina's announcement; the position that she can only be brought back by extradition is a state minister's, as reported."
+      "why_held_back": "The 16 December plan is Sheikh Hasina's announcement; the position that she can only be brought back by extradition is a state minister's. Held back with the brief column's cut to twelve."
     },
     {
-      "n": 22,
-      "place": "SINGAPORE",
-      "headline": "Singapore upgrades GDP forecast to around 6% for 2026, expects growth to moderate in 2027",
-      "publisher": "AsiaOne",
-      "url": "https://www.asiaone.com/singapore/gdp-economy-growth-q3-meti-forecast-2027-outlook",
-      "date_on_page": "PUBLISHED ON November 24, 2026 9:58 AM",
-      "attribution": "Quote: \"Singapore's economy grew 6.1 per cent year-on-year in the third quarter, beating its advance estimate of 5.4 per cent\". The printed line calls it 'the trade ministry' and the tile reads 'SINGAPORE Q3 GDP'; the page itself names the body the Ministry of Energy, Trade and Industry (METI), as does its release at meti.gov.sg dated 24 November 2026. The printed line now ends with a full stop."
-    },
-    {
-      "n": 23,
-      "place": "MANILA",
-      "headline": "Philippine Forces Train to Secure Luzon Strait with Warships, BrahMos Missiles",
-      "publisher": "USNI News",
-      "url": "https://news.usni.org/2026/11/24/philippine-forces-train-to-secure-luzon-strait-with-warships-brahmos-missiles",
-      "date_on_page": "November 24, 2026 1:47 PM",
-      "attribution": "Quote: 'Philippine forces are practicing how to secure the Luzon Strait through the deployment of warships and a BrahMos missile battery for maritime strike operations this month.' This replaces a Taipei market report from an auto-generated site."
-    },
-    {
-      "n": 24,
-      "place": "HANOI",
-      "headline": "Gas explosion in Hanoi kills six, injures 10",
-      "publisher": "Yahoo News",
-      "url": "https://www.yahoo.com/news/world/articles/gas-explosion-hanoi-kills-six-091837522.html",
-      "date_on_page": "2026-11-24T09:18:37Z",
-      "attribution": "The toll and the description of a suspected gas explosion at an eatery are officials' account as reported; the gas leak is the likely cause, not a finding."
-    },
-    {
-      "n": 25,
-      "place": "TOKYO",
-      "headline": "Japan boosts ICC funding amid US sanctions threat",
-      "publisher": "The News",
-      "url": "https://www.thenews.com.pk/latest/1424903-japan-boosts-icc-funding-amid-us-sanctions-threat",
-      "date_on_page": "2026-11-24T14:32:00+05:00",
-      "attribution": "Payment of Japan's 2027 dues by year-end is Japan's pledge; the April sanctions deadline is the U.S. measure's, as reported. The printed line says Japan 'pledged' to pay its 2027 dues, the page's own verb."
-    },
-    {
-      "n": 26,
-      "place": "JIUQUAN",
-      "headline": "China's Shenzhou-24 mission launches 1st international astronaut to Tiangong space station",
-      "publisher": "Space.com",
-      "url": "https://www.space.com/space-exploration/human-spaceflight/china-shenzhou-24-first-international-astronaut-launch-tiangong-space-station",
-      "date_on_page": "published 24 November 2026 (last updated 25 November 2026)",
-      "attribution": "Quote: 'The Shenzhou-24 mission lifted off today (Nov. 24) at 7:18 p.m. ET.' Quote: 'That trailblazer is Muhammad Zeeshan Ali, a former pilot in Pakistan's armed forces who is the first person from his country ever to reach orbit.' Quote: 'a Long March 2F rocket lifted off ... from the Jiuquan Satellite Launch Center', so the pin sits at the launch site, not Beijing. The page says international astronaut/foreign national, not that he is Pakistan's first astronaut. This replaces a CBS page stamped 25 November. The card deck is the wording the editor dictated, printed in full over four lines; the page says 'international astronaut' and that he is the first Pakistani in orbit.",
-      "printed_headline": "SHENZHOU LIFTS OFF",
-      "printed_deck": "Shenzhou-24 lifted off with Pakistan's Zeeshan Ali, China's first foreign astronaut bound for Tiangong"
-    },
-    {
-      "n": 27,
-      "place": "XIAMEN",
-      "headline": "Xiamen Airlines signs deal for 50 Boeing 737-8s",
-      "publisher": "Aerospace Global News",
-      "url": "https://aerospaceglobalnews.com/news/xiamen-airlines-boeing-737-8-order/",
-      "date_on_page": "2026-11-24T12:55:46+00:00",
-      "attribution": "The $7.4bn is the list price of the order, not a disclosed payment, and the page reports the order as pending approval."
-    },
-    {
-      "n": 28,
-      "place": "CANBERRA",
-      "headline": "11th Singapore-Australia Annual Leaders' Meeting, 24 November 2026",
-      "publisher": "Singapore Ministry of Foreign Affairs",
-      "url": "https://www.mfa.gov.sg/newsroom/press-statements-transcripts-and-photos/11th-singapore-australia-annual-leaders--meeting--24-november-2026/",
-      "date_on_page": "24 November 2026",
-      "attribution": "Quote: 'Prime Minister and Minister for Finance Lawrence Wong and Australian Prime Minister Anthony Albanese held the 11th Singapore-Australia Annual Leaders' Meeting (ALM) in Canberra today.' Quote: 'Key outcomes of the ALM included the signing of the landmark Agreement on Transboundary Movement of Carbon Dioxide Streams for the Purposes of Offshore Geological Sequestration; the signing of a Memorandum of Understanding (MOU) on Essential Supplies'. Quote: 'Leaders welcomed the signing of the Protocol to SAFTA on Economic Resilience and Essential Supplies on 27 July 2026 and the MoU on Essential Supplies on 24 November 2026.' The page is Singapore's Ministry of Foreign Affairs statement of a meeting held that day, so the printed line attributes the signing to the ministry rather than asserting it. The printed line says 'a CO2 pact' for the Agreement on Transboundary Movement of Carbon Dioxide Streams for the Purposes of Offshore Geological Sequestration, whose full name does not fit two lines at this size; 'landmark' and 'first-of-its-kind' are the statement's own words and are not printed. This replaces a Canberra dispatch on the Solomon Islands treaty, whose signing took place on Wednesday 25 November, leaving only its report on the 24th. The card deck says 'Ministry:', which is how the statement refers to itself.",
-      "printed_headline": "CO2 PACT SIGNED",
-      "printed_deck": "Ministry: the two countries signed a CO2 and supply pact"
-    },
-    {
-      "n": 29,
       "place": "SUVA",
       "headline": "'When it mattered' Australia failed Pacific at COP31, elders say",
       "publisher": "The Fiji Sun",
       "url": "https://fijisun.com.fj/news/environment/when-it-mattered-australia-failed-pacific-at-cop31-elders-say",
       "date_on_page": "Tuesday 24 November 2026, 16:30, updated 25 November 2026",
-      "attribution": "Quote: '\"When it mattered, Australia has sided with the fossil fuel producers and lobbyists,\" the group said in a statement.' This page replaces a Post Courier article that could not be retrieved. Fiji's capital is only where the paper is based; the statement is the Pacific Elders' Voice's."
-    },
-    {
-      "n": 30,
-      "place": "KUALA LUMPUR",
-      "headline": "Malaysia to repatriate another 6,803 Myanmar nationals despite ICJ genocide ruling",
-      "publisher": "The Star",
-      "url": "https://www.thestar.com/news/world/asia/malaysia-to-repatriate-another-6-803-myanmar-nationals-despite-icj-genocide-ruling/article_b6c02159-49d5-504d-8edb-94005a73e9b1.html",
-      "date_on_page": "Nov. 24, 2026",
-      "attribution": "Quote: 'The International Court of Justice ... last week found Myanmar guilty of genocide against its Rohingya minority'. The 6,803 figure is in the page's headline. A final ruling, not a pending case, so the printed wording stays 'genocide ruling'."
+      "why_held_back": "Quote: '\"When it mattered, Australia has sided with the fossil fuel producers and lobbyists,\" the group said in a statement.' The statement is the Pacific Elders' Voice's. Held back with the brief column's cut to twelve."
     }
   ]
 }
