@@ -20,7 +20,9 @@ randomness.
 - **Three leads**: mines in the Strait of Hormuz, a Houthi strike on a Riyadh
   tower, a car bomb in Villavicencio — each with a small drawn picture.
 - **Also today**: twenty-seven more, from Washington to Kuala Lumpur, nine to a
-  column.
+  column. Each one opens with a drawn pictogram and a bold one-word keyword —
+  MARKETS, CONGRESS, VOTE, EBOLA, DRONE, TREATY and so on — because at 300
+  pixels across the sentences turn to texture and only the keyword survives.
 - **The footer**: the sources for the edition and a pointer to `stories.json`,
   which carries the page, publisher and stated date behind every dispatch.
 
@@ -29,7 +31,10 @@ randomness.
 The build measures before it draws. Each list block is set at one size, and the
 program fails if a block turns out taller than its row or wider than its column;
 separately, every word drawn registers its own bounding box and the build fails
-if any two of them overlap or run past the page margin. Missing glyphs fail the
+if any two of them overlap or run past the page margin. The 13 × 11 pictogram
+registers a box of its own, and each keyword must clear its place name by ten
+pixels — a row with no keyword or no pictogram fails the build rather than
+printing an empty slot. Missing glyphs fail the
 build too, rather than printing a blank. A block that wants a third line is
 therefore a build error, not a smudge — the copy gets cut to fit.
 

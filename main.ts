@@ -892,7 +892,189 @@ interface Story {
   head?: string;
   lead?: string;
   art?: (c: Canvas, x: number, y: number, w: number, h: number) => void;
+  key?: string;
+  icon?: (c: Canvas, x: number, y: number) => void;
 }
+
+// Pictograms for the list. Each is 13 by 11 and built from the same flat fills
+// and hairlines as the rest of the sheet, so a reader at thumbnail size can tell
+// a ballot box from a derrick before reading a word of the sentence below.
+const IW = 13;
+const IH = 11;
+
+const icoChart = (c: Canvas, x: number, y: number): void => {
+  c.fillRect(x + 1, y + 5, 3, 6, INK);
+  c.fillRect(x + 5, y + 2.5, 3, 8.5, INK);
+  c.fillRect(x + 9, y + 0.5, 3, 10.5, RED);
+};
+
+const icoDome = (c: Canvas, x: number, y: number): void => {
+  c.disc(x + 6.5, y + 8.6, 4.8, INK);
+  c.fillRect(x + 0.6, y + 8.6, 11.8, 1.5, INK);
+  c.fillRect(x + 5.4, y + 6.2, 2.2, 4, PAPER);
+};
+
+const icoBallot = (c: Canvas, x: number, y: number): void => {
+  c.fillRect(x + 1, y + 1.4, 11, 9.2, INK);
+  c.fillRect(x + 4.2, y + 3.4, 4.6, 1.5, PAPER);
+  c.fillRect(x + 2.6, y + 6.4, 7.8, 1.2, PAPER);
+};
+
+const icoNote = (c: Canvas, x: number, y: number): void => {
+  c.fillRect(x + 0.5, y + 2.4, 12, 1.1, INK);
+  c.fillRect(x + 0.5, y + 7.7, 12, 1.1, INK);
+  c.fillRect(x + 0.5, y + 2.4, 1.1, 6.4, INK);
+  c.fillRect(x + 11.4, y + 2.4, 1.1, 6.4, INK);
+  c.disc(x + 6.5, y + 5.5, 1.9, INK);
+};
+
+const icoBurst = (c: Canvas, x: number, y: number): void => {
+  const pts: [number, number][] = [];
+  for (let i = 0; i < 12; i++) {
+    const a = (Math.PI * 2 * i) / 12 - Math.PI / 2;
+    const r = i % 2 ? 2.7 : 6.3;
+    pts.push([x + 6.5 + Math.cos(a) * r, y + 5.5 + Math.sin(a) * r]);
+  }
+  c.poly(pts, INK);
+};
+
+const icoBomb = (c: Canvas, x: number, y: number): void => {
+  c.disc(x + 5.2, y + 6.6, 3.4, INK);
+  c.stroke([[x + 7.8, y + 4.2], [x + 9.4, y + 2.2]], 1.3, INK);
+  c.poly([[x + 9.4, y + 0.8], [x + 11.8, y + 0.4], [x + 11.2, y + 2.6]], INK);
+};
+
+const icoDerrick = (c: Canvas, x: number, y: number): void => {
+  c.stroke([[x + 2.4, y + 10.4], [x + 5.6, y + 1.6]], 1.5, INK);
+  c.stroke([[x + 11, y + 10.4], [x + 7.4, y + 1.6]], 1.5, INK);
+  c.fillRect(x + 4.6, y + 0.6, 3.6, 1.2, INK);
+  c.fillRect(x + 4.2, y + 4.4, 4.6, 0.9, INK);
+  c.fillRect(x + 3.4, y + 7, 6.2, 0.9, INK);
+  c.fillRect(x + 1.6, y + 9.8, 9.8, 1.2, INK);
+};
+
+const icoContainer = (c: Canvas, x: number, y: number): void => {
+  c.fillRect(x + 0.6, y + 2.6, 11.8, 6.6, INK);
+  for (let i = 0; i < 4; i++) c.fillRect(x + 2.1 + i * 2.7, y + 3.3, 0.9, 5.2, PAPER);
+};
+
+const icoPlacard = (c: Canvas, x: number, y: number): void => {
+  c.stroke([[x + 6.4, y + 10.4], [x + 5.2, y + 1.8]], 1.4, INK);
+  c.fillRect(x + 1.8, y + 1, 7.4, 4.6, INK);
+  c.fillRect(x + 3.2, y + 2.6, 4.4, 0.9, PAPER);
+  c.fillRect(x + 3.2, y + 4, 3.2, 0.9, PAPER);
+};
+
+const icoRoundel = (c: Canvas, x: number, y: number): void => {
+  c.disc(x + 6.5, y + 5.6, 4.8, INK);
+  c.disc(x + 6.5, y + 5.6, 2.8, PAPER);
+  c.fillRect(x + 1, y + 4.7, 11, 1.9, RED);
+};
+
+const icoCross = (c: Canvas, x: number, y: number): void => {
+  c.fillRect(x + 5.2, y + 0.8, 2.6, 9.6, INK);
+  c.fillRect(x + 1.4, y + 4.3, 10.2, 2.6, INK);
+};
+
+const icoCrowd = (c: Canvas, x: number, y: number): void => {
+  c.disc(x + 2.6, y + 3.2, 1.9, INK);
+  c.disc(x + 6.5, y + 1.8, 1.9, INK);
+  c.disc(x + 10.4, y + 3.2, 1.9, INK);
+  c.poly([[x + 0.2, y + 10.4], [x + 2.6, y + 5.6], [x + 5, y + 10.4]], INK);
+  c.poly([[x + 4.2, y + 10.4], [x + 6.5, y + 4.2], [x + 8.8, y + 10.4]], INK);
+  c.poly([[x + 8, y + 10.4], [x + 10.4, y + 5.6], [x + 12.8, y + 10.4]], INK);
+};
+
+const icoPerson = (c: Canvas, x: number, y: number): void => {
+  c.disc(x + 6.5, y + 2.4, 2.3, INK);
+  c.poly([[x + 3, y + 10.6], [x + 6.5, y + 5.4], [x + 10, y + 10.6]], INK);
+  c.fillRect(x + 1.6, y + 6.2, 9.8, 1.4, INK);
+};
+
+const icoIngot = (c: Canvas, x: number, y: number): void => {
+  c.poly([[x + 0.6, y + 9.6], [x + 12.4, y + 9.6], [x + 10.4, y + 4], [x + 2.6, y + 4]], INK);
+  c.fillRect(x + 3.2, y + 5.2, 6.6, 1, PAPER);
+};
+
+const icoDrone = (c: Canvas, x: number, y: number): void => {
+  c.stroke([[x + 2.2, y + 2.2], [x + 10.8, y + 9]], 1.1, INK);
+  c.stroke([[x + 10.8, y + 2.2], [x + 2.2, y + 9]], 1.1, INK);
+  c.disc(x + 2.2, y + 2.2, 1.5, INK);
+  c.disc(x + 10.8, y + 2.2, 1.5, INK);
+  c.disc(x + 2.2, y + 9, 1.5, INK);
+  c.disc(x + 10.8, y + 9, 1.5, INK);
+  c.disc(x + 6.5, y + 5.6, 1.8, RED);
+};
+
+const icoFlame = (c: Canvas, x: number, y: number): void => {
+  c.poly(
+    [[x + 6.5, y + 0.4], [x + 9.6, y + 5.4], [x + 9.2, y + 8.4], [x + 6.5, y + 10.6], [x + 3.8, y + 8.4], [x + 3.4, y + 5.4]],
+    INK,
+  );
+  c.poly([[x + 6.5, y + 5], [x + 8.2, y + 7.6], [x + 6.5, y + 9.6], [x + 4.8, y + 7.6]], PAPER);
+};
+
+const icoPlane = (c: Canvas, x: number, y: number): void => {
+  c.poly(
+    [
+      [x + 6.5, y + 0.4], [x + 7.9, y + 5], [x + 12.6, y + 7.2], [x + 12.4, y + 8.6],
+      [x + 7.9, y + 7.4], [x + 7.9, y + 9.4], [x + 9.4, y + 10.6], [x + 9.2, y + 10.9],
+      [x + 6.5, y + 10], [x + 3.8, y + 10.9], [x + 3.6, y + 10.6], [x + 5.1, y + 9.4],
+      [x + 5.1, y + 7.4], [x + 0.6, y + 8.6], [x + 0.4, y + 7.2], [x + 5.1, y + 5],
+    ],
+    INK,
+  );
+};
+
+const icoGavel = (c: Canvas, x: number, y: number): void => {
+  c.fillRect(x + 1, y + 9.4, 8.4, 1.6, INK);
+  c.poly([[x + 5.2, y + 3], [x + 10.4, y + 0.8], [x + 11.8, y + 3.6], [x + 6.6, y + 5.8]], INK);
+  c.stroke([[x + 6.6, y + 4.6], [x + 2.6, y + 8.6]], 1.7, INK);
+};
+
+const icoArrow = (c: Canvas, x: number, y: number): void => {
+  c.stroke([[x + 6.5, y + 10.6], [x + 6.5, y + 2.8]], 2.4, INK);
+  c.poly([[x + 6.5, y + 0.4], [x + 11, y + 5.2], [x + 2, y + 5.2]], INK);
+};
+
+const icoWarship = (c: Canvas, x: number, y: number): void => {
+  c.poly([[x + 0.4, y + 6.8], [x + 12.6, y + 6.8], [x + 10.6, y + 10.4], [x + 2.4, y + 10.4]], INK);
+  c.fillRect(x + 4.2, y + 3.8, 3.2, 3, INK);
+  c.fillRect(x + 5.5, y + 1, 0.9, 2.8, INK);
+  c.fillRect(x + 8.4, y + 5.4, 3.2, 1.1, INK);
+};
+
+const icoScale = (c: Canvas, x: number, y: number): void => {
+  c.stroke([[x + 6.5, y + 0.8], [x + 6.5, y + 10]], 1.3, INK);
+  c.fillRect(x + 1.4, y + 0.8, 10.2, 1.2, INK);
+  c.poly([[x + 1.4, y + 2], [x + 3.8, y + 2], [x + 2.6, y + 5]], INK);
+  c.poly([[x + 9.2, y + 2], [x + 11.6, y + 2], [x + 10.4, y + 5]], INK);
+  c.fillRect(x + 3, y + 9.8, 7, 1.3, INK);
+};
+
+const icoRocket = (c: Canvas, x: number, y: number): void => {
+  c.poly([[x + 6.5, y + 0.2], [x + 8.6, y + 4], [x + 8.6, y + 8], [x + 4.4, y + 8], [x + 4.4, y + 4]], INK);
+  c.poly([[x + 4.4, y + 5.6], [x + 2.2, y + 9.4], [x + 4.4, y + 8.4]], INK);
+  c.poly([[x + 8.6, y + 5.6], [x + 10.8, y + 9.4], [x + 8.6, y + 8.4]], INK);
+  c.poly([[x + 5.2, y + 8.6], [x + 6.5, y + 11], [x + 7.8, y + 8.6]], RED);
+};
+
+const icoShield = (c: Canvas, x: number, y: number): void => {
+  c.poly(
+    [[x + 6.5, y + 0.4], [x + 11.6, y + 2.4], [x + 11, y + 6.2], [x + 6.5, y + 10.6], [x + 2, y + 6.2], [x + 1.4, y + 2.4]],
+    INK,
+  );
+  c.fillRect(x + 5.9, y + 2.4, 1.2, 5, PAPER);
+  c.fillRect(x + 3.6, y + 4.4, 5.8, 1.1, PAPER);
+};
+
+const icoGlobe = (c: Canvas, x: number, y: number): void => {
+  c.disc(x + 6.5, y + 5.6, 5, INK);
+  c.fillRect(x + 1.7, y + 5.1, 9.6, 1, PAPER);
+  c.fillRect(x + 5.9, y + 0.7, 1.2, 9.8, PAPER);
+  c.fillRect(x + 3.4, y + 2.6, 6.2, 0.9, PAPER);
+  c.fillRect(x + 3.4, y + 8.2, 6.2, 0.9, PAPER);
+};
 
 // Where each badge sits, relative to its dot: hand-placed once so that crowded
 // regions (Europe, the Gulf, the Sahel) fan out instead of stacking.
@@ -970,6 +1152,8 @@ const STORIES: Story[] = [
   },
   {
     n: 4,
+    key: 'MARKETS',
+    icon: icoChart,
     place: 'WASHINGTON',
     beat: 'NORTH AMERICA / MARKETS',
     lat: 38.9,
@@ -978,6 +1162,8 @@ const STORIES: Story[] = [
   },
   {
     n: 5,
+    key: 'CONGRESS',
+    icon: icoDome,
     place: 'TENNESSEE',
     beat: 'NORTH AMERICA / CONGRESS',
     lat: 35.9,
@@ -986,6 +1172,8 @@ const STORIES: Story[] = [
   },
   {
     n: 6,
+    key: 'VOTE',
+    icon: icoBallot,
     place: 'MEXICO CITY',
     beat: 'NORTH AMERICA / ELECTIONS',
     lat: 19.4,
@@ -994,6 +1182,8 @@ const STORIES: Story[] = [
   },
   {
     n: 7,
+    key: 'BUDGET',
+    icon: icoNote,
     place: 'BRASILIA',
     beat: 'SOUTH AMERICA / ECONOMY',
     lat: -15.8,
@@ -1002,6 +1192,8 @@ const STORIES: Story[] = [
   },
   {
     n: 8,
+    key: 'ATTACK',
+    icon: icoBurst,
     place: 'ZAPORIZHZHIA',
     beat: 'EUROPE / WAR',
     lat: 47.8,
@@ -1010,6 +1202,8 @@ const STORIES: Story[] = [
   },
   {
     n: 9,
+    key: 'REFINERY',
+    icon: icoDerrick,
     place: 'MOSCOW',
     beat: 'EUROPE / ENERGY WAR',
     lat: 55.75,
@@ -1018,6 +1212,8 @@ const STORIES: Story[] = [
   },
   {
     n: 10,
+    key: 'WAR',
+    icon: icoBomb,
     place: 'RIGA',
     beat: 'EUROPE / WAR',
     lat: 56.95,
@@ -1026,6 +1222,8 @@ const STORIES: Story[] = [
   },
   {
     n: 11,
+    key: 'TARIFFS',
+    icon: icoContainer,
     place: 'BRUSSELS',
     beat: 'EUROPE / TRADE',
     lat: 50.85,
@@ -1034,6 +1232,8 @@ const STORIES: Story[] = [
   },
   {
     n: 13,
+    key: 'WALKOUT',
+    icon: icoPlacard,
     place: 'WOLFSBURG',
     beat: 'EUROPE / LABOUR',
     lat: 52.4,
@@ -1042,6 +1242,8 @@ const STORIES: Story[] = [
   },
   {
     n: 14,
+    key: 'TUBE',
+    icon: icoRoundel,
     place: 'LONDON',
     beat: 'EUROPE / TRANSPORT',
     lat: 51.5,
@@ -1050,6 +1252,8 @@ const STORIES: Story[] = [
   },
   {
     n: 15,
+    key: 'EBOLA',
+    icon: icoCross,
     place: 'ITURI',
     beat: 'AFRICA / HEALTH',
     lat: 1.6,
@@ -1058,6 +1262,8 @@ const STORIES: Story[] = [
   },
   {
     n: 16,
+    key: 'RALLY',
+    icon: icoCrowd,
     place: 'DELTA STATE',
     beat: 'AFRICA / ELECTIONS',
     lat: 6.2,
@@ -1066,6 +1272,8 @@ const STORIES: Story[] = [
   },
   {
     n: 17,
+    key: 'ABDUCTED',
+    icon: icoPerson,
     place: 'ED DAMAZIN',
     beat: 'AFRICA / SUDAN',
     lat: 11.8,
@@ -1074,6 +1282,8 @@ const STORIES: Story[] = [
   },
   {
     n: 18,
+    key: 'GOLD',
+    icon: icoIngot,
     place: 'WEST AFRICA',
     beat: 'AFRICA / GOLD',
     lat: 7.5,
@@ -1082,6 +1292,8 @@ const STORIES: Story[] = [
   },
   {
     n: 19,
+    key: 'DRONE',
+    icon: icoDrone,
     place: 'KHAN YOUNIS',
     beat: 'MIDDLE EAST / GAZA',
     lat: 31.3,
@@ -1090,6 +1302,8 @@ const STORIES: Story[] = [
   },
   {
     n: 20,
+    key: 'OILFIELDS',
+    icon: icoDerrick,
     place: 'BAGHDAD',
     beat: 'MIDDLE EAST / OIL',
     lat: 33.3,
@@ -1098,6 +1312,8 @@ const STORIES: Story[] = [
   },
   {
     n: 21,
+    key: 'JETS',
+    icon: icoPlane,
     place: 'SEOUL',
     beat: 'ASIA / DEFENCE',
     lat: 37.6,
@@ -1106,6 +1322,8 @@ const STORIES: Story[] = [
   },
   {
     n: 22,
+    key: 'RETURN',
+    icon: icoGavel,
     place: 'DHAKA',
     beat: 'ASIA / POLITICS',
     lat: 23.8,
@@ -1114,6 +1332,8 @@ const STORIES: Story[] = [
   },
   {
     n: 23,
+    key: 'GROWTH',
+    icon: icoArrow,
     place: 'SINGAPORE',
     beat: 'ASIA / ECONOMY',
     lat: 1.35,
@@ -1122,6 +1342,8 @@ const STORIES: Story[] = [
   },
   {
     n: 24,
+    key: 'DRILL',
+    icon: icoWarship,
     place: 'MANILA',
     beat: 'ASIA / MARITIME',
     lat: 14.6,
@@ -1130,6 +1352,8 @@ const STORIES: Story[] = [
   },
   {
     n: 26,
+    key: 'BLAST',
+    icon: icoFlame,
     place: 'HANOI',
     beat: 'ASIA / DISASTER',
     lat: 21.03,
@@ -1138,6 +1362,8 @@ const STORIES: Story[] = [
   },
   {
     n: 27,
+    key: 'COURT',
+    icon: icoScale,
     place: 'TOKYO',
     beat: 'ASIA / JUSTICE',
     lat: 35.7,
@@ -1146,6 +1372,8 @@ const STORIES: Story[] = [
   },
   {
     n: 28,
+    key: 'LAUNCH',
+    icon: icoRocket,
     place: 'JIUQUAN',
     beat: 'ASIA / SPACE',
     lat: 39.7,
@@ -1154,6 +1382,8 @@ const STORIES: Story[] = [
   },
   {
     n: 29,
+    key: 'BOEING',
+    icon: icoPlane,
     place: 'XIAMEN',
     beat: 'ASIA / AVIATION',
     lat: 24.5,
@@ -1162,6 +1392,8 @@ const STORIES: Story[] = [
   },
   {
     n: 30,
+    key: 'TREATY',
+    icon: icoShield,
     place: 'CANBERRA',
     beat: 'OCEANIA / SECURITY',
     lat: -35.3,
@@ -1170,6 +1402,8 @@ const STORIES: Story[] = [
   },
   {
     n: 32,
+    key: 'CLIMATE',
+    icon: icoGlobe,
     place: 'SUVA',
     beat: 'OCEANIA / CLIMATE',
     lat: -18.14,
@@ -1178,6 +1412,8 @@ const STORIES: Story[] = [
   },
   {
     n: 33,
+    key: 'REFUGEES',
+    icon: icoCrowd,
     place: 'KUALA LUMPUR',
     beat: 'ASIA / REFUGEES',
     lat: 3.1,
@@ -1285,13 +1521,13 @@ const placePins = (): Pin[] => {
         const b = pins[j];
         const dx = b.x - a.x;
         const dy = b.y - a.y;
-        if (Math.abs(dx) < 17 && Math.abs(dy) < 17) {
+        if (Math.abs(dx) < 21 && Math.abs(dy) < 21) {
           if (Math.abs(dx) >= Math.abs(dy)) {
-            const push = (dx >= 0 ? 1 : -1) * (17 - Math.abs(dx)) * 0.5;
+            const push = (dx >= 0 ? 1 : -1) * (21 - Math.abs(dx)) * 0.5;
             a.x -= push;
             b.x += push;
           } else {
-            const push = (dy >= 0 ? 1 : -1) * (17 - Math.abs(dy)) * 0.5;
+            const push = (dy >= 0 ? 1 : -1) * (21 - Math.abs(dy)) * 0.5;
             a.y -= push;
             b.y += push;
           }
@@ -1301,20 +1537,22 @@ const placePins = (): Pin[] => {
     for (const p of pins) {
       p.x += (p.ax - p.x) * 0.035;
       p.y += (p.ay - p.y) * 0.035;
-      p.x = Math.max(MAP.x + 11, Math.min(MAP.x + MAP.w - 11, p.x));
-      p.y = Math.max(MAP.y + 9, Math.min(MAP.y + MAP.h - 26, p.y));
+      p.x = Math.max(MAP.x + 15, Math.min(MAP.x + MAP.w - 15, p.x));
+      p.y = Math.max(MAP.y + 12, Math.min(MAP.y + MAP.h - 36, p.y));
     }
   }
   return pins;
 };
 
+// Bigger badges than the first edition: a 6.6-pixel number disappeared when the
+// sheet was scaled down, and the marks have to be findable at thumbnail size.
 const drawPin = (c: Canvas, p: Pin): void => {
   const x = lonX(p.s.lon);
   const y = latY(p.s.lat);
-  c.stroke([[x, y], [p.x, p.y]], 0.7, RED);
-  c.disc(x, y, 1.6, RED);
-  c.fillRect(p.x - 7, p.y - 7, 14, 14, RED);
-  drawText(c, String(p.s.n), p.x, p.y + 3.2, 6.6, PAPER, { align: 'center', weight: 0.72 });
+  c.stroke([[x, y], [p.x, p.y]], 0.9, RED);
+  c.disc(x, y, 2.2, RED);
+  c.fillRect(p.x - 9, p.y - 9, 18, 18, RED);
+  drawText(c, String(p.s.n), p.x, p.y + 4.2, 9.4, PAPER, { align: 'center', weight: 0.78 });
 };
 
 // ---------------------------------------------------------------------------
@@ -1423,6 +1661,10 @@ const render = (): Uint8Array => {
   const colGap = (CONTENT - colW * 3) / 2;
   const BODY = 7.6;
   const PLACE = 8.4;
+  // The keyword is the one thing that has to survive a 300-pixel view, so it is
+  // set heavier and half again as tall as the place name beside it.
+  const KEY = 11.5;
+  const PLACE_X = 36;
   const FIRST_BODY = 21;
   const rest = STORIES.filter((s) => !s.head);
   rest.forEach((s, i) => {
@@ -1440,11 +1682,24 @@ const render = (): Uint8Array => {
     }
     if (y + h > BAND_BOTTOM) fail(`dispatch ${s.n} ${s.place}: block ends at ${(y + h).toFixed(1)}, past ${BAND_BOTTOM}`);
     if (measure(s.place, PLACE, 0.1) > colW - 20) fail(`dispatch ${s.n}: place name wider than its column`);
+    if (!s.key) fail(`dispatch ${s.n} ${s.place}: no keyword`);
+    if (!s.icon) fail(`dispatch ${s.n} ${s.place}: no pictogram`);
+    const kwW = measure(s.key ?? '', KEY, 0.05);
+    const kwLeft = x + colW - kwW;
+    const placeEnd = x + PLACE_X + measure(s.place, PLACE, 0.1);
+    if (placeEnd + 10 > kwLeft) {
+      fail(
+        `dispatch ${s.n} ${s.place}: place ends at ${placeEnd.toFixed(1)} but "${s.key}" starts at ${kwLeft.toFixed(1)}`,
+      );
+    }
     for (const ln of body.lines) {
       if (measure(ln, BODY) > colW - 18) fail(`dispatch ${s.n} ${s.place}: line wider than its column ("${ln}")`);
     }
-    drawText(c, String(s.n), x, y + 8.6, 8.6, RED, { weight: 1.05, tracking: 0.02 });
-    drawText(c, s.place, x + 18, y + 8.6, PLACE, INK, { weight: 1.05, tracking: 0.1 });
+    drawText(c, String(s.n), x, y + 9.8, 10, RED, { weight: 1.1, tracking: 0.02 });
+    s.icon?.(c, x + 19, y + 1.4);
+    BOXES.push({ label: `pictogram ${s.n}`, x0: x + 19, x1: x + 19 + IW, y0: y + 1.4, y1: y + 1.4 + IH });
+    drawText(c, s.place, x + PLACE_X, y + 9.2, PLACE, INK, { weight: 1.05, tracking: 0.1 });
+    drawText(c, s.key ?? '', x + colW, y + 9.8, KEY, INK, { align: 'right', weight: 1.35, tracking: 0.05 });
     drawFitted(c, body, x + 18, y + FIRST_BODY, MUTED, 0.8);
   });
 
